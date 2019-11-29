@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Data Mining 笔记  关于数据挖掘的一些知识，内容包括分类，聚类，异常值检测，关联性分析等等。 大量截图和思路来自 the University of Queensland 的Dr Hongzhi Yin所教课程INFS7203 Data Mining。学弟学妹也可以用这个作为复习噢～">
+<meta name="keywords" content="分类,聚类,关联性分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DataMining 笔记">
+<meta property="og:url" content="http://yoursite.com/2019/11/29/Data Mining 笔记 下午2.28.14/index.html">
+<meta property="og:site_name" content="Xiaoqi">
+<meta property="og:description" content="Data Mining 笔记  关于数据挖掘的一些知识，内容包括分类，聚类，异常值检测，关联性分析等等。 大量截图和思路来自 the University of Queensland 的Dr Hongzhi Yin所教课程INFS7203 Data Mining。学弟学妹也可以用这个作为复习噢～">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/image-20191106221733796.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191106223823835.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191106223928930.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191106224342530.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191106230226860.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191106230416524.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191106230444301.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191106232014439.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107094244109.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107101011006.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107102524476.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107102555880.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107102734670.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107103215716.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107103330975.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191016195923119.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191016195859318.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191016195732039.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191016212820651.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191017145039838.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191017145213113.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191017145248703.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191016195859318.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191017151143939.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107104418581.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107104735380.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107105318615.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107110531148.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107105452108.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107111021167.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107111103027.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107111351503.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107111529510.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107111600986.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107113748190.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107114517311.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107115105917.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107120016766.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107120304306.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107125740790.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107130848744.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107131546291.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107131602994.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107132455283.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107134314241.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107135247397.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107135420153.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107140059885.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107151133433.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107152732396.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107155311317.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107160738277.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107161118117.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107161637990.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107162038096.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107162232045.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107162626321.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191107162704381.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191014213158445.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191014221044545.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191015101212861.png">
+<meta property="og:image" content="http://yoursite.com/images/1920px-LOF-idea.svg.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191015110704026.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191108094208703.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191108094303685.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191108102944155.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191108110747662.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20191108113503171.png">
+<meta property="og:updated_time" content="2019-11-29T06:35:26.645Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DataMining 笔记">
+<meta name="twitter:description" content="Data Mining 笔记  关于数据挖掘的一些知识，内容包括分类，聚类，异常值检测，关联性分析等等。 大量截图和思路来自 the University of Queensland 的Dr Hongzhi Yin所教课程INFS7203 Data Mining。学弟学妹也可以用这个作为复习噢～">
+<meta name="twitter:image" content="http://yoursite.com/images/image-20191106221733796.png">
+
+<link rel="canonical" href="http://yoursite.com/2019/11/29/Data Mining 笔记 下午2.28.14/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>DataMining 笔记 | Xiaoqi</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xiaoqi</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Why always me?</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/29/Data Mining 笔记 下午2.28.14/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="Xiaoqi Zhuang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoqi">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DataMining 笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-11-29 10:16:09 / Modified: 16:35:26" itemprop="dateCreated datePublished" datetime="2019-11-29T10:16:09+10:00">2019-11-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据挖掘/" itemprop="url" rel="index">
+                    <span itemprop="name">数据挖掘</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="data-mining-笔记">Data Mining 笔记</h1>
+<hr>
+<p>关于数据挖掘的一些知识，内容包括分类，聚类，异常值检测，关联性分析等等。</p>
+<p>大量截图和思路来自 the University of Queensland 的Dr Hongzhi Yin所教课程INFS7203 Data Mining。学弟学妹也可以用这个作为复习噢～</p>
+<a id="more"></a>
+<h2 id="i.-classification-分类">I. Classification 分类</h2>
+<h3 id="模型评估model-evluation">1.模型评估（model evluation）</h3>
+<h4 id="混淆矩阵confusion-matrix">混淆矩阵（confusion matrix）</h4>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Prediction/actual</th>
+<th>T</th>
+<th style="text-align: left;">F</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">T</td>
+<td>True positive(TP)</td>
+<td style="text-align: left;">False positive(FP)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td>False negative(FN)</td>
+<td style="text-align: left;">True negative(TN)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>课件中的ppt：真实值是行，预测值是列。</strong></p>
+<p>在我上网查资料或者很多流行的混淆矩阵的包里面都是我上述的真实值是列， 预测值是行。当时就默认是课件里的情况，所以在计算中会出现问题，并且经常有想要验算的想法。所以这里用和课件中想反的情况，提醒大家这都是取决于自己的。</p>
+<h4 id="评估方法">评估方法</h4>
+<ol type="1">
+<li><p><span class="math inline">\(Accuracy = \frac {TP+TN}{TP+TN+FP+FN}\)</span></p>
+<p>很直观，预测成功的数量除以预测的总数</p>
+<p>但是有<del>一个</del>几个不好的地方。我们很多时候只关注T和F中的一个。</p></li>
+<li><p><span class="math inline">\(Precision = \frac {TP}{TP + FP}\)</span></p></li>
+<li><p><span class="math inline">\(Recall = \frac{TP}{TP+FN}\)</span></p></li>
+<li><p><span class="math inline">\(F1-value = 2\frac{Precision*Recall}{Rrecision+recall}\)</span></p></li>
+</ol>
+<p>最爱的举例环节：</p>
+<p>小明有一天终于进入了心心念念的相亲角（有100个女生等着他）。由男人的三大错觉（分类器）他觉得<del>自己玉树临风，风趣幽默，才华横溢</del>, 预测会被99个女生有好感，1一个没有好感，然而事实是如此的残酷，相亲是如此的激烈，真实情况100个女生都没有相中小明。于是我们产生了一个混淆矩阵：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Prediction/actual</th>
+<th>T</th>
+<th>F</th>
+<th>Total prediction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">T</td>
+<td>0</td>
+<td>99</td>
+<td>99</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Total actual</td>
+<td>0</td>
+<td>100</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>我们可以算出<span class="math inline">\(accuracy = \frac{1}{100} = 0.01\)</span>, 果然“男人的自我感觉”这个分类器非常的糟糕。</p>
+<p>小明在这次无情的现实打脸后，强迫着被爸妈再次带到了相亲角。根据上次的经验，卑微的小明这次也觉得没有人会看上他，预测没有女生相中自己。然而这次事实上有一个女生不知道是不是圣母爆发，觉得小明太卑微了，给了他一次机会。 于是我们产生了一个混淆矩阵：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Prediction/actual</th>
+<th>T</th>
+<th>F</th>
+<th>Total prediction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">T</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td>1</td>
+<td>99</td>
+<td>100</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Total actual</td>
+<td>1</td>
+<td>99</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>这次<span class="math inline">\(accuracy = \frac {99}{100} = 0.99\)</span>。 哇喔，小明顿时好佩服自己，居然有<span class="math inline">\(99%\)</span>的预测成功率预测成功自己不会被人看上。 等等，为什么<strong>预测重心变成了自己不成功的概率了</strong>，不是应该更希望自己被相中的嘛，让不成功的概率这么高干嘛🤣。</p>
+<p>3年后，小明终于走出了上一次相亲的阴影<del>（等新的女生刷新太不容易了）</del>，再次走进相亲角。经过了人生的沉淀，小明明白他不需要关注那些看不上自己的女人<del>（气急败坏）</del>, 而要把重点放在那些看上自己的女生们。这次小明预测自己有20个女生对他有好感，80个没有。事实情况是有10个女生看中小明，90个没有。更重要的是撞大运了，那10个女生刚好也是小明预测应该喜欢他的。于是我们又有了混淆矩阵：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Prediction/actual</th>
+<th>T</th>
+<th>F</th>
+<th>Total prediction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">T</td>
+<td>10</td>
+<td>10</td>
+<td>20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td>0</td>
+<td>80</td>
+<td>80</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Total actual</td>
+<td>10</td>
+<td>9</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>此时<span class="math inline">\(accuracy = \frac{10+80}{100} = 0.9\)</span>,当然这也充其量只能证明小明对自己有比较清醒的认知（<del>丑</del>) ,和他的目标（脱单）没什么关系的。 但是三年中小明学会了第二种度量方法<span class="math inline">\(Precesion = \frac{10}{10+10}=0.5\)</span>, 这说明小明以后预测谁谁谁喜欢自己，都能有50%的成功率！（卧槽，为什么要高兴，本来不就是成功和失败2个选项吗？？）。</p>
+<p><span class="math inline">\(Recall = \frac {10}{0+10} = 100\%\)</span>, 这说明喜欢小明的妹子100%都被小明预测中了（呵，女人）。</p>
+<p>现在的小明要是回到了三年前，他预测有99个妹子喜欢他，就会有45个妹子真的喜欢（Precision=0.5），而且小明对她们索然无味，都没有出乎他意料外的妹子（recall = 1）。小明想：我果然还是那个我，玉树临风，风趣幽默，才华横溢。醒醒现在的你已经不会说这样的话了，因为你已经是一个成熟的分类器（Classification)了。</p>
+<h4 id="总结">总结</h4>
+<p>如果嫌上面的例子篇幅过大，直接到PPT的week2-P43 背公式。</p>
+<p>应付完了考试后，如果想加深理解，为什么要有新的度量方式而不是很容易理解的accuracy，可以google或者复习小明的悲惨经历。</p>
+<p>上述的遭遇也是这一章<strong>Classification 分类</strong>的一个具体演示。小明基于他的数据（身高体重颜值兴趣背景等）有了一个对自己的认知（分类器）。当小明经过了一次相亲角的真实遭遇后（混淆矩阵评估），他验证了自己的认知对不对（这个分类器的好坏）。如果他对自己的认知非常的高，他就知道了他是哪种妹子的菜，他以后看到这种类型的妹子就知道他们很可能发生什么故事。</p>
+<p>杠精提问：那你这个<strong>认知（分类器）</strong>哪里来的啊，你一开始的认知（玉树临风，风趣幽默，才华横溢）不是错的吗？这三年小明是怎么提升自己的啊（怎么改进分类器）？</p>
+<p>“<font size="2">承认我优秀那么难吗，下一节就告诉你啦，每天100个俯卧撑100个仰卧起坐…….变秃</font>”</p>
+<h3 id="分类方法">2. 分类方法</h3>
+<h4 id="rote-learner-最原始最土味">1. Rote-learner (最原始最土味)</h4>
+<p>当你要预测的数据和训练集里有的数据一模一样的时候，预测结果就是训练集中数据的标签。</p>
+<h4 id="knnk近邻">2. KNN（K近邻）</h4>
+<ol type="1">
+<li><p>你先选一个K，比如5</p></li>
+<li>你每次要预测一个数据的时候，就找离这个数据最近的5个训练集里面的点。</li>
+<li><p>投票这5个点的分类。哪种分类占的多你预测的这个数据就属于这种分类。</p></li>
+</ol>
+<p>怎么定义距离？ 欧几里得距离（误差的平方和开根号）或者公式 <span class="math inline">\(\boldsymbol{d i s t}=\sqrt{\sum_{\boldsymbol{k}=1}^{\boldsymbol{n}}\left(\boldsymbol{p}_{\boldsymbol{k}}-\boldsymbol{q}_{\boldsymbol{k}}\right)^{2}}\)</span></p>
+<p>p 和 q 是数据，一般我们的数据都是多维的，例如数据：庄笑齐（男，高，富，帅），每一个相同的列相减等到误差，误差平方和，开根号 ——&gt; 距离</p>
+<p>KNN的缺点：</p>
+<ol type="1">
+<li><p>如何定义这个k值，如果k很小，我们的判断容易被噪声（noise）影响，如果k太大，可能包含更多其他的分类</p></li>
+<li><p>KNN需要scale，因为数据的大小值非常影响knn的判断。</p>
+<p>举例环节：我们现在的数据集拥有<strong>（年龄，收入）</strong> 2个属性，和一个标签<strong>（职业）</strong></p>
+<p>现在我们有2个样本，一位程序员（25，10000）和一位医生（50，15000），现在我们要预测一位30岁拥有14000月薪的人的职业。</p>
+<p>取k=1，根据公式<span class="math inline">\(d(x,程序员)=\sqrt{(25-30)^2+(10000-14000)^2} = 4000\)</span>,<span class="math inline">\(d(x,医生)=\sqrt{(50-30)^2+(15000-14000)^2} = 1000\)</span>, 由于距离医生更近，我们判断这人是一位医生。</p>
+<p>然而事实上我们觉得他应该是一个程序员，因为更加的年轻。然而<strong>年龄</strong>在这个距离的公式里贡献的非常小，因为年龄和收入它们的<strong>纬度（定义域）</strong>不一样，所以在KNN中，我们经常需要预先进行scale操作，保证数据都在同一个度量标准中。</p>
+<p>经过scale（根据比例压缩进0到1之间），我们现在的数据是：程序员（0.5，0.66），医生（1，1），</p>
+<p>x（0.66.0.93）。（这个scale方法是我瞎XX想当然的）</p>
+<p><span class="math inline">\(d(x,程序员)=\sqrt{(0.5-0.66)^2+(0.66-0.93)^2} = 0.31\)</span>,</p>
+<p><span class="math inline">\(d(x,医生)=\sqrt{(1-0.66)^2+(1-0.93)^2} = 0.35\)</span>,</p>
+<p>现在x就被预测为程序员了。</p></li>
+<li><p>KNN不需要预先训练一个模型（lazy），每次预测一个数据，都要重新计算一边所有数据点的距离去找最近的，时间复杂度很大。</p></li>
+</ol>
+<h4 id="naïve-bayes朴素贝叶斯">3. Naïve Bayes（朴素贝叶斯)</h4>
+<p>目标：我们有一组数据A，希望用这一组数据A判断它属于哪个类</p>
+<p>核心思路：计算在给定这组数据的情况下它属于各个类的概率，概率最高的就把它判定为这个类。</p>
+<p>​ 属于类C的概率就等于：<span class="math inline">\(P(C|A)\)</span></p>
+<p>我们知道 <span class="math inline">\(P(C|A)=\frac{P(A|C)P(C)}{P(A)}\)</span></p>
+<p>我们现在有什么：<span class="math inline">\(P(A_i|C)\)</span>:对于类C，每一种属性的概率。P(C):这个类在所有类里面的概率，P(A): 所有的<span class="math inline">\(P(C_i|A)\)</span>都是一样的，我们只比较大小的，可以忽略掉，比如要比<span class="math inline">\(\frac{5}{10000}\)</span>和<span class="math inline">\(\frac{5}{10000}\)</span>的大小不需要关心<span class="math inline">\(10000\)</span>.</p>
+<p>缺点：为什么把这个分类方法的缺点提前就是朴素贝叶斯的最大bug，没有这个缺点进行不下去计算。我们怎么能从<span class="math inline">\(P(A_i|C)\)</span>来得出<span class="math inline">\(P(A|C)\)</span>呢？ 我们知道互相独立的事件的联合概率就等于各自的概率的乘积，所以我们朴素贝叶斯就假设所有属性是独立的？？？</p>
+<p>有了这个假设后，我们的目标就变成了求出</p>
+<p><span class="math display">\[\Pi P\left(A_{i} | C_{j}\right) \times P\left(C_{j}\right)\]</span>的最大值。</p>
+<p>课件，tutorial，谷歌里的例子都非常的详细，我就不贴了，理解过程就好。</p>
+<p>其他缺点：在对连续性变量操作的时候要提前把它们离散化，不然针对一个数据的概率会非常的少，效果也不好。</p>
+<p>改进：</p>
+<p>当我们做<span class="math inline">\(\Pi P\left(A_{i} | C_{j}\right) \times P\left(C_{j}\right)\)</span>这一步的时候，经常是很多很小很小的概率（0.0几）相称，值会越来越小，从而可能导致失去精确度（因为计算机算不了小数位很长的值，会四射五入）。</p>
+<p>这时候我们就给它们取个<span class="math inline">\(log\)</span>变成<span class="math inline">\(\sum \log P\left(A_{i} | C_{j}\right)+\log P\left(C_{j}\right)\)</span>.</p>
+<p><span class="math inline">\(\Pi P\left(A_{i} | C_{j}\right) \times P\left(C_{j}\right)\)</span>如果这个项目里有一项的概率是0，那就全为0了，是不对的。所以我们会加一个特别特别小的值，让概率避免成为0。</p>
+<p>例如有一个对于收入的分类，标签为“低”，“中等”，“高”。 但是我们数据集里没有收入为“低”<span class="math inline">\(\Rightarrow P(C=“低”)=0\)</span>.</p>
+<p>总共有1000个数据，我们就可以把<span class="math inline">\(P(C=“低”) = 0+1 / 1003\)</span>, 1003是因为在“中等”和“高”里也要加1。</p>
+<h4 id="决策树">4.决策树</h4>
+<h5 id="概念">概念</h5>
+<p>下图是一个决策树的例子</p>
+<p><img src="/images/image-20191106221733796.png"></p>
+<p>决策树易于理解，就是根据你的输入值一层一层的筛选出最后的Class。</p>
+<p>杠精提问：那你是怎么选这个<strong>属性</strong>（右图黄色部分）作为分割的呀？那<strong>分割的条件</strong>又是怎么确定的呢？对于连续型的变量（Income），你是怎么找到选取80K作为临界值的呢？又是什么时候结束决策树的呢？（一定要全部的attribute全部分割过后吗？</p>
+<ol type="1">
+<li><p>Nominal Attributes:</p>
+<p>可以有多维的分割和二元的分割</p>
+<p><img src="/images/image-20191106223823835.png"></p></li>
+<li><p>Ordinal Attributes:</p>
+<p>多元的形式直接把所有情况分开，而二元的形式必须要注意属性里存在的顺序。</p>
+<p><img src="/images/image-20191106223928930.png"></p></li>
+<li><p>Continuous Attributes</p></li>
+</ol>
+<p><img src="/images/image-20191106224342530.png"></p>
+<p>怎么样的分割才算好呢？ 如果我们总共有20条记录，用一个分割条件后，各得到10条属性。这十条属性的类都刚好属于它们原来的类，即预测100%，纯净度purity也是100。我们定义一个测量的尺度叫做impurity（不纯度）</p>
+<p>由此我们有了3种方法来计算impurity</p>
+<h5 id="gini-index">1. Gini Index</h5>
+<p>选取一个属性P，计算这个属性的GINI值 GINI(P)</p>
+<p>将P分割成多个子节点后，计算每个的GINI值，在各自乘以它们的权重（weights)得到GINI(M)</p>
+<p>计算 Gain = GINI(P) -GINI(M)</p>
+<p>最高的Gain就是最好的分割</p>
+<p>具体例子：</p>
+<ol type="1">
+<li>对于二元分类问题的计算</li>
+</ol>
+<p><img src="/images/image-20191106230226860.png"></p>
+<ol start="2" type="1">
+<li>对于多元属性的计算</li>
+</ol>
+<p><img src="/images/image-20191106230416524.png"></p>
+<ol start="3" type="1">
+<li>对于连续型属性的计算</li>
+</ol>
+<p><img src="/images/image-20191106230444301.png"></p>
+<ol type="1">
+<li>将所有的value进行排序（图中的sorted values）</li>
+<li>将sorted values两两之间计算平均值作为split position（即分割的条件）</li>
+<li>将问题化为二元分类问题进行GINI INDEX计算</li>
+<li>找到最小的GINI的就是最小的impurity</li>
+</ol>
+<h5 id="entropy">2. Entropy</h5>
+<p><span class="math inline">\(\text { Entropy }(t)=-\sum p(j | t) \log p(j | t)\)</span></p>
+<p><span class="math inline">\(\sum p(j | t)\)</span> is the relative frequency of class j at node t.</p>
+<p><span class="math inline">\(G A I N_{\text {rut }}=\text { Entropy }(p)-\left(\sum_{i=1}^{k} \frac{n_{i}}{n} \text { Entropy }(i)\right)\)</span></p>
+<p>可以看成和GINI INDEX一样，只是计算的公式变了。</p>
+<p>然而以上2种方法都有一个问题：Node impurity measures tend to prefer splits that result in large number of partitions, each being small but pure</p>
+<p>计算纯净度的方法倾向于有大量分割的属性，例如如果对ID进行计算，它的纯净度就是1因为没有不同的。</p>
+<p><img src="/images/image-20191106232014439.png"></p>
+<p>但是这并没有实际意义，如果我们将customer ID分割的话。因此我们有一个新的度量标准：</p>
+<ol type="1">
+<li>计算<span class="math inline">\(\text { SplitINFO }=-\sum_{i=1}^{k} \frac{n_{i}}{n} \log \frac{n_{i}}{n}\)</span> 可以当作<span class="math inline">\(\frac{n_{i}}{n}\)</span>的entropy</li>
+<li>计算<span class="math inline">\(\operatorname{Gain} R A T I O_{\text {stat }}=\frac{G A I N_{\text {sut}}}{\text {SplitINFO}}\)</span> , 选GainRATIO最高的</li>
+</ol>
+<h5 id="error">3. Error</h5>
+<p><span class="math inline">\(\text {Error }(t)=1-\max P(i | t)\)</span></p>
+<h5 id="什么时候终止分割">什么时候终止分割？</h5>
+<ol type="1">
+<li>当这个节点只剩下了一种class</li>
+<li>当这个节点里的tuple都是一样的（无法分割了）</li>
+<li>early termination（提前结束避免过度拟合overfitting）</li>
+</ol>
+<h5 id="overfitting的坏处">Overfitting的坏处</h5>
+<ol type="1">
+<li>太多的分支导致noise可能也成为了分割的条件导致错误。</li>
+<li>对于未知的样本，准确性很差：因为它对于已知数据集的拟合效果太高了。</li>
+</ol>
+<p>避免overfitting的方法：</p>
+<p>early termination</p>
+<ol type="1">
+<li>结束当剩余的数据不满足用户自己定于的阈值时</li>
+<li>结束当在扩展节点后却不提升impurity</li>
+</ol>
+<h5 id="优缺点">优缺点</h5>
+<p>优点：</p>
+<ol type="1">
+<li>易于理解，模型的可解释性</li>
+<li>易于构建</li>
+<li>得益于已经训练出了模型，做分类十分迅速</li>
+<li>对noise有鲁棒性（抗噪声，前提是overfitting要做的好）</li>
+<li>容易处理冗余或无关的属性</li>
+</ol>
+<p>缺点：</p>
+<ol type="1">
+<li>决策树要占据的space要求非常大（使用贪婪算法一般不能够找到最优树）</li>
+<li>没有考虑属性之间可能存在影响</li>
+<li>每次只单独使用一个attribute做分割</li>
+</ol>
+<h5 id="例题如何从零开始构建一个数据库">例题：如何从零开始构建一个数据库</h5>
+<p><img src="/images/image-20191107094244109.png"></p>
+<ol type="1">
+<li>计算每个attributes各种分割可能性的GINI，找到最低的GINI值（就是最高的GAIN）（找出分割的条件）</li>
+<li>比较每个attributes最低的GINI值，找到最低的GINI值，即是第一步的分割属性</li>
+<li>查看第一步分割后的表格，重复1，2，直到前面提到的决策树终止条件</li>
+</ol>
+<h2 id="ii.similarity相似度">II.Similarity（相似度）</h2>
+<p>相似度该怎么度量呢？</p>
+<p>对于nominal的，非常简单，非0即1</p>
+<p>对于有顺序的ordinal，<span class="math inline">\(Dissimilarity = ｜x-y｜/(n-1)\)</span> (values mapped to 0 to n-1, n is the number of values).</p>
+<p>例如对于收入(low, medium, high)， 可以map变成(0,1,2), <span class="math inline">\(dissimilarity(low, high) = |0-2|/2 = 1\)</span></p>
+<p>对于连续型的随机变量，有3种measure的方法，<strong>当含有多个变量时，必须先做normalization（scale）</strong></p>
+<h3 id="曼哈顿距离aka-city-block-taxicab-l_1norm-manhattan-distance">1. 曼哈顿距离（aka &quot;City block”, taxicab, <span class="math inline">\(L_1\)</span>norm , Manhattan distance)</h3>
+<p>$ d(x,y) = _{k=1}^{n}| x_k-y_k|$</p>
+<h3 id="欧几里得距离euclidean-distanceaka-l_2-norm">2. 欧几里得距离（Euclidean distance，aka <span class="math inline">\(L_2\)</span> norm）</h3>
+<p>$ d(x,y) = $</p>
+<h3 id="supermumaka-l_maxnorm-l_inftynorm">3. Supermum(aka <span class="math inline">\(L_{max}\)</span>norm, <span class="math inline">\(L_{\infty}\)</span>norm)</h3>
+<p><span class="math inline">\(d(x,y) = max(|x_k -y_k|)\)</span></p>
+<p>例子：</p>
+<p><img src="/images/image-20191107101011006.png"></p>
+<h3 id="二元属性的相似性">二元属性的相似性</h3>
+<p><img src="/images/image-20191107102524476.png"></p>
+<p>例子：</p>
+<p><img src="/images/image-20191107102555880.png"></p>
+<p>为什么要用Jaccard，是因为很多时候我们<strong>只关注都是1的情况</strong>。</p>
+<p>例如在一个超市的用户和物品表格中，1表示该用户买了这类物品，0表示没买：</p>
+<p><img src="/images/image-20191107102734670.png"></p>
+<p>很容易想到，0将会有非常多，1很少，所以使用SMC会给我们错误的信息。</p>
+<h3 id="cosine-similarity">Cosine Similarity</h3>
+<p>将每一条tuple变成一个向量vector，计算2个向量间的夹角</p>
+<p><span class="math inline">\(\cos \left(p_{\nu}, p_{2}\right)=\left(p_{t} \bullet p_{2}\right) /\left\|p_{t}\right\|\left\|p_{2}\right\|\)</span></p>
+<p><img src="/images/image-20191107103215716.png"></p>
+<p>应用：</p>
+<p><img src="/images/image-20191107103330975.png"></p>
+<p>例如我们想查看2个文档是否相似。我们找出几个关键单词在这几个文档中出现的频数。做成上图的表格。</p>
+<p>我们计算每个document的cosine similarity就能计算出2个文档间的相似度。</p>
+<h2 id="iii.-clustering-聚类">III. Clustering 聚类</h2>
+<hr>
+<h3 id="概念-1">1.概念</h3>
+<p>聚类和分类的区别就是没有标签了。</p>
+<p>举例环节：</p>
+<p>有很多种聚类的形式：</p>
+<ol type="1">
+<li><p>Partitional Clustering(分区聚类)：类和类之间是没有交集的。例如常见的k-means。</p>
+<p><img src="/images/image-20191016195923119.png"></p></li>
+<li><p>Hierarchical Clustering(分层聚类)：一个类是可以包含其他类的。例如我属于数据科学专业，数据科学专业属于工程学院，工程学院属于大学。<del>我属于帅哥，帅哥属于男的</del></p>
+<p><img src="/images/image-20191016195859318.png"></p></li>
+<li><p>Soft Clustering(软聚类?)：一个数据(object)可以属于多个类，和第二种聚类方式的区别在于，类之间有交集但是也有不属于对方的部分。 <span class="math inline">\(A \cap B \neq \emptyset\)</span> and $A B A  or  B $.</p>
+<p><img src="/images/image-20191016195732039.png"></p></li>
+</ol>
+<h3 id="k-means">2. K-means</h3>
+<p>核心思想：</p>
+<p>每个类都有一个类中心(centroid)，数据集里面点到各个类中心的距离最短的那个类就是这个点的类。</p>
+<p>杠精提问：咋找这个类中心呀，既然聚类本身就是不知道有什么类的情况下才使用的方法，你还能整出来一个类的中心点？</p>
+<p>具体步骤：</p>
+<ol type="1">
+<li>先要确定一个K，K代表了我们想要有多少类，K=5那最后我们就能分出五类来。</li>
+<li>随机选择K个初始点，把它们当作就是5个类的类中心。</li>
+<li>计算每个点到各个类中心的距离，把离它们最近的点加入它们，这样我们就有了有5个充满了数据集的类。</li>
+<li>计算现在类的中心点（平均值）</li>
+<li>回到第3步。</li>
+<li>直到点们都不在类之间移动，中心点不变，或者很少进行移动了就停止迭代，结束。</li>
+</ol>
+<p>评估：</p>
+<p>像分类一样，聚类也可以用方法评估（不是很准，因为就根本没人知道正确答案）。</p>
+<p>我们想象中一个类应该是它们越像，这个类别越准确。因为k-means是用距离来定义这个“像”的，我们也可以用距离来评估。</p>
+<p>我们称这个指标为SSE：<span class="math inline">\(S S E=\hat{\mathbf{a}}^{K} \underset{|c| c}{\hat{\mathbf{a}}} \operatorname{dist}^{2}\left(c_{i}, x\right)\)</span></p>
+<p>别慌，其实就是类里面的所有点到类中心的距离的平方和，这就代表了这个类内部聚不聚拢，把数据集里面所有的类的这个值加起来，就代表了这个分类方法的分类效果。每个类当然是越聚拢越好，所以SSE值也是越低越好。</p>
+<p>最优K值：</p>
+<p>如何选择K？前面我们说了随便选，但是设想一下，对于一个应该只有2类的问题（生与死），我们给它分五类，那这是不合理不科学的。虽然我们不知道正确答案，但是还是有方法可以判断一下的。</p>
+<p>我们尝试很多很多K，从K=2运行到K=10？20？一遍，分别计算各自K的SSE，会有一张如下类似的图</p>
+<p><img src="/images/image-20191016212820651.png"></p>
+<p>最佳的K值就是图中这样的拐点（经过它之后SSE的变化不明显了）</p>
+<p>初始点选择：</p>
+<p>初始点的选择是会影响K-means的结果的！所以我们决定用2种方法优化一下初始点错误。</p>
+<ol type="1">
+<li>Multiple runs. 多跑几次，多随机选择几次。</li>
+<li>每次run一开始选超过K个的初始点，然后选择这些里面距离最远的（most widely separated）</li>
+</ol>
+<p>后期处理：</p>
+<ol type="1">
+<li>可以删掉很小的cluster（可能代表了异常值）</li>
+<li>分散宽松的cluster（内部SSE很大的类）</li>
+<li>合并接近的cluster（内部SSE很小的类）</li>
+</ol>
+<p>K-means难以解决的问题：</p>
+<ol type="1">
+<li>每个类拥有不同的大小</li>
+</ol>
+<p><img src="/images/image-20191017145039838.png"></p>
+<p>K-means算法只要求点到类中心点距离最短，但会忽略类本身的大小不同。</p>
+<ol start="2" type="1">
+<li>每个类的密度不一样</li>
+</ol>
+<p><img src="/images/image-20191017145213113.png"></p>
+<ol start="3" type="1">
+<li>每个类的形状不一样</li>
+</ol>
+<p><img src="/images/image-20191017145248703.png"></p>
+<h3 id="hierarchical-clustering分层聚类">3. Hierarchical Clustering（分层聚类）</h3>
+<h4 id="概念-2">概念</h4>
+<p><img src="/images/image-20191016195859318.png"></p>
+<p>我们发现现实生活中有很多的分类都会包含下面更加细分的类，所以就研究出了分层聚类。</p>
+<p>我们有2种分层聚类的方法，一种是自下而上(agglomerative)的，一种是自上而下的(divisive)。</p>
+<p><img src="/images/image-20191017151143939.png"></p>
+<p>这张图表明了这2种方法的具体步骤。</p>
+<h4 id="agglomerative-方法">agglomerative 方法</h4>
+<p>思路：</p>
+<ol type="1">
+<li>agglomarative是自下而上的，我们得从每一个数据点开始，合并最接近的2个数据点。</li>
+<li>将合并成功的数据点变成一个类</li>
+<li>计算这个类与其他的类的距离</li>
+<li>重复1，2，3，直到最后只剩下一个类（即全体都被包含了）</li>
+</ol>
+<p>杠精笑齐：步骤1里面什么叫最接近？步骤3里面的距离怎么算？</p>
+<p>例子：</p>
+<p>我们有左图中这样的数据分布：</p>
+<p><img src="/images/image-20191107104418581.png"></p>
+<ol type="1">
+<li><p>我们先计算每个点之间的距离（这里我们采用[曼哈顿距离](#1. 曼哈顿距离（aka &quot;City block&quot;, taxicab, <span class="math inline">\(L_1\)</span>norm , Manhattan distance)）,结果为右上图</p></li>
+<li><p>合并<strong>距离最近</strong>的两个点，图中我们得到<span class="math inline">\(d(42,43) = 1\)</span> 是最近的2个点，合并它们</p></li>
+<li><p>我们得到了一个新的距离矩阵:</p>
+<p><img src="/images/image-20191107104735380.png"></p>
+<p>有了一个新的问题，我们知道42，43分别对其他点的距离，但是我们怎么<strong>计算(42,43)这个新的类到其他点的距离</strong>呢？ 也就是图中的黄色部分是怎么计算的呢？</p></li>
+</ol>
+<p>当我们知道计算这个距离后，我们只需要继续重复合并最近的2个点（类），直到只有一类结束。</p>
+<p>我们有很多种计算合并后的新类与其他类的距离计算方式。</p>
+<ol type="1">
+<li><p>MIN:</p>
+<p><img src="/images/image-20191107105318615.png"></p>
+<p>我们选取新类所有点到其他类中所有点中最短的距离，作为距离</p>
+<p>例如在我们的例子中我们就用了MIN方法：</p>
+<p><img src="/images/image-20191107110531148.png"></p>
+<p>我们计算(42,43)新类对类(18)的距离：</p>
+<p>我们计算d(42,18) = 24, d(43,18) = 25, 我们使用MIN为距离即(42,43)类对(18)的距离为24.</p>
+<p>以此类推得到(42,43)对所有其他类的距离。</p>
+<p><img src="/images/image-20191107105452108.png"></p>
+<p>接下来重复步骤1，步骤2，找到距离最小的两个类为d(25,27) = 2，合并它们在计算(25,27)对其他类的距离。一直重复到只有一个类。具体步骤为：</p>
+<p><img src="/images/image-20191107111021167.png"></p>
+<p>我们得到最后的dendogram为：</p>
+<p><img src="/images/image-20191107111103027.png"></p>
+<p>你想要分几类就在这个树图里切一刀，例如你想要有2个类，就把<span class="math inline">\(C_5\)</span>切了，就把数据分为了<span class="math inline">\((C_4,C_1)\)</span>两类。</p>
+<p><strong>后面的各种方法都类似MIN</strong></p></li>
+<li><p>MAX:</p>
+<p>把用最小的距离变成用最长的距离：</p>
+<p><img src="/images/image-20191107111351503.png"></p></li>
+<li><p>Group Average:</p>
+<p>距离变成计算所有点到点的距离的平均值：</p>
+<p><img src="/images/image-20191107111529510.png"></p></li>
+<li><p>Centroid:</p>
+<p>计算每个类的类中心，距离为2个类中心的距离：</p>
+<p><img src="/images/image-20191107111600986.png"></p></li>
+</ol>
+<h5 id="limitation-of-min">Limitation of MIN:</h5>
+<ol type="1">
+<li><p>对noise很敏感：</p>
+<p>只用一个值</p></li>
+<li><p>产生链接现象(chaining phenomenon):</p>
+<p>两个本来很远，一定不属于同一类的点p，q，但是它们之间有很多点，这样p每次最近的点都是p，q连线之间的点，最后会导致p和q分到了同一类。</p></li>
+</ol>
+<h5 id="limitation-of-max">Limitation of MAX:</h5>
+<p><img src="/images/image-20191107113748190.png"></p>
+<p>很难对大小不同的类进行分类。</p>
+<p>但是MAX方法抗噪声和异常值的效果很好，所以一般编程软件关于分层聚类的参数默认都用MAX方法。</p>
+<h4 id="divisive-方法">divisive 方法</h4>
+<h5 id="构建最小扫描树minimum-spanning-tree">构建最小扫描树（Minimum Spanning Tree）</h5>
+<p><img src="/images/image-20191107114517311.png"></p>
+<p>如图，首先找距离最近的两个点连线，接下来找最近的(p,q)连线，其中p是在已经连线的点中，q是没有被连线的点。找到q后将q和p连线。重复过程。</p>
+<p>当你完成了Minimum Spanning Tree后，你减掉最后几次连成的线，就是完成分类（根据你要有多少个类）</p>
+<h3 id="density-based-clustering">4. Density-based clustering</h3>
+<p>基于密度的聚类经常用在我们的数据在局部区域有很高的密度时</p>
+<p>例如：</p>
+<p><img src="/images/image-20191107115105917.png"></p>
+<h4 id="dbscan">DBSCAN</h4>
+<p>DBSCAN就是针对以上情况的算法。</p>
+<p>首先我们有2个自己定义的值：</p>
+<ol type="1">
+<li><p>EPS: 以点为圆心，以EPS为半径做圆，圆内其他数据点的个数我们就称为密度。</p></li>
+<li><p>MinPts：当圆内的点个数（密度）超过了MinPts时（包含点本身），我们称这个点是core point</p>
+<p>​ 如果这个点密度没有超过MinPts，但是它在core point附近，称为Border point</p>
+<p>​ 或者说Border point的EPS里会有core point点出现。</p>
+<p>​ 如果这个点既不是core point也不是border point，就称为noise point</p></li>
+</ol>
+<p>例子：</p>
+<p><img src="/images/image-20191107120016766.png"></p>
+<p>具体聚类步骤：</p>
+<ol type="1">
+<li>将所有点贴上core，border，noise point的标签</li>
+<li>删除noise point</li>
+<li>将在EPS范围内的所有core points连上线</li>
+<li>每一个完成连线的core points组即作为一类</li>
+<li>将每个border point分配给任意它临近的core point的那一类</li>
+</ol>
+<p>例子：</p>
+<p><img src="/images/image-20191107120304306.png"></p>
+<h4 id="dbscan的缺点">DBSCAN的缺点</h4>
+<p>DBSCAN处理不了具有不同的密度的类（一个类里面有多种密度）。它只能区分高密度的类和低密度的类，但是处理不了密度都相同，但其实是不同的类的情况。需要有一点的背景知识才能使用。</p>
+<h4 id="如何选取eps和minpts">如何选取EPS和MinPts</h4>
+<ol type="1">
+<li>选取一个k，计算k-distance，即点到离它最近的第K个点的距离</li>
+<li>对这些k-distance进行升序排序</li>
+<li>plot画图如下</li>
+</ol>
+<p><img src="/images/image-20191107125740790.png"></p>
+<p>纵坐标为排序的k-distance，横坐标为点的数量。</p>
+<p>我们在图中可以找到一个sharp change（图中k-distance = 10）的时候，</p>
+<p>我们就选这个k-distance(10)为EPS，k(4)为MinPts。</p>
+<p>一般根据经验，k都选4</p>
+<h3 id="cluster-validity">5. Cluster Validity</h3>
+<p>对于classification，我们有accuracy，recall，precision等评估方式。</p>
+<p>那对于Cluster我们能有什么呢？</p>
+<p>首先我们知道这是很困难的，因为我们并没有正确答案，我们自己都不知道数据集的标签。当一种分类算法给数据上标签后，自然而然我们也不知道它是对的还是错的。</p>
+<p>但是我们还是要寻找一些可能的方法的，用这些方法可以帮我们来判断：</p>
+<ol type="1">
+<li>这么多聚类方法，哪个比较好，该用哪个？</li>
+<li>类和类之间的信息</li>
+<li>类内部的信息</li>
+<li>避免噪声异常值之类的干扰</li>
+</ol>
+<p>根据不同的聚类算法，我们可以得出完全不同的分类。例如：</p>
+<p><img src="/images/image-20191107130848744.png"></p>
+<p>下面介绍几种不同的方式：</p>
+<h4 id="groud-truth">1. Groud Truth</h4>
+<p>Groud Truth是这个数据集真实的标签。</p>
+<p>非常的扯淡，因为我们都知道真实的标签还干嘛要用聚类方法。</p>
+<p>不过这个方法可以帮助我们验证我们聚类算法，当发现了一种新的聚类算法的时候，可以在已知数据集上进行，并用Groud Truth来判断。</p>
+<p>方法也特别的简单。</p>
+<p>groud truth： 真实的标签/类为$ P = {P_1,…,P_s}$</p>
+<p>聚类方法得出的标签/类为 <span class="math inline">\(C = \{C_1,…,C_t\}\)</span></p>
+<p><img src="/images/image-20191107131546291.png"></p>
+<p><img src="/images/image-20191107131602994.png"></p>
+<p>例子：</p>
+<p><img src="/images/image-20191107132455283.png"></p>
+<ol start="2" type="1">
+<li>Purity</li>
+</ol>
+<p><img src="/images/image-20191107134314241.png"></p>
+<h4 id="internal-measure">2. Internal Measure</h4>
+<p>只使用数据集自身的信息来判断。</p>
+<ol type="1">
+<li>Cohesion：类的聚拢程度</li>
+<li>Separation：类和类之间的离散程度</li>
+</ol>
+<h5 id="sse和bss">SSE和BSS</h5>
+<p>计算cohesion的方法类似于之前提到的SSE：</p>
+<p><span class="math inline">\(S S E=W S S=\sum_{i} \sum_{x \in C_{i}}\left(x-m_{i}\right)^{2}\)</span></p>
+<p>计算separation用WSS：</p>
+<p><span class="math inline">\(\begin{aligned} B S S &amp;=\sum_{i}\left|C_{i}\right|\left(m-m_{i}\right)^{2} \\-&amp; \text { Where }|C| \text { is the size of cluster } i \end{aligned}\)</span></p>
+<p>例子：</p>
+<p><img src="/images/image-20191107135247397.png"></p>
+<h5 id="silhouette-coefficient">Silhouette Coefficient：</h5>
+<p>这种方法既考虑了cohesion也考虑了separation</p>
+<p><img src="/images/image-20191107135420153.png"></p>
+<p>a是i点到它类内其他点的平均距离（cohesion）</p>
+<p>b是离i最近的类的所有点的平均距离（separation）</p>
+<h5 id="correlation-with-distance-matrix">Correlation with Distance Matrix</h5>
+<p>计算2个矩阵：</p>
+<ol type="1">
+<li>distance matrix（每个数据的距离）</li>
+<li>incidence matrix（每个数据是否属于同一类）</li>
+</ol>
+<p>计算公式为：</p>
+<p><span class="math inline">\(r=\frac{\sum_{i=1, j=1}^{n}\left(d_{i j}-\bar{d}\right)\left(c_{i j}-\bar{c}\right)}{\sqrt{\sum_{i=1, j=1}^{n}\left(d_{i j}-\bar{d}\right)^{2}} \sqrt{\sum_{i=1, j=1}^{n}\left(c_{i j}-\bar{c}\right)^{2}}}\)</span></p>
+<p>d是distance matrix，c是incidence matrix</p>
+<p>|r| 越高代表聚类效果越好。 （只考虑绝对值）</p>
+<p>下图是用k-means对2个数据集做聚类后，求出的correlation值</p>
+<p><img src="/images/image-20191107140059885.png"></p>
+<p>|Corr|越大，效果越好。</p>
+<h4 id="statistical-framework-for-sse">3. Statistical Framework for SSE</h4>
+<p>当我们想要评估一个聚类方法的时候，我们可以把这个方法用在目标数据集和很多个随机生成的数据集中。</p>
+<p>分别计算它们的SSE。</p>
+<p>当我们发现，目标数据集的SSE和随机数据集的SSE非常的不同时，我们就能知道这个聚类方式对目标数据集是有效的（即它只对目标数据集效果好，而不是随便什么数据集都是效果好的）。</p>
+<h2 id="iv.-association-rule-关联性分析">IV. Association Rule 关联性分析</h2>
+<hr>
+<p>目的：发现事物之间有趣的规则。</p>
+<p>要是我们学会了这个，可以做广告推荐。</p>
+<p>例如你逛超市的时候看一个东西，比如牛奶，如果我们知道<strong>购买牛奶的人有很高概率买面包</strong>，那超市在牛奶旁边就在面包，消费者很有可能直接顺手拿了。</p>
+<p>而如何计算这个概率，了解对象之间的关联性分析，就是此章的内容。</p>
+<p>定义notation：</p>
+<p>一个association rule可以表示为 $ X Y$</p>
+<p>前面的例子可以显示为 <span class="math inline">\(牛奶 \rightarrow 面包\)</span></p>
+<h3 id="measures">1. Measures</h3>
+<h4 id="support">1. Support</h4>
+<p>Rule: $ X Y$</p>
+<p>有2种support的算法，第一种是计算基数（频数）</p>
+<p><span class="math inline">\(Support( X \rightarrow Y) = | X \cup Y|\)</span></p>
+<p>第二种是计算概率</p>
+<p><span class="math inline">\(Support( X \rightarrow Y) = P（X \cup Y）\)</span></p>
+<p>例子：</p>
+<p>我们有一个集合为{milk, coke, pepsi, beer, juice}</p>
+<p>我们的阈值设定为当support &gt; 3 时，判断这个rule是frequent</p>
+<p><span class="math inline">\(B_1 = \{m, c, b\}, B_2 = \{m, p, j\}, B_3 = \{m, b\}, B_4 = \{c, j\}, B_5 = \{m, p, b\}, B_6 = \{m, c, b, j\}, B_7 = \{c, b, j\}, B_8 = \{b, c\}\)</span></p>
+<p><span class="math inline">\(S(m \rightarrow b) = 4, S(b \rightarrow c)= 4 , S(c \rightarrow j) =3\)</span></p>
+<p>Support 并不关心顺序，上面的反过来也行。</p>
+<h4 id="confidence">2. Confidence</h4>
+<p><span class="math inline">\(\text { Confidence }(\mathrm{X} \rightarrow \mathrm{Y})=\mathrm{P}(\mathrm{Y} | \mathrm{X})=\mathrm{P}(\mathrm{X} \cup \mathrm{Y}) / \mathrm{P}(\mathrm{X})\)</span></p>
+<p>根据定义我们知道：</p>
+<p><span class="math inline">\(\text { Support }(\mathrm{X} \rightarrow \mathrm{Y}) = \text { Support }(\mathrm{Y} \rightarrow \mathrm{X})\)</span></p>
+<p><span class="math inline">\(\text { Confidence }(\mathrm{X} \rightarrow \mathrm{Y}) \neq \text { Confidence }(\mathrm{Y} \rightarrow \mathrm{X})\)</span></p>
+<p>找到一个我们认为有关联的关系需要同时超过我们给定的support阈值和confidence阈值。</p>
+<h3 id="apriori-algorithm">2. Apriori Algorithm</h3>
+<p>对于一个超级大的数据集，对每个item和它们的组合分别求出support和confidence来找出关联性信息是基本不可能的（计算量太大）。</p>
+<p>首先我们发现对于一个组合<span class="math inline">\(\{X,Y,Z,…,\}\)</span>, 它的support都是相等的而无关<span class="math inline">\((\rightarrow)\)</span>。但是confidence是不同的。</p>
+<p>由此我们发现，计算support非常的快（比confidence快），所以我们可以先找满足support的item，再在这个item里找满足confidence的关系。</p>
+<p>超市里面有商品{A,B,C,D,E}，则它们所有可以的item组合为如下：</p>
+<p><img src="/images/image-20191107151133433.png"></p>
+<p>Apriori定理：如果一个item不是frequent的，它的所有子集subitems都不是frequent的。</p>
+<p><img src="/images/image-20191107152732396.png"></p>
+<p>如图当你计算出AB不是frequent后，不用在计算任何包含AB的item了，大大的减少了计算量。</p>
+<p>算法过程：</p>
+<ol type="1">
+<li>计算单个item的support</li>
+<li>剔除低于阈值support的item，保留满足条件的单个item</li>
+<li>生成包含2个对象的item，计算support，剔除不满足的，保留满足的</li>
+<li>继续生产，计算，删除，保留</li>
+</ol>
+<p>例子：</p>
+<p><img src="/images/image-20191107155311317.png"></p>
+<p>C是生成的可能item，L是所有满足minsup的item组合。</p>
+<p>所有的L就是我们要找的满足minsup的item。</p>
+<p>问题是怎么生产C呢？</p>
+<p>分2步：</p>
+<ol type="1">
+<li>self-join <span class="math inline">\(L_k\)</span></li>
+<li>pruning</li>
+</ol>
+<p>self-join的例子:</p>
+<p>上图的<span class="math inline">\(L_2 = \{ AC,BC,BE,CE\}\)</span></p>
+<p>第一步：<span class="math inline">\(L_2 \ join\  L_2 = {ABC,ABE,ACE,BCE}\)</span></p>
+<p>第二步：ABE 会被删掉因为 AE不在<span class="math inline">\(L_2\)</span>里面，根据Apriori算法，AE不是frequent，它的子类必不frequent。因此ABE会被删掉。</p>
+<p>因此我们得到<span class="math inline">\(C_3 = \{BCE,ABC,ACE\}\)</span></p>
+<h3 id="rule-generation">3. Rule Generation</h3>
+<p>当我们得到所有满足minSUP的item后，我们还要找到满足minCONF的item，即<span class="math inline">\(\rightarrow\)</span>该是谁指向谁。</p>
+<p>例如当我们知道item{A,B,C,D}满足minSUP，它有以下这么多种可能：</p>
+<p><img src="/images/image-20191107160738277.png"></p>
+<p>总共会有<span class="math inline">\(2^{k-2}\)</span>种可能，k为item包含的个数。</p>
+<p>对于confidence，我们能找到这样的关系：</p>
+<p><img src="/images/image-20191107161118117.png"></p>
+<p>2个关系，左边多数的一定大。</p>
+<p><img src="/images/image-20191107161637990.png"></p>
+<h3 id="maximal-frequent-itemset">Maximal Frequent Itemset</h3>
+<p>一个itemset可以被称为Maximal Frequent Itemset当它是frequent并且它的下一层超集不是frequent的。</p>
+<p><img src="/images/image-20191107162038096.png"></p>
+<p>例子：</p>
+<p><img src="/images/image-20191107162232045.png"></p>
+<h3 id="closed-itemset">Closed itemset</h3>
+<p>一个itemset是closed itemset，那么它的immediate superset的supports和它的support不一样。</p>
+<p>例子：</p>
+<p>我们有这样一个transaction</p>
+<p><img src="/images/image-20191107162626321.png"></p>
+<p>计算support：</p>
+<p><img src="/images/image-20191107162704381.png"></p>
+<p>黄色的部分就是closed itemset。</p>
+<p>例如我们考虑{B}, S(B) = 5,</p>
+<p>B的immediate supersets的support为S(A,B) = 4, S(B,C)=3, S(B,D) = 4</p>
+<p>他们都不等于S(B)，因此B是closed itemset。</p>
+<h2 id="v.-anomalyoutlier-异常值检测">V. Anomaly/Outlier 异常值检测</h2>
+<h3 id="概念介绍">1. 概念介绍</h3>
+<h4 id="什么是异常值">什么是异常值？</h4>
+<blockquote>
+<p>The set of data points that are <strong>considerably different</strong> from the remainder of the data</p>
+<p>与其余数据有<strong>显着差异</strong>的一组数据点</p>
+</blockquote>
+<p>杠精提问1: 那怎么判断这个数据点是和其他的数据显著差异的呢？</p>
+<h4 id="异常值检测可以用在哪">异常值检测可以用在哪？</h4>
+<ul>
+<li><p>数据清洗，异常值会造成错误的判断</p></li>
+<li><p>把找出那个异常值当作目标，例如故障检测，网络入侵检测（因为异常值和正常值有很大的差异，所以它们可能会是故障或者人为故意的行为）</p></li>
+</ul>
+<h4 id="异常值outlier-和噪声noise是不是一个概念">异常值（outlier) 和噪声（noise）是不是一个概念？</h4>
+<p><strong>不是！</strong></p>
+<p>噪声是随机出现的错误。比如你输入的时候打错了字，别人填问卷调查的时候勾错了选项（不是故意的）。</p>
+<p>异常值是<strong>真实发生</strong>的，但是和正常的数据不一样（例如绝地求生开挂的孤儿的数据变态的离谱）。因此，异常值是很有趣的而且有时候可以作为数据挖掘的目的（查出那些开挂的孤儿，再封掉它们）。</p>
+<p>总结：</p>
+<ul>
+<li><p>噪声（noise）无论干嘛都是第一个需要被清洗掉的（噪声：我做错了什么）</p>
+<p>杠精笑齐：那清洗噪声的方法呢？</p>
+<p><del>（我的想当然：在实际情况中，噪声和异常值在用清洗方法的时候都同时被去掉了。而如果目的是找出异常值的话，在找到异常值和噪声的合集之后，根据业务逻辑来判断。因为噪声都是随机的错误，而异常值是有逻辑的，而且这个合集应该是比较小的，可以单独判断吧。</del></p>
+<p>发邮件给老师后的回复：<a href="https://medium.com/@aatl2012/the-basic-difference-between-noise-and-outliers-in-data-cd3ff32343e0" target="_blank" rel="noopener">噪声和异常点的区别</a></p></li>
+<li><p>异常值（outlier）经常在噪声被剔除后也被删掉，但也有可能项目目的就是检测出异常值。</p></li>
+</ul>
+<h4 id="异常值评估">异常值评估</h4>
+<p>我们找出来的异常值是<strong>正确的，真的</strong>的异常值嘛？该怎么评估（evaluate）我这个方法找出来的异常值好不好？</p>
+<p>很难界定，因为我们不知道正确答案啊。异常值检测也是无监督学习，他的评估和聚类（clustering）类似。</p>
+<h4 id="异常值检测方案schema">异常值检测方案（schema）</h4>
+<p>顾名思义，首先定义出正常的值（大部分的数据）。然后和我们定义的正常值有显著差异的值就是异常值了嘛。</p>
+<h4 id="异常值类型">异常值类型</h4>
+<ol type="1">
+<li><p>全局异常值（Global outlier）：这个点和绝大多数正常值都有显著差异。（其实就是定义，最土味，最直观的，也是大多时候我们所要找的异常值）</p></li>
+<li><p>Contextual outlier（上下文异常值？没找到专业的中文名词）：这个点和特定的上下文数据有显著差异。</p>
+<p>一个方便理解的例子：今天温度40度，我们一般的天气20多度或者30多度。如果用全局异常值的方法，可能这个40还是包括在正常的浮动范围里的，但是40度是非常恐怖的天气，一定是算异常值的。这时候我们就要结合我们的上下文，即我们是在什么<strong>时间段</strong>？什么<strong>地点</strong>？ 等等上下文因素去考虑异常值。</p></li>
+<li><p>集体异常（collective outlier）：单个的数据不是异常值，但是多个个体一起出现时一种异常。</p>
+<p>某一户小区有一户人家搬走了，不是异常。十户人家一起搬走了，是一个异常。</p>
+<p>一台电脑拒绝发送请求，可能突然fail了，不是异常。十台电脑拒绝发送请求，是异常，可能被黑客攻击了。</p>
+<p>FPX的5个人每个人都不是变态强的选手，不是异常。5个人组合在一起贼猛，成第一名了是异常。</p>
+<p>举例子实在太好玩了。</p></li>
+</ol>
+<h3 id="异常值检测的各种方法anomaly-detection">2. 异常值检测的各种方法（Anomaly Detection）</h3>
+<h4 id="统计检验statistical-based">1.统计检验（Statistical-based）</h4>
+<ul>
+<li>假设这个数据集是根据一种随机过程（stochastic process） 产生的。就是说服从某种模型（例如正太分布）。</li>
+<li>用各种数据拟合（data fitting）的方法，例如最小二乘，梯度下降，把这种分布表示出来，然后处于<strong>低概率</strong>的那些数据点就是异常值。</li>
+</ul>
+<ol type="1">
+<li><p>有参数模型</p>
+<p>假设这个数据集服从某种概率密度函数，例如我们假设数据集是服从我们最喜欢的正太分布。</p>
+<p><img src="/images/image-20191014213158445.png"></p>
+<p>它需要参数：<strong>平均值，方差</strong></p>
+<p>根据这个图我们知道，当我们的数据是在这个图里左右2.5%的时候，数据是异常值。</p>
+<p><strong>杠精笑齐</strong>：那到底咋算啊？ 参数咋算啊？？这个2.5%又是什么东西啊？？？</p>
+<p>正太分布的公式是这样的： <span class="math display">\[g(x)=\frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{1}{2}((x-\mu) / \sigma)^{2}}\]</span></p>
+<p>其中<span class="math inline">\(\mu\)</span>是我们数据集的平均值，<span class="math inline">\(\sigma\)</span>是我们数据集的方差，这2个就是我们这个方法需要的求的参数！</p>
+<p>2.5%不用管，有兴趣的可以去学习统计——概率密度函数。</p>
+<p>但是根据经验表明，<span class="math display">\[ \mu \pm 3\sigma\]</span> 这一段数据在正太分布里可以涵盖99.7%的数据。</p>
+<p>所以我们就计算：<span class="math display">\[ \mu \pm 3\sigma\]</span> ，只要我们的值 $ x &lt; - 3$ 或者 $ x &gt; + 3$ ,那x就是异常值！</p>
+<p>这里直接把书中的例子搬过来：</p>
+<p>​ 我们有一个数据集是{<span class="math inline">\({24.0, 28.9, 28.9, 29.0, 29.1, 29.1, 29.2, 29.2, 29.3, 29.4}\)</span>}, 并且我们知道它是服从正太分布的。（要好多假设条件😀）</p>
+<p>​ 我们就能求出来: <span class="math inline">\(\hat{\mu}=28.61 , \hat{\sigma}=\sqrt{2.29}=1.51\)</span></p>
+<p>​ 那<span class="math display">\[ \mu - 3\sigma = 24.08\]</span>,<span class="math display">\[ \mu + 3\sigma = 33.14\]</span></p>
+<p>​ 大功告成，我们发现只有 <strong>24</strong> 是在这个区间外面的，所以<strong>24</strong>就是这个数据集的异常值！Bingo😉~</p>
+<p>总结一下哈：这个方法要求的条件也太多了。</p>
+<ul>
+<li>第一要求数据集服从一种模型。实践中我们拿到一个数据集，这个数据集又不会告诉我们它是属于什么模型，什么概率分布的。</li>
+<li>第二绝大多数只能应对一维的情况，就像我们的例子。但是实际操作我们的数据集特征都是少说也有十几个吧（年龄，性别等等）。对于一个高维的数据集，我们是很难去估计它服从什么分布的。（我不知道为什么，但是这学期的数学课推了一个二维的正太分布就挺复杂了，而且已经是三维的图了。所以这里只记了结论）</li>
+</ul></li>
+<li><p>无参数模型</p>
+<p>我们想用一个概率分布去表达一个数据集的目的其实是为了找到数据集的<strong>正常值（normal data）</strong>。但是其实我们可以靠目测（听上去更加不靠谱）。就是我们识别这个<strong>正常值</strong>不用一个先规定好的结构/模型。</p>
+<p>那我们用什么来预测？（都轮不到杠精笑齐来提问的问题） 用土味的histogram（直方图）</p>
+<p><img src="/images/image-20191014221044545.png"></p>
+<p>假设这是一张交易记录的直方图，我们规定了bin（直方格）的长度是1。然后就出来了这个图。然后我们发现只有0.2%的交易是大于5000的。那所有在这个交易记录里面大于5000的都是<strong>异常值</strong>了。好简单好爽好快乐。</p>
+<p><strong>杠精笑齐</strong>：那这个bin咋算？？我要是算bin是0.5一格的话，那是不是有可能5500以上的才是异常值啊？那我前面好简单好爽好快乐的方法说5100是异常值，这个又说5100不是异常值？你这个人靠不靠谱啊？？</p>
+<p>所以这个方法我觉得应该也算是有参数的，参数就是bin的取值。</p>
+<p>bin取值带来的问题：</p>
+<ul>
+<li><p>bin值太大：那就会让有的异常点跑到正常值里面去了。想象一下我们只有一个bin（这个bin值就是全数据集的长度），这个bin的频率是100%，异常值都跑到bin里面去了。false negative</p></li>
+<li><p>bin值太小：那我们的正常值可能会被判断成异常值了，想象一下我们有N个bin（N就是我们数据集的长度），这样我们每个数据点的频数都是1，频率都是一样且非常小，那每个数都是异常值了。false positive</p>
+<p>这里的false negative和false positive是第一张分类混淆矩阵（confusion matrix）的知识内容，被混淆了的同学请前往<a href="#混淆矩阵（confusion%20matrix）">混淆矩阵</a>。</p></li>
+</ul></li>
+</ol>
+<h4 id="接近度proximity-based">2. 接近度（Proximity-based）</h4>
+<h5 id="基于距离distance">1. 基于距离（distance）</h5>
+<p>直接给出公式</p>
+<p><span class="math display">\[ {\frac{\left\|\left\{o^{\prime} | \operatorname{dist}\left(o, o^{\prime}\right) \leq r\right\}\right\|}{\|D\|} \leq \pi}\]</span></p>
+<p>好懵逼🤣，没事。</p>
+<p>原理就是</p>
+<ol type="1">
+<li>你自己定义一个距离。</li>
+<li>然后计算所有数据点和现在在判断是不是异常值的这个数据点的距离。</li>
+<li>数出有多少个点是在你自己定义的距离里面的，就是<strong>步骤2</strong>的距离小于<strong>步骤1</strong>的距离。</li>
+<li>把<strong>步骤3</strong>数出来的数除以数据集的长度（有多少个数据点），如果小于一定的比例，就是异常值。</li>
+</ol>
+<p>还是好懵逼🤣</p>
+<p>首先 <span class="math inline">\(\pi\)</span>和<span class="math inline">\(r\)</span> 是我们自己设计的值。<span class="math inline">\(r\)</span> 就是<strong>步骤1</strong>的距离。$ $ 不是那个3.1415……，是<strong>步骤4</strong>的那个比例，也是一个我们设计的0到1之间到百分数。<span class="math inline">\(o^{\prime}\)</span> 代表所有其他数据点。</p>
+<p>$ {O^{} | (O, O^{}) r}$ 代表<strong>步骤2</strong> ，<span class="math inline">\(\|D\|\)</span> 和分子的 ||…|| 都代表cardinality（基数），就是有多少个，<strong>步骤3</strong>和<strong>步骤4</strong></p>
+<p>应该懂了，在加深一下，所以我们可以定义 <span class="math inline">\(k=\pi\|D\|\)</span>, 那k其实也代表一个threshold（阈（yu）值），它的意义是如果你<strong>步骤3</strong>数出来的基数（个数）少于 <span class="math inline">\(k\)</span> 的话，这个值就是异常值。</p>
+<p>现在考虑一下优化方法，作为一个未来的数据科学家，经常处理特别大的数据集，不学优化等于每一次调试都要等很久<del>或者想要买一台新的电脑</del></p>
+<p>优化： 如果<strong>步骤3</strong>已经数到了<span class="math inline">\(k\)</span>个值，就停止循环。（没必要继续继续下去了，这个数据集已经证明自己不是异常值了，我们不需要知道它有多靠近数据集的中心）</p>
+<h5 id="基于密度density-based-outlier-detection">2. 基于密度（Density-Based Outlier Detection）</h5>
+<p>不像上一种方法用一个数据值和所有其他数据值比较，我们只比较和它相邻的数据。</p>
+<p><img src="/images/image-20191015101212861.png"></p>
+<p>如图，根据不靠谱的目测，我们觉得</p>
+<blockquote>
+<p><span class="math inline">\(O_1,O_2\)</span>是<span class="math inline">\(C_1\)</span>的异常值，<span class="math inline">\(O_1,O_2\)</span>就是<strong>局部异常值</strong>（只针对<span class="math inline">\(C_1\)</span>）</p>
+<p><span class="math inline">\(O_3\)</span>是<strong>全局异常值</strong></p>
+<p><span class="math inline">\(O_4\)</span>是正常值，不是异常值。</p>
+</blockquote>
+<p>但是，试想一下我们用前面的一种检测方法（基于距离），我们是找不到<span class="math inline">\(O_1,O_2\)</span>是异常值的。（因为它们离<span class="math inline">\(C_1\)</span>其实挺近的。）</p>
+<p>但是基于密度的方法我们是可以找的。</p>
+<p>这个方法课件里面说是用最低的LOF值，tutorial里说用最高的LOF值是异常值，把我搞混了很久，老师回复邮件后搞懂。</p>
+<p><img src="/images/1920px-LOF-idea.svg.png"></p>
+<p>基本思想：比如我们检测A是不是一个异常值，我们是比较<strong>A的密度和A密度范围里面其他点的密度的平均值</strong>。</p>
+<p>怎么比呢？就是用它们的比值，它有一个特别的名字（LOF: Local outlier factor)。</p>
+<p>这里分子是范围内点们密度平均值，分母是A的密度</p>
+<ol type="1">
+<li>如果这个比值接近1: 说明A的密度和它范围内的点们的密度都差不多，那就说明不是离群点了。</li>
+<li>如果这个比值小于1: 说明A的密度比范围内的点们大，A更靠近它们。</li>
+<li>如果这个比值大于1: 说明A的密度比范围内的点们的密度平均值小，A是异常值。</li>
+</ol>
+<p>杠精笑齐：</p>
+<ol type="1">
+<li><p>这个范围是怎么定义的？为什么图里面A的范围那么大，在A范围里的那3个点的范围那么小？</p></li>
+<li><p>这个密度是从哪里冒出来的，咋算啊？</p></li>
+</ol>
+<p>范围：离要检测的点最近的第K个点的距离是这个检测的范围。</p>
+<p>​ 图中我们选的<span class="math inline">\(K=3\)</span>, 所以A里面包含了3个点，其他的点的范围也都是3个点。</p>
+<p>​ 这样就避免了我们基于距离方法的问题，我们现在定义的距离是动态的，是能根据不同的点来变 换的。</p>
+<p>密度：其实更具体的名词是<strong>局部可达性密度（lrd）</strong></p>
+<p>​ <del>密度等于质量除以体积</del> —— 不是你想的那样。 但是核心思想差不多啦，就是我们想知道在这个检测点密不 密集。但是这个事情是非常难用数学表达出来的（对我们学渣还非常难理解😱这么多数学符号是什么鬼 啦，为了让大家查阅其他资料的时候符号一样，下面我也被迫使用这么多不想看明白的数学符号）。</p>
+<p>​ 质量：是我们的规定的K。图中的例子就是 <span class="math inline">\(3\)</span>.</p>
+<p>​ 很多用<span class="math inline">\(|N_{k}(A)|\)</span>表示，其中<span class="math inline">\(N_{k}(A)\)</span> 就是被A的范围包含的点们的集合。<span class="math inline">\(|x|\)</span>代表x的基数（个数）。</p>
+<p>​ 明明就是 K嘛，为什么要这么复杂。。。要是我理解错了请告诉我。</p>
+<p>​ 为什么要用K呢，因为这样我们所有的点的分子都是一样的了，看它们密不密集，就看分母了。</p>
+<p>​ 体积： 是我们<span class="math inline">\(N_{k}(A)\)</span>里所有点到A的距离和。</p>
+<p>​ 然而距离不是单纯的距离，有一个新的距离定义方式叫<strong>可达距离</strong></p>
+<p>​ reachability-distance <span class="math inline">\(r-d(A,C) = max(k-distance(C),d(A,C))\)</span></p>
+<p>​ <span class="math inline">\(k-distance(C)\)</span>是C的范围。</p>
+<p>​ 也就是当我们算A范围里其他点（例如C）对A的距离的时候，这个距离<strong>至少得是C的范围</strong>。</p>
+<p>​ （其中理论我也没懂，求大神解释）</p>
+<p>​ 密度计算公式：</p>
+<p>​ <span class="math inline">\(\operatorname{lrd}_{k}(A):= \frac {|N_{k}(A)|}{\sum_{B \in N_{k}(A)} {reachability-distance}_{k}(A, B)}\)</span></p>
+<p>​ 分子就是我们说的质量嘛，分母就是我们说的体积嘛。</p>
+<p>终于到LOF了，现在我们再来看我们的基本思想：比较<strong>A的密度和A密度范围里面其他点的密度的平均值</strong>。</p>
+<p>我们已经会求密度了，直接看公式：</p>
+<p>​ <span class="math inline">\(\operatorname{LOF}_{k}(A) = \frac{\sum_{B \in N_{k}(A)} \operatorname{lrd}(B)}{\left|N_{k}(A)\right|} / \operatorname{lrd}(A)\)</span></p>
+<p>左半部分<strong>A密度范围里面其他点的密度的平均值</strong>，右半部分<strong>A的密度</strong></p>
+<p>现在也很好理解为什么tutorial里面说高的LOF值是异常值，课件里面说低的LOF值是异常值了。</p>
+<p>因为它们的比值分子分母反了。。。分子分母反了。。。反了。。。</p>
+<p>为了应付考试的步骤流程图：</p>
+<ol type="1">
+<li>根据题目给的K值和定义距离的方法（曼哈顿，欧几里得）找出每个点的k-distance（范围）</li>
+<li>找出每个点里面k-distance（范围）里面的其他点</li>
+<li>计算所有点的密度</li>
+<li>计算每个点的LOF</li>
+<li>看你怎么比决定取最大值还是最小值作为异常值。</li>
+</ol>
+<p>（终于完了，唯一一个疑惑的就是<strong>可达距离</strong>的含义了）</p>
+<p>总结：</p>
+<blockquote>
+<p>基于距离：异常值的附近不够满足你要求的点的数量。</p>
+<p>基于密度：异常值的密度不够满足你要求的密度。</p>
+</blockquote>
+<h4 id="聚类检验cluster-based">3. 聚类检验（cluster-based）</h4>
+<p><img src="/images/image-20191015110704026.png"></p>
+<p>看图就明白了，把数据集用某种聚类方法聚类。</p>
+<blockquote>
+<p>1.这个点到属于它的类的类中心的距离非常的长</p>
+<p>2.包含很小数量的聚类都是<strong>异常值</strong>。</p>
+</blockquote>
+<p>第一种情况：</p>
+<p>​ 那我们就计算这个点<span class="math inline">\(o\)</span>到类中心<span class="math inline">\(c\)</span>到距离<span class="math inline">\(d(o,c)\)</span>,和其他属于这个类的点们<span class="math inline">\(o_i\)</span>到类中心<span class="math inline">\(c\)</span>的距离平均值<span class="math inline">\(d(o_i,c)_{avg}\)</span>,然后计算它们的比值，如果这个比值很大，说明这个点<span class="math inline">\(o\)</span>就是异常值。 用比值的原因就是给我们一个关于这个类本身大小的判断依据，不然有的类很大，有的类很小。如果只根据距离定义阈值会出现错误。</p>
+<p>第二种情况：</p>
+<p>​ 假设有一个数据点<span class="math inline">\(p\)</span></p>
+<p>​ 如果<span class="math inline">\(p\)</span>在一个比较大的聚类<span class="math inline">\(c_1\)</span>里面：</p>
+<p>​ <span class="math inline">\(CBLOF = c_1的size \times p和c_1的相似度\)</span></p>
+<p>​ 如果<span class="math inline">\(p\)</span>在一个比较小的聚类<span class="math inline">\(c_2\)</span>里面：</p>
+<p>​ <span class="math inline">\(CBLOF = c_2的size \times p和离它最近的大聚类的相似度\)</span></p>
+<p>相似度有很多种不同的方式。CBLOF比较小的值就是异常值。 （2个参数，相似度低或者类比较小，就代表离群了）</p>
+<hr>
+<h2 id="vi.-recommender-systems">VI. Recommender Systems</h2>
+<h3 id="user-based">1. User-based</h3>
+<p><img src="/images/image-20191108094208703.png"></p>
+<h4 id="pearson-correlation">Pearson correlation</h4>
+<p>使用pearson相关系数来作为相似度的考量</p>
+<p><img src="/images/image-20191108094303685.png"></p>
+<p>其实和我们介绍过的<a href="#Cosine%20Similarity">cosine similarity</a>非常相似：</p>
+<p>在cosine similarity中：$ (a, b)=$</p>
+<p>上面就是两条向量的点积，下面是各自向量的模</p>
+<p>而pearson这个人就是把cosine similarity做了个中心标准化（每一项都减去平均值），就像正太分布变成标准正态分布一样。</p>
+<p>例子：计算Alice对于“Item5”可能的评分（兴趣）是多少？</p>
+<p>思路：</p>
+<ol type="1">
+<li>计算Alice和所有其他user的similarity</li>
+<li>根据你选用的neighbor策略（选k个相关的user作为参考）选相似度最高的k个user</li>
+<li>根据那k个uesr的item5评分，计算<span class="math inline">\(\operatorname{pred}(\boldsymbol{a}, \boldsymbol{p})=\overline{\boldsymbol{r}_{a}}+\frac{\sum_{b \in N} \operatorname{sim}(\boldsymbol{a}, \boldsymbol{b}) *\left(\boldsymbol{r}_{b, p}-\overline{\boldsymbol{r}}_{b}\right)}{\sum_{b \in N} \operatorname{sim}(\boldsymbol{a}, \boldsymbol{b})}\)</span></li>
+</ol>
+<p>计算：</p>
+<ol type="1">
+<li><span class="math inline">\(\hat{Alice}=4,\hat{user1}=2.25\)</span>, <strong>注意这里user1的平均值不包括item5，后面的计算也不包括，item5的值仅在预测那一步使用）</strong>，<span class="math inline">\(sim(Alice,user1) = \frac{(5-4)(3-2.25)+(3-4)(1-2.25)+(4-4)(2-2.25)+(4-4)(3-2.25)}{\sqrt{(5-4)^2+(3-4)^2}\times \sqrt{(3-2.25)^2+(1-2.25)^2+(2-2.25)^2+(3-2.25)^2}}= 0.85\)</span></li>
+<li>同理可得<span class="math inline">\(sim(Alice,user2) = 0.7\)</span>, <span class="math inline">\(sim(Alice,user3) = 0\)</span>, <span class="math inline">\(sim(Alice,user4) = -0.79\)</span></li>
+<li>我们选用2-nearest neighbours: user1和user2</li>
+<li><span class="math inline">\(Pred(Alice,item5) = \hat{Alice} + \frac{sim(Alice,user1)*(user1.item5-\hat{user1}+sim(Alice,user2)*(user2.item5-\hat{user2})}{sim(Alice,user1)+sim(Alice,user2)} = 4+\frac{0.85\times (3-2.25)+0.7\times(5-3.5)}{0.85+0.7} = 5.08\)</span></li>
+</ol>
+<h4 id="peason-correlation的缺点">Peason correlation的缺点</h4>
+<ol type="1">
+<li>并非所有邻居的评分都同样“有价值” –就普遍喜欢的商品达成协议并没有像对有争议的商品达成协议那样内容丰富 –可能的解决方案：对具有较大差异的项目给予更多权重</li>
+<li>共同项目数的值 –同时考虑皮尔逊相似性和共同评定项目的数量</li>
+<li>案例放大 –直觉：给予“非常相似”的邻居更多的权重，即相似度值接近1的邻居。</li>
+<li>neighborhood选择 –使用相似性阈值或固定数目的邻居</li>
+</ol>
+<h3 id="item-based">2. Item-based</h3>
+<p><img src="/images/image-20191108102944155.png"></p>
+<p>简单的说就是user-based就用user向量（行向量），item-based就是用item向量（列向量）。</p>
+<h3 id="latent-factor-modellfm">3.Latent Factor Model(LFM)</h3>
+<p>我们将传统的用户/商品表格，转变为“商品-商品属性”与“商品属性-用户喜好”2个表格</p>
+<p>即如下格式：<span class="math inline">\(A_{m \times n}=U_{m \times k} V_{K \times n}\)</span></p>
+<p>我们有如下原始表格（0表示没有评价，需要我们预测）</p>
+<p><img src="/images/image-20191108110747662.png"></p>
+<p>我们想得到矩阵U和矩阵V，就是构造函数然后使loss function（损失函数）最小即公式：</p>
+<p><span class="math inline">\(J(U, V ; A)=\sum_{i=1}^{m} \sum_{j=1}^{n}\left(a_{i j}-\sum_{r=1}^{k} u_{i r} \cdot v_{r j}\right)^{2}+\lambda\left(\sum_{i=1}^{m} \sum_{r=1}^{k} u_{i r}^{2}+\sum_{j=1}^{n} \sum_{r=1}^{k} v_{r=1}^{2}\right)\)</span></p>
+<p>等式右边的第一项就是我们的损失函数，第二项是L2正则化项（对应于redge回归的正则化），可以降低解决过拟合问题导致分解后的矩阵元素太大（背就完事了）</p>
+<p>对我们的构造函数求梯度：</p>
+<p><span class="math inline">\(\left\{\begin{array}{l}{\frac{\partial J(U, V ; A)}{\partial u_{i r}}=-2\left(a_{i j}-\sum_{r=1}^{k} u_{i r} v_{r j}\right) \cdot v_{r j}+2 \lambda u_{i r}} \\ {\frac{\partial J(U, V ; A)}{\partial v_{r j}}=-2\left(a_{i j}-\sum_{r=1}^{k} u_{i r} v_{r j}\right) \cdot u_{i r}+2 \lambda v_{r j}}\end{array}, 1 \leq r \leqslant k\right.\)</span></p>
+<p>然后因为数据量过大所以选用SGD（随机梯度下降法，<a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent" target="_blank" rel="noopener">Stochastic gradient descent</a>）</p>
+<p>求得U和V矩阵后相乘，可以发现所得结果接近原矩阵，并且原先为0的点有数值了（即预测值）</p>
+<p>LFM的优点：</p>
+<ol type="1">
+<li>high accuracy</li>
+<li>Auto group items –</li>
+<li>Scalability is good –</li>
+<li>Learning-based</li>
+</ol>
+<p>缺点：</p>
+<ol type="1">
+<li>Incremental updating</li>
+<li>Real-time –</li>
+<li>Explanation</li>
+</ol>
+<h3 id="model-based">4. Model-based</h3>
+<p>用我们前面学过的各种模型来进行对rating的预测</p>
+<h4 id="bayes">1. Bayes</h4>
+<p><a href="#3.%20Naïve%20Bayes（朴素贝叶斯">复习</a></p>
+<p>例如我们有这样一个表：</p>
+<p><img src="/images/image-20191108113503171.png"></p>
+<p>计算<span class="math inline">\(P(Item1 = 1, Item2 = 3, Item3 =3, Item4 =2|Item5 = 1)\)</span></p>
+<p><span class="math inline">\(P(Item1 = 1, Item2 = 3, Item3 =3, Item4 =2|Item5 = 2)\)</span></p>
+<p><span class="math inline">\(P(Item1 = 1, Item2 = 3, Item3 =3, Item4 =2|Item5 = 3)\)</span></p>
+<p><span class="math inline">\(P(Item1 = 1, Item2 = 3, Item3 =3, Item4 =2|Item5 = 4)\)</span></p>
+<p><span class="math inline">\(P(Item1 = 1, Item2 = 3, Item3 =3, Item4 =2|Item5 = 5)\)</span></p>
+<p>选最高的概率</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/分类/" rel="tag"># 分类</a>
+              <a href="/tags/聚类/" rel="tag"># 聚类</a>
+              <a href="/tags/关联性分析/" rel="tag"># 关联性分析</a>
+          </div>
+
+        
+
+
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#data-mining-笔记"><span class="nav-number">1.</span> <span class="nav-text">Data Mining 笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-classification-分类"><span class="nav-number">1.1.</span> <span class="nav-text">I. Classification 分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型评估model-evluation"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.模型评估（model evluation）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#混淆矩阵confusion-matrix"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">混淆矩阵（confusion matrix）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#评估方法"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">评估方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类方法"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 分类方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#rote-learner-最原始最土味"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">1. Rote-learner (最原始最土味)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#knnk近邻"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">2. KNN（K近邻）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#naïve-bayes朴素贝叶斯"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">3. Naïve Bayes（朴素贝叶斯)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#决策树"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">4.决策树</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#概念"><span class="nav-number">1.1.2.4.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#gini-index"><span class="nav-number">1.1.2.4.2.</span> <span class="nav-text">1. Gini Index</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#entropy"><span class="nav-number">1.1.2.4.3.</span> <span class="nav-text">2. Entropy</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#error"><span class="nav-number">1.1.2.4.4.</span> <span class="nav-text">3. Error</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#什么时候终止分割"><span class="nav-number">1.1.2.4.5.</span> <span class="nav-text">什么时候终止分割？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#overfitting的坏处"><span class="nav-number">1.1.2.4.6.</span> <span class="nav-text">Overfitting的坏处</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#优缺点"><span class="nav-number">1.1.2.4.7.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#例题如何从零开始构建一个数据库"><span class="nav-number">1.1.2.4.8.</span> <span class="nav-text">例题：如何从零开始构建一个数据库</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.similarity相似度"><span class="nav-number">1.2.</span> <span class="nav-text">II.Similarity（相似度）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#曼哈顿距离aka-city-block-taxicab-l_1norm-manhattan-distance"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 曼哈顿距离（aka &quot;City block”, taxicab, \(L_1\)norm , Manhattan distance)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#欧几里得距离euclidean-distanceaka-l_2-norm"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 欧几里得距离（Euclidean distance，aka \(L_2\) norm）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#supermumaka-l_maxnorm-l_inftynorm"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. Supermum(aka \(L_{max}\)norm, \(L_{\infty}\)norm)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二元属性的相似性"><span class="nav-number">1.2.4.</span> <span class="nav-text">二元属性的相似性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cosine-similarity"><span class="nav-number">1.2.5.</span> <span class="nav-text">Cosine Similarity</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-clustering-聚类"><span class="nav-number">1.3.</span> <span class="nav-text">III. Clustering 聚类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k-means"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. K-means</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hierarchical-clustering分层聚类"><span class="nav-number">1.3.3.</span> <span class="nav-text">3. Hierarchical Clustering（分层聚类）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概念-2"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#agglomerative-方法"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">agglomerative 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#limitation-of-min"><span class="nav-number">1.3.3.2.1.</span> <span class="nav-text">Limitation of MIN:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#limitation-of-max"><span class="nav-number">1.3.3.2.2.</span> <span class="nav-text">Limitation of MAX:</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#divisive-方法"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">divisive 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#构建最小扫描树minimum-spanning-tree"><span class="nav-number">1.3.3.3.1.</span> <span class="nav-text">构建最小扫描树（Minimum Spanning Tree）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#density-based-clustering"><span class="nav-number">1.3.4.</span> <span class="nav-text">4. Density-based clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dbscan"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">DBSCAN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dbscan的缺点"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">DBSCAN的缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何选取eps和minpts"><span class="nav-number">1.3.4.3.</span> <span class="nav-text">如何选取EPS和MinPts</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cluster-validity"><span class="nav-number">1.3.5.</span> <span class="nav-text">5. Cluster Validity</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#groud-truth"><span class="nav-number">1.3.5.1.</span> <span class="nav-text">1. Groud Truth</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#internal-measure"><span class="nav-number">1.3.5.2.</span> <span class="nav-text">2. Internal Measure</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#sse和bss"><span class="nav-number">1.3.5.2.1.</span> <span class="nav-text">SSE和BSS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#silhouette-coefficient"><span class="nav-number">1.3.5.2.2.</span> <span class="nav-text">Silhouette Coefficient：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#correlation-with-distance-matrix"><span class="nav-number">1.3.5.2.3.</span> <span class="nav-text">Correlation with Distance Matrix</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#statistical-framework-for-sse"><span class="nav-number">1.3.5.3.</span> <span class="nav-text">3. Statistical Framework for SSE</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-association-rule-关联性分析"><span class="nav-number">1.4.</span> <span class="nav-text">IV. Association Rule 关联性分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#measures"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. Measures</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#support"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">1. Support</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#confidence"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">2. Confidence</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apriori-algorithm"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. Apriori Algorithm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rule-generation"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. Rule Generation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#maximal-frequent-itemset"><span class="nav-number">1.4.4.</span> <span class="nav-text">Maximal Frequent Itemset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#closed-itemset"><span class="nav-number">1.4.5.</span> <span class="nav-text">Closed itemset</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#v.-anomalyoutlier-异常值检测"><span class="nav-number">1.5.</span> <span class="nav-text">V. Anomaly/Outlier 异常值检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念介绍"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. 概念介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是异常值"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">什么是异常值？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常值检测可以用在哪"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">异常值检测可以用在哪？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常值outlier-和噪声noise是不是一个概念"><span class="nav-number">1.5.1.3.</span> <span class="nav-text">异常值（outlier) 和噪声（noise）是不是一个概念？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常值评估"><span class="nav-number">1.5.1.4.</span> <span class="nav-text">异常值评估</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常值检测方案schema"><span class="nav-number">1.5.1.5.</span> <span class="nav-text">异常值检测方案（schema）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常值类型"><span class="nav-number">1.5.1.6.</span> <span class="nav-text">异常值类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常值检测的各种方法anomaly-detection"><span class="nav-number">1.5.2.</span> <span class="nav-text">2. 异常值检测的各种方法（Anomaly Detection）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#统计检验statistical-based"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">1.统计检验（Statistical-based）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接近度proximity-based"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">2. 接近度（Proximity-based）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基于距离distance"><span class="nav-number">1.5.2.2.1.</span> <span class="nav-text">1. 基于距离（distance）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#基于密度density-based-outlier-detection"><span class="nav-number">1.5.2.2.2.</span> <span class="nav-text">2. 基于密度（Density-Based Outlier Detection）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#聚类检验cluster-based"><span class="nav-number">1.5.2.3.</span> <span class="nav-text">3. 聚类检验（cluster-based）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vi.-recommender-systems"><span class="nav-number">1.6.</span> <span class="nav-text">VI. Recommender Systems</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#user-based"><span class="nav-number">1.6.1.</span> <span class="nav-text">1. User-based</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pearson-correlation"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">Pearson correlation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#peason-correlation的缺点"><span class="nav-number">1.6.1.2.</span> <span class="nav-text">Peason correlation的缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#item-based"><span class="nav-number">1.6.2.</span> <span class="nav-text">2. Item-based</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#latent-factor-modellfm"><span class="nav-number">1.6.3.</span> <span class="nav-text">3.Latent Factor Model(LFM)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#model-based"><span class="nav-number">1.6.4.</span> <span class="nav-text">4. Model-based</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bayes"><span class="nav-number">1.6.4.1.</span> <span class="nav-text">1. Bayes</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xiaoqi Zhuang"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">Xiaoqi Zhuang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xiaoqi Zhuang</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.5.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="true"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+</body>
+
+</html>
