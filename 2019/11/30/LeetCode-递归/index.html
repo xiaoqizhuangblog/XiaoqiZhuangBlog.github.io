@@ -46,22 +46,23 @@
   };
 </script>
 
-  <meta name="description" content="递归  递归是一种解决问题的有效方法。在递归过程中，函数将自身作为子例程调用  此博客记录学习LeetCode新手教程“探索递归”的总结。">
-<meta name="keywords" content="递归">
+  <meta name="description" content="递归  递归是一种解决问题的有效方法。在递归过程中，函数将自身作为子例程调用  此博客记录学习LeetCode新手教程“探索递归”的总结。主要讲述了递归的原理，递归复杂度计算，记忆化技术。包含8道关于递归的练习题及解（杨辉三角，幂计算，爬楼梯等）。">
+<meta name="keywords" content="递归,时间复杂度">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LeetCode 递归">
 <meta property="og:url" content="http://yoursite.com/2019/11/30/LeetCode-递归/index.html">
 <meta property="og:site_name" content="Xiaoqi">
-<meta property="og:description" content="递归  递归是一种解决问题的有效方法。在递归过程中，函数将自身作为子例程调用  此博客记录学习LeetCode新手教程“探索递归”的总结。">
+<meta property="og:description" content="递归  递归是一种解决问题的有效方法。在递归过程中，函数将自身作为子例程调用  此博客记录学习LeetCode新手教程“探索递归”的总结。主要讲述了递归的原理，递归复杂度计算，记忆化技术。包含8道关于递归的练习题及解（杨辉三角，幂计算，爬楼梯等）。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/PascalTriangleAnimated.gif">
 <meta property="og:image" content="http://yoursite.com/images/fibonacci.png">
 <meta property="og:image" content="http://yoursite.com/images/fibonacci.png">
-<meta property="og:image" content="http://yoursite.com/kth-sign.png">
-<meta property="og:updated_time" content="2019-12-02T05:13:55.411Z">
+<meta property="og:image" content="http://yoursite.com/images/kth-sign.png">
+<meta property="og:updated_time" content="2019-12-02T05:24:43.740Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 递归">
-<meta name="twitter:description" content="递归  递归是一种解决问题的有效方法。在递归过程中，函数将自身作为子例程调用  此博客记录学习LeetCode新手教程“探索递归”的总结。">
-<meta name="twitter:image" content="http://yoursite.com/images/fibonacci.png">
+<meta name="twitter:description" content="递归  递归是一种解决问题的有效方法。在递归过程中，函数将自身作为子例程调用  此博客记录学习LeetCode新手教程“探索递归”的总结。主要讲述了递归的原理，递归复杂度计算，记忆化技术。包含8道关于递归的练习题及解（杨辉三角，幂计算，爬楼梯等）。">
+<meta name="twitter:image" content="http://yoursite.com/images/PascalTriangleAnimated.gif">
 
 <link rel="canonical" href="http://yoursite.com/2019/11/30/LeetCode-递归/">
 
@@ -207,7 +208,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-02 15:13:55" itemprop="dateModified" datetime="2019-12-02T15:13:55+10:00">2019-12-02</time>
+                <time title="Modified: 2019-12-02 15:24:43" itemprop="dateModified" datetime="2019-12-02T15:24:43+10:00">2019-12-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -243,7 +244,7 @@
 <blockquote>
 <p>递归是一种解决问题的有效方法。在递归过程中，函数将<strong>自身</strong>作为子例程调用</p>
 </blockquote>
-<p>此博客记录学习LeetCode新手教程“探索递归”的总结。</p>
+<p>此博客记录学习LeetCode新手教程“探索递归”的总结。主要讲述了递归的原理，递归复杂度计算，记忆化技术。包含8道关于递归的练习题及解（杨辉三角，幂计算，爬楼梯等）。</p>
 <a id="more"></a>
 <h2 id="第一题相反字符串">第一题：相反字符串</h2>
 <p>题目：以相反的顺序打印字符串</p>
@@ -290,6 +291,8 @@
 <p>输出为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&apos;iqoaix&apos;</span><br></pre></td></tr></table></figure>
 <h2 id="第二题杨辉三角递推关系不是递归">第二题：杨辉三角（递推关系，不是递归）</h2>
+<p>杨辉三角如下图：</p>
+<p><img src="/images/PascalTriangleAnimated.gif"></p>
 <p>题目：输入一个整数，返回以此整数为行数目的杨辉三角</p>
 <p>例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">输入: 5</span><br><span class="line">输出:</span><br><span class="line">[</span><br><span class="line">     [1],</span><br><span class="line">    [1,1],</span><br><span class="line">   [1,2,1],</span><br><span class="line">  [1,3,3,1],</span><br><span class="line"> [1,4,6,4,1]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
@@ -449,7 +452,7 @@
 <p>60 ^ 13 = 0011 0001 = 49</p>
 <h3 id="思路-4">思路</h3>
 <p>图解：</p>
-<p><img src="/kth-sign.png"></p>
+<p><img src="/images/kth-sign.png"></p>
 <p>我们发现：第 K 个数字是上一行第 <span class="math inline">\((K+1) / 2\)</span> 个数字生成的。</p>
 <p>如果上一行的数字为 0，被生成的数字为 1 - (K%2)，如果上一行的数字为 1，被生成的数字为 K%2​。</p>
 <h3 id="代码-6">代码</h3>
@@ -467,6 +470,7 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/递归/" rel="tag"># 递归</a>
+              <a href="/tags/时间复杂度/" rel="tag"># 时间复杂度</a>
           </div>
 
         
@@ -475,8 +479,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2019/11/30/LeetCode-递归原理/" rel="prev" title="LeetCode 递归原理">
-      <i class="fa fa-chevron-left"></i> LeetCode 递归原理
+    <a href="/2019/11/29/Data Mining 笔记 /" rel="prev" title="DataMining 笔记">
+      <i class="fa fa-chevron-left"></i> DataMining 笔记
     </a></div>
       <div class="post-nav-item"></div>
     </div>
@@ -532,7 +536,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -543,7 +547,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
