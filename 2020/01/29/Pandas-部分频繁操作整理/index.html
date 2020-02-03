@@ -72,7 +72,9 @@
 <meta property="og:image" content="http://yoursite.com/images/pandas_16.jpg">
 <meta property="og:image" content="http://yoursite.com/images/pandas_17.jpg">
 <meta property="og:image" content="http://yoursite.com/images/pandas_18.jpg">
-<meta property="og:updated_time" content="2020-01-31T05:50:58.642Z">
+<meta property="og:image" content="http://yoursite.com/images/Hypothesis_1.jpg">
+<meta property="og:image" content="http://yoursite.com/images/Hypothesis_2.jpg">
+<meta property="og:updated_time" content="2020-02-03T03:34:59.745Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pandas 部分频繁操作整理">
 <meta name="twitter:description" content="Pandas in Python 一些容易忘记却又频繁需要的pandas操作代码，一些更神奇高效的代码，来自coursera里密歇根大学的Introduction to Data Science in Python 持续更新">
@@ -227,7 +229,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-31 15:50:58" itemprop="dateModified" datetime="2020-01-31T15:50:58+10:00">2020-01-31</time>
+                <time title="Modified: 2020-02-03 13:34:59" itemprop="dateModified" datetime="2020-02-03T13:34:59+10:00">2020-02-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -421,6 +423,63 @@
 <p>2: 差异</p>
 <p>3: 将数据变为按月计算</p>
 <p><img src="/images/pandas_18.jpg"></p>
+<h1 id="统计">统计</h1>
+<h2 id="二元分布">二元分布</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.random.binomial(<span class="number">1</span>, <span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
+<p>第一个参数是 <strong>运行的次数</strong></p>
+<p>第二个参数是 <strong>得到0的概率</strong></p>
+<p>例子：</p>
+<p>我们投20次硬币，想知道有15次以上是正面的概率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.random.binomial(<span class="number">20</span>, <span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
+<p>然而一次实验非常具有随机性，所以我们决定重复10000次这个实验。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = np.random.binomial(<span class="number">20</span>, <span class="number">0.5</span>, <span class="number">10000</span>)</span><br></pre></td></tr></table></figure>
+<p>最后求出<strong>15次以上正面的平均概率</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print((x&gt;=<span class="number">15</span>).mean())</span><br></pre></td></tr></table></figure>
+<p>运行得出连续抛20次硬币，出现15次以上为正面的概率是 2%。</p>
+<p>例子：</p>
+<p>龙卷风的概率是1%，请问在1000000天中连续两天发生龙卷风的概率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#龙卷风概率1%</span></span><br><span class="line">chance_of_tornado = <span class="number">0.01</span></span><br><span class="line"><span class="comment">#1000000天内发生龙卷风的天数分布</span></span><br><span class="line">tornado_events = np.random.binomial(<span class="number">1</span>, chance_of_tornado, <span class="number">1000000</span>)</span><br><span class="line"><span class="comment">#上面代码的output为一个list，如[0,0,0,0,1,1,0,0,.....,0]，我们只需遍历这个list，找出有多少连续2个1的数值。</span></span><br><span class="line">two_days = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(tornado_events)<span class="number">-1</span>):</span><br><span class="line">  <span class="keyword">if</span> tornado_events[i<span class="number">-1</span>] == <span class="number">1</span> <span class="keyword">and</span> tornado_events[i] == <span class="number">1</span>:</span><br><span class="line">    two_days += <span class="number">1</span></span><br><span class="line">print(two_days)</span><br></pre></td></tr></table></figure>
+<p>output大约为92，可以看出连续2天龙卷风的概率非常的低。</p>
+<h2 id="均匀分布">均匀分布</h2>
+<p>概率相同的连续分布</p>
+<p>例：均匀生成20个1到2之间的数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.random.uniform(<span class="number">1</span>,<span class="number">2</span>,<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>Out[21]:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">array([ 1.66817743,  1.33901201,  1.91628386,  1.5459287 ,  1.09335897,</span><br><span class="line">        1.68647306,  1.78384123,  1.88222629,  1.92103724,  1.06973666])</span><br></pre></td></tr></table></figure>
+<h2 id="正态分布">正态分布</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">numpy.random.normal(loc=<span class="number">0.0</span>, scale=<span class="number">1.0</span>, size=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+<p>loc是均值，scale是方差，size是样本次数</p>
+<p>标准差：</p>
+<p><code>np.std(distribution)</code></p>
+<p>峰度：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy.stats <span class="keyword">as</span> stats</span><br><span class="line">stats.kurtosis(distribution)</span><br></pre></td></tr></table></figure>
+<p>负值表示曲线比标准正态分布更平坦，正值表示比标准正态分布更高。</p>
+<p><strong>我们不是测量本身的峰度，而是从分布中抽取出来的数千个值</strong>（没懂，先记住）</p>
+<p>偏斜：</p>
+<p><code>stats.skew(distribution)</code></p>
+<h2 id="卡方分布chi-squared">卡方分布（Chi Squared）</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chi_squared_df2 = np.random.chisquare(<span class="number">2</span>, size=<span class="number">10000</span>)</span><br></pre></td></tr></table></figure>
+<p>第一个参数是自由度。</p>
+<p>卡方分布根据自由度不同有明显不同的偏斜。</p>
+<h2 id="假设检验">假设检验</h2>
+<p>目的是证明我们的假设成立。</p>
+<p>例子：mooc上新出了一节课，早期报名的同学可能非常关心这个方面的知识，有更高的学习积极性，所以我们假设早期报名的同学比晚期报名的同学成绩更高。</p>
+<p>所以我们的</p>
+<p><strong>对立假设</strong>：早报课的同学成绩更高。</p>
+<p><strong>零假设</strong>：早报课和晚报课的同学成绩没有明显区别。</p>
+<p>假设检验的方法是我们要<strong>驳回零假设</strong>，注意，我们不会去证明我们的假设，只是驳回了零假设，从而让我们更加相信我们的<strong>对立假设</strong>。</p>
+<p>而为了驳回零假设，我们就要证明成绩是有区别的！！！那么这个<strong>区别</strong>怎么定义呢，怎么才算有明显区别呢？</p>
+<p><strong>置信度significance level</strong>或者我们一般称 <strong><span class="math inline">\(\alpha\)</span> </strong>，通常取<span class="math inline">\(0.05,0.01\)</span>,</p>
+<p>然后根据不同的情况，使用各种不同的检验方法，计算出 <span class="math inline">\(\alpha\)</span>, 来选择驳回零假设或者相信零假设。</p>
+<p>例如如果我们选择 <span class="math inline">\(\alpha = 0.05\)</span>, 如果计算出来p-value大于0.05，则选择相信零假设。如果小于0.05，就驳回零假设，证明有显著差异，我们的假设成立。</p>
+<p>实例：</p>
+<p>倒入成绩数据：</p>
+<p><img src="/images/Hypothesis_1.jpg"></p>
+<p>分为早期和晚期报课学生：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">early = df[df[<span class="string">'assignment1_submission'</span>] &lt;= <span class="string">'2015-12-31'</span>]</span><br><span class="line">late = df[df[<span class="string">'assignment1_submission'</span>] &gt; <span class="string">'2015-12-31'</span>]</span><br></pre></td></tr></table></figure>
+<p>这次例子使用t-test来计算 p-value 即<span class="math inline">\(\alpha\)</span> 值</p>
+<p><img src="/images/Hypothesis_2.jpg"></p>
+<p>我们发现都 p-value都大于 <span class="math inline">\(\alpha\)</span>, 所以我们的假设不成立。早期报课和晚期报课的同学的成绩没有明显差异。</p>
 
     </div>
 
@@ -482,7 +541,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pandas-in-python"><span class="nav-number">1.</span> <span class="nav-text">Pandas in Python</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#读取数据"><span class="nav-number">1.1.</span> <span class="nav-text">读取数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查找"><span class="nav-number">1.2.</span> <span class="nav-text">查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#切片"><span class="nav-number">1.3.</span> <span class="nav-text">切片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚类"><span class="nav-number">1.4.</span> <span class="nav-text">聚类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据清洗"><span class="nav-number">1.5.</span> <span class="nav-text">数据清洗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接merge"><span class="nav-number">1.6.</span> <span class="nav-text">连接（Merge）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#making-code-pandorable"><span class="nav-number">1.7.</span> <span class="nav-text">Making Code Pandorable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大值最小值"><span class="nav-number">1.8.</span> <span class="nav-text">最大值最小值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scale-order"><span class="nav-number">1.9.</span> <span class="nav-text">Scale, Order</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bin"><span class="nav-number">1.10.</span> <span class="nav-text">BIN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据透视表pivot-table"><span class="nav-number">1.11.</span> <span class="nav-text">数据透视表，pivot table</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间数据类型"><span class="nav-number">1.12.</span> <span class="nav-text">时间数据类型</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pandas-in-python"><span class="nav-number">1.</span> <span class="nav-text">Pandas in Python</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#读取数据"><span class="nav-number">1.1.</span> <span class="nav-text">读取数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查找"><span class="nav-number">1.2.</span> <span class="nav-text">查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#切片"><span class="nav-number">1.3.</span> <span class="nav-text">切片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚类"><span class="nav-number">1.4.</span> <span class="nav-text">聚类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据清洗"><span class="nav-number">1.5.</span> <span class="nav-text">数据清洗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接merge"><span class="nav-number">1.6.</span> <span class="nav-text">连接（Merge）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#making-code-pandorable"><span class="nav-number">1.7.</span> <span class="nav-text">Making Code Pandorable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大值最小值"><span class="nav-number">1.8.</span> <span class="nav-text">最大值最小值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scale-order"><span class="nav-number">1.9.</span> <span class="nav-text">Scale, Order</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bin"><span class="nav-number">1.10.</span> <span class="nav-text">BIN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据透视表pivot-table"><span class="nav-number">1.11.</span> <span class="nav-text">数据透视表，pivot table</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间数据类型"><span class="nav-number">1.12.</span> <span class="nav-text">时间数据类型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#统计"><span class="nav-number">2.</span> <span class="nav-text">统计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#二元分布"><span class="nav-number">2.1.</span> <span class="nav-text">二元分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#均匀分布"><span class="nav-number">2.2.</span> <span class="nav-text">均匀分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正态分布"><span class="nav-number">2.3.</span> <span class="nav-text">正态分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卡方分布chi-squared"><span class="nav-number">2.4.</span> <span class="nav-text">卡方分布（Chi Squared）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#假设检验"><span class="nav-number">2.5.</span> <span class="nav-text">假设检验</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
