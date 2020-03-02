@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="UQ 2020 Semester 1 DATA7202 Statistical Methods for Data Science 第一周复习笔记（不一定对）">
+<meta name="keywords" content="MLE,stats,biased estimate">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DATA7202 1st Week Review">
+<meta property="og:url" content="http://yoursite.com/2020/02/29/DATA7202-1st-Week-Review/index.html">
+<meta property="og:site_name" content="Xiaoqi">
+<meta property="og:description" content="UQ 2020 Semester 1 DATA7202 Statistical Methods for Data Science 第一周复习笔记（不一定对）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/data7202_1st_1.jpg">
+<meta property="og:image" content="http://yoursite.com/images/data7202_1st_2.jpg">
+<meta property="og:updated_time" content="2020-03-02T06:07:51.449Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DATA7202 1st Week Review">
+<meta name="twitter:description" content="UQ 2020 Semester 1 DATA7202 Statistical Methods for Data Science 第一周复习笔记（不一定对）">
+<meta name="twitter:image" content="http://yoursite.com/images/data7202_1st_1.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2020/02/29/DATA7202-1st-Week-Review/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>DATA7202 1st Week Review | Xiaoqi</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xiaoqi</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Why always me?</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/29/DATA7202-1st-Week-Review/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="Xiaoqi Zhuang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoqi">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DATA7202 1st Week Review
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-02-29 18:01:11" itemprop="dateCreated datePublished" datetime="2020-02-29T18:01:11+10:00">2020-02-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-02 16:07:51" itemprop="dateModified" datetime="2020-03-02T16:07:51+10:00">2020-03-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DATA7202/" itemprop="url" rel="index">
+                    <span itemprop="name">DATA7202</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>UQ 2020 Semester 1 DATA7202 <em>Statistical Methods for Data Science</em></p>
+<p>第一周复习笔记（不一定对）</p>
+<a id="more"></a>
+<h1 id="离散和连续">离散和连续</h1>
+<p>如果随机变量的值可以都可以逐个列举出来，则为离散型随机变量。如果随机变量X的取值无法逐个列举则为连续型变量。</p>
+<h1 id="极大似然估计mle">极大似然估计（MLE）</h1>
+<h2 id="似然">似然</h2>
+<p>假如我们抛硬币100次，有80次朝上的，我们猜测抛硬币结果朝上的概率为80%。</p>
+<p>这就是<strong>似然</strong>！ 我们通过<strong>事实</strong>，来反推测出这个<strong>事件</strong>的各种参数。（抛硬币是概率，也可以是均值，可以是方差等等）</p>
+<p>记住： <strong>概率</strong>是<strong>概率</strong>，<strong>似然</strong>是<strong>似然</strong> ！！</p>
+<p>​ <strong>概率</strong>是<strong>概率</strong>，<strong>似然</strong>是<strong>似然</strong> ！！</p>
+<p>​ <strong>概率</strong>是<strong>概率</strong>，<strong>似然</strong>是<strong>似然</strong> ！！</p>
+<p>比如一个事件的结果是<span class="math inline">\((x_1,…, x_n)\)</span>, 它的参数是<span class="math inline">\((\theta_1,…,\theta_k)\)</span>:</p>
+<p>它的<strong>概率函数</strong>表示为 <span class="math inline">\(f\left(x_1,…,x_{i} ; \theta_{1}, \dots, \theta_{k}\right)\)</span>, 也表示为<span class="math inline">\(f\left(x_1,…,x_{i} {｜} \theta_{1}, \dots, \theta_{k}\right)\)</span>,</p>
+<p>它的<strong>似然函数</strong>表示为 <span class="math inline">\(L_{n}\left(\theta_{1}, \ldots, \theta_{k} ; x_{1}, \ldots, x_{n}\right)\)</span></p>
+<p>对于概率函数，已知<span class="math inline">\((\theta_1,…,\theta_k)\)</span>，未知<span class="math inline">\((x_1,…, x_n)\)</span>,</p>
+<p>对于似然函数，已知<span class="math inline">\((x_1,…, x_n)\)</span>，未知<span class="math inline">\((\theta_1,…,\theta_k)\)</span></p>
+<p>它们的公式相等都表示，都是计算出事件发生概率的公式。</p>
+<h2 id="mle">MLE</h2>
+<p>极大似然估计的理念就是选取最有可能的似然！</p>
+<p>翻译一下就是求出<span class="math inline">\(L_{n}\left(\theta_{1}, \ldots, \theta_{k} ; x_{1}, \ldots, x_{n}\right)\)</span> 每个参数<span class="math inline">\(\theta\)</span> 的最大值！</p>
+<p>最大的参数值的意义代表着最有可能是这个事件的概率！</p>
+<p>怎么求呢？</p>
+<p>极大似然估计首先假设事件结果每一次都是<strong>独立</strong>的。</p>
+<p>根据独立性质，<span class="math inline">\(f\left(x_1,…,x_{i} {｜} \theta_{1}, \dots, \theta_{k}\right) = \prod_{i=1}^{n} f\left(x_{i} ; \theta_{1}, \ldots, \theta_{k}\right)\)</span></p>
+<p><span class="math inline">\(\prod\)</span> 表示连乘号，例如：$_{i=1}^{n} x_i = x_1 x_2 … x_n $</p>
+<p>因此我们有了极大似然估计的公式：</p>
+<p>$L_{n}(<em>{1}, , </em>{k} ; x_{1}, , x_{n}) = <em>{i=1}^{n} f(x</em>{i} ; <em>{1}, , </em>{k}) $</p>
+<h2 id="例子抛硬币">例子（抛硬币）</h2>
+<p>抛10枚硬币，记录出现正面的次数。</p>
+<p>假如出现正面的次数为4.</p>
+<p>计算概率：</p>
+<p>即求 <span class="math inline">\(f(4|\theta)\)</span></p>
+<p>根据二项分布定理，<span class="math inline">\(f(x|\theta) = \binom {10}{4} \theta^4 (1-\theta)^6\)</span></p>
+<p>我们要求它的最大值：</p>
+<ol type="1">
+<li>求导：</li>
+</ol>
+<p>对<span class="math inline">\(theta\)</span>求导</p>
+<p>$ =  (4<sup>3(1-)</sup>6-6<sup>4(1-)</sup>5)$</p>
+<ol start="2" type="1">
+<li><p>令其等于0</p>
+<p>$4(1-)-6= 0 $</p>
+<p><span class="math inline">\(\theta = 0.4\)</span></p></li>
+</ol>
+<p>假设我们不知道投硬币的概率，从抛10次得到4次是正面的结果来看，潜意识也会认为是40%。</p>
+<h2 id="例子正态分布">例子（正态分布）</h2>
+<p>用极大似然估计证明正态分布的参数<span class="math inline">\(\mu，\sigma^2\)</span> 是平均值和方差。</p>
+<p><span class="math inline">\(f\left(x ; \mu, \sigma^{2}\right)=\frac{1}{\sqrt{2 \pi \sigma^{2}}} e^{-\frac{(x-\mu)^{2}}{2 \sigma^{2}}}\)</span></p>
+<h1 id="线性回归">线性回归</h1>
+<h2 id="推导">推导</h2>
+<p><span class="math inline">\(\boldsymbol{Y}=\boldsymbol{X} \boldsymbol{\beta}+\boldsymbol{\varepsilon}\)</span></p>
+<p>根据最小二乘法，极大似然估计或者error function都能计算出 <span class="math inline">\(\boldsymbol{\beta}\)</span>：<span class="math inline">\(\left(X^{\top} X\right)^{-1} X^{\top} Y\)</span></p>
+<p>我们的预测值为：<span class="math inline">\(\widehat{Y}=X \widehat{\boldsymbol{\beta}} = X\left(X^{\top} X\right)^{-1} X^{\top} Y\)</span></p>
+<p>称<span class="math inline">\(X\left(X^{\top} X\right)^{-1} X^{\top}\)</span> 为<strong>hat matrix</strong>，或<strong>H</strong></p>
+<p>残差residual为：<span class="math inline">\(e = Y-\widehat{Y}=\left(1_{n}-H\right) Y\)</span></p>
+<p>证明：<span class="math inline">\(\operatorname{Var}(\mathrm{e})=\left(\mathrm{I}_{n}-\mathrm{H}\right)[\operatorname{Var}(\mathrm{Y})]\left(\mathrm{I}_{n}-\mathrm{H}\right)^{\top}=\sigma^{2}\left(\mathrm{I}_{n}-\mathrm{H}\right)\)</span></p>
+<p>令<span class="math inline">\(\mathrm{I}_{n}-\mathrm{H} = A\)</span></p>
+<p>$() = E((A(Y-))(A(Y-))^T) $</p>
+<p><span class="math inline">\(= E(A(Y-\mu)(Y- \mu)^TA^T)\)</span></p>
+<p><span class="math inline">\(= AE((Y-\mu)(Y- \mu)^T)A^T\)</span></p>
+<p><span class="math inline">\(= A\operatorname{Var}(\mathrm{Y})A^T\)</span></p>
+<p>$= (<em>{n}-)()(</em>{n}-)^T $</p>
+<p><span class="math inline">\(= \sigma^2(\mathrm{I}_{n}-\mathrm{H})\)</span></p>
+<h2 id="model-assumption">Model assumption</h2>
+<p>残差对于model assumption很重要，它必须满足下面四条性质。</p>
+<h3 id="normality">Normality</h3>
+<p>残差的分布应该接近正态分布（均值为0）</p>
+<h3 id="linearity">Linearity</h3>
+<p>模型应该捕获所有系统数据中存在的方差，只留下随机噪声</p>
+<p>###homoscedasticity(constant variance)</p>
+<p>假设我们有家庭收入和奢侈品支出的数据。使用二元回归，我们使用家庭收入来预测奢侈品消费。不出所料，收入与支出之间有很强的积极联系。通过检查残差，我们发现了一个问题–残差对于家庭收入较低的值很小（几乎所有低收入家庭在奢侈品上的花费都不多），而较富裕家庭的残差大小却存在很大差异（有些家庭在奢侈品上花了很多钱，而有些家庭的奢侈品花销则比较中等）。这种情况表示异方差性，因为误差的大小随自变量的值而变化。</p>
+<p>如图所示：</p>
+<p><img src="/images/data7202_1st_1.jpg"></p>
+<p>我们发现上述例子就可以对应“nonconstant variance”图，即方差和残差之间存在关联性。</p>
+<p>“contant variance“ 图残差对于自变量或者预测值都没有关联性，说明就是随机误差，是我们想要的结果。</p>
+<h3 id="independence">independence</h3>
+<p><img src="/images/data7202_1st_2.jpg"></p>
+<p>如果残差根据时间并没有明显线性关系时，说明残差具有独立性。</p>
+<p>时间的意思是自变量输入的顺序。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MLE/" rel="tag"># MLE</a>
+              <a href="/tags/stats/" rel="tag"># stats</a>
+              <a href="/tags/biased-estimate/" rel="tag"># biased estimate</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/24/天涯明月刀2020-情人节活动/" rel="prev" title="天涯明月刀2020 情人节活动">
+      <i class="fa fa-chevron-left"></i> 天涯明月刀2020 情人节活动
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#离散和连续"><span class="nav-number">1.</span> <span class="nav-text">离散和连续</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#极大似然估计mle"><span class="nav-number">2.</span> <span class="nav-text">极大似然估计（MLE）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#似然"><span class="nav-number">2.1.</span> <span class="nav-text">似然</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mle"><span class="nav-number">2.2.</span> <span class="nav-text">MLE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#例子抛硬币"><span class="nav-number">2.3.</span> <span class="nav-text">例子（抛硬币）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#例子正态分布"><span class="nav-number">2.4.</span> <span class="nav-text">例子（正态分布）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线性回归"><span class="nav-number">3.</span> <span class="nav-text">线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#推导"><span class="nav-number">3.1.</span> <span class="nav-text">推导</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#model-assumption"><span class="nav-number">3.2.</span> <span class="nav-text">Model assumption</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#normality"><span class="nav-number">3.2.1.</span> <span class="nav-text">Normality</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linearity"><span class="nav-number">3.2.2.</span> <span class="nav-text">Linearity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#independence"><span class="nav-number">3.2.3.</span> <span class="nav-text">independence</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Xiaoqi Zhuang"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">Xiaoqi Zhuang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xiaoqi Zhuang</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+</body>
+
+</html>
