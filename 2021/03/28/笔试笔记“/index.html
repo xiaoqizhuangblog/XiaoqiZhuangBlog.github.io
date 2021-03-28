@@ -46,15 +46,20 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Xiaoqi">
-<meta property="og:url" content="http://yoursite.com/categories/DATA7202/index.html">
+  <meta name="description" content="笔试笔记 笔试做不出来的题回忆">
+<meta name="keywords" content="复习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="笔试笔记">
+<meta property="og:url" content="http://yoursite.com/2021/03/28/笔试笔记“/index.html">
 <meta property="og:site_name" content="Xiaoqi">
+<meta property="og:description" content="笔试笔记 笔试做不出来的题回忆">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-03-28T02:59:07.162Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Xiaoqi">
+<meta name="twitter:title" content="笔试笔记">
+<meta name="twitter:description" content="笔试笔记 笔试做不出来的题回忆">
 
-<link rel="canonical" href="http://yoursite.com/categories/DATA7202/">
+<link rel="canonical" href="http://yoursite.com/2021/03/28/笔试笔记“/">
 
 
 <script id="page-configurations">
@@ -62,13 +67,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>Category: DATA7202 | Xiaoqi</title>
+  <title>笔试笔记 | Xiaoqi</title>
   
 
 
@@ -168,50 +173,104 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h1 class="collection-header">DATA7202
-          <small>Category</small>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/28/笔试笔记“/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="Xiaoqi Zhuang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoqi">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          笔试笔记
         </h1>
-      </div>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-03-28 10:37:42 / Modified: 10:59:07" itemprop="dateCreated datePublished" datetime="2021-03-28T10:37:42+08:00">2021-03-28</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
+        <h1 id="笔试笔记">笔试笔记</h1>
+<p>笔试做不出来的题回忆</p>
+<a id="more"></a>
+<h2 id="及格分最高设置为多少可以有80的概率及格">及格分最高设置为多少可以有80%的概率及格</h2>
+<p>题：试卷有100道题，一题一分，答对概率为0.8， 问及格分最高可以设置为多少，可以使得及格的概率为80%。</p>
+<p>做题的分布可以用二元分布，即<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">计算机运行10000次得到分布：</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">ssum = []</span><br><span class="line"></span><br><span class="line">for i in range(10000):</span><br><span class="line">    score = sum(np.random.binomial(1,0.8,100))</span><br><span class="line">    ssum.append(score)</span><br></pre></td></tr></table></figure></p>
+<p>设及格分为x，求80%的ssum比x高。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#计算在list</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">LowerCount</span><span class="params">(a,b)</span>:</span> </span><br><span class="line">  	<span class="comment">#a: list</span></span><br><span class="line">    <span class="comment">#b: 及格分数</span></span><br><span class="line">    num = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">        <span class="keyword">if</span> i&gt;=b: </span><br><span class="line">            num+=<span class="number">1</span></span><br><span class="line">    percent = num/len(a)</span><br><span class="line">    <span class="keyword">return</span> num,percent</span><br></pre></td></tr></table></figure>
+<p>结果当b=77时，及格率为80.93%</p>
+<h2 id="求阶乘尾0数">求阶乘尾0数</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">count = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">    count += n // <span class="number">5</span></span><br><span class="line">    n = n // <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> count</span><br></pre></td></tr></table></figure>
+<p>寻找含有多少个因子5即可，有5必有2</p>
+<p>之前错的原因，没有考虑像25这样有2个5的因子的情况，通通按1个计算</p>
+<h2 id="贝叶斯公式">贝叶斯公式</h2>
+<p><span class="math display">\[P(A|B) = \frac{P(B|A)P(A)}{P(B)}\]</span></p>
+<p><span class="math display">\[P(A \mid B)=\frac{P(B \mid A) P(A)}{\sum_{i=1}^{n} P\left(B \mid A_{i}\right) P\left(A_{i}\right)}\]</span></p>
+<p>全概率公式</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-02-29T18:01:11+08:00"
-              content="2020-02-29">
-          02-29
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/复习/" rel="tag"># 复习</a>
+          </div>
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/02/29/DATA7202-1st-Week-Review/" itemprop="url">
-            <span itemprop="name">DATA7202 多元线性回归</span>
-          </a>
-      </h2>
+        
 
-    </header>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/07/Deep Learning Tips/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-    </div>
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
@@ -240,6 +299,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#笔试笔记"><span class="nav-number">1.</span> <span class="nav-text">笔试笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#及格分最高设置为多少可以有80的概率及格"><span class="nav-number">1.1.</span> <span class="nav-text">及格分最高设置为多少可以有80%的概率及格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求阶乘尾0数"><span class="nav-number">1.2.</span> <span class="nav-text">求阶乘尾0数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯公式"><span class="nav-number">1.3.</span> <span class="nav-text">贝叶斯公式</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

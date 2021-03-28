@@ -74,7 +74,7 @@
 <meta property="og:image" content="http://yoursite.com/images/pandas_18.jpg">
 <meta property="og:image" content="http://yoursite.com/images/Hypothesis_1.jpg">
 <meta property="og:image" content="http://yoursite.com/images/Hypothesis_2.jpg">
-<meta property="og:updated_time" content="2020-02-03T03:34:59.745Z">
+<meta property="og:updated_time" content="2020-07-21T04:07:17.719Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pandas 部分频繁操作整理">
 <meta name="twitter:description" content="Pandas in Python 一些容易忘记却又频繁需要的pandas操作代码，一些更神奇高效的代码，来自coursera里密歇根大学的Introduction to Data Science in Python 持续更新">
@@ -222,14 +222,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-01-29 13:40:21" itemprop="dateCreated datePublished" datetime="2020-01-29T13:40:21+10:00">2020-01-29</time>
+              <time title="Created: 2020-01-29 13:40:21" itemprop="dateCreated datePublished" datetime="2020-01-29T13:40:21+08:00">2020-01-29</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-03 13:34:59" itemprop="dateModified" datetime="2020-02-03T13:34:59+10:00">2020-02-03</time>
+                <time title="Modified: 2020-07-21 12:07:17" itemprop="dateModified" datetime="2020-07-21T12:07:17+08:00">2020-07-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -423,7 +423,16 @@
 <p>2: 差异</p>
 <p>3: 将数据变为按月计算</p>
 <p><img src="/images/pandas_18.jpg"></p>
-<h1 id="统计">统计</h1>
+<h2 id="哑变量">哑变量</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data = pd.concat([flow,pd.get_dummies(flow[<span class="string">'Weekday'</span>])],axis = <span class="number">1</span>)</span><br><span class="line">data = data.drop(columns=[<span class="string">"Weekday"</span>])</span><br></pre></td></tr></table></figure>
+<p>将分类变量转换为哑变量。</p>
+<h2 id="列位置互换加入新列至任意位置">列位置互换（加入新列至任意位置）</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#data.state等于data数据集中的state属性的数据</span></span><br><span class="line">state = data.state</span><br><span class="line"><span class="comment">#先删除这一列</span></span><br><span class="line">data = data.drop(<span class="string">"state"</span>,axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment">#如果要将列换为最后一列，直接用加入新列的方法</span></span><br><span class="line">data[<span class="string">"state"</span>] = state</span><br><span class="line"><span class="comment">#如果要将列换到指定的位置，则使用insert方法, 0是将要转换的位置。</span></span><br><span class="line">data.insert(<span class="number">0</span>, <span class="string">'state'</span>, state)</span><br></pre></td></tr></table></figure>
+<h2 id="训练集测试集分割">训练集测试集分割</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(cancer.data, cancer.target, test_size=<span class="number">0.3</span>,random_state=<span class="number">109</span>) <span class="comment"># 70% training and 30% test</span></span><br></pre></td></tr></table></figure>
+<h2 id="svm-随机森林">SVM, 随机森林</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</span><br><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier</span><br><span class="line"></span><br><span class="line">clf = svm.SVC(kernel=<span class="string">'poly'</span>) <span class="comment"># Linear Kernel</span></span><br><span class="line"><span class="comment">#Train the model using the training sets</span></span><br><span class="line">clf.fit(X_train, y_train)</span><br><span class="line"><span class="comment">#Predict the response for test dataset</span></span><br><span class="line">y_pred = clf.predict(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Model Accuracy，precision,recall</span></span><br><span class="line">print(<span class="string">"Accuracy:"</span>,metrics.accuracy_score(y_test, y_pred))</span><br><span class="line">print(<span class="string">"Precision:"</span>,metrics.precision_score(y_test, y_pred))</span><br><span class="line">print(<span class="string">"Recall:"</span>,metrics.recall_score(y_test, y_pred))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Make a decision tree and train</span></span><br><span class="line">tree = DecisionTreeClassifier(random_state=<span class="number">42</span>)</span><br><span class="line">tree.fit(train_x, train_y)</span><br><span class="line"><span class="comment">#accuracy</span></span><br><span class="line">print(<span class="string">f'Model Accuracy on test dataset: <span class="subst">&#123;tree.score(test_x, test_y)&#125;</span>'</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="统计我也不知道对还是错了不要看">统计（我也不知道对还是错了，不要看）</h1>
 <h2 id="二元分布">二元分布</h2>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.random.binomial(<span class="number">1</span>, <span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
 <p>第一个参数是 <strong>运行的次数</strong></p>
@@ -544,7 +553,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pandas-in-python"><span class="nav-number">1.</span> <span class="nav-text">Pandas in Python</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#读取数据"><span class="nav-number">1.1.</span> <span class="nav-text">读取数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查找"><span class="nav-number">1.2.</span> <span class="nav-text">查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#切片"><span class="nav-number">1.3.</span> <span class="nav-text">切片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚类"><span class="nav-number">1.4.</span> <span class="nav-text">聚类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据清洗"><span class="nav-number">1.5.</span> <span class="nav-text">数据清洗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接merge"><span class="nav-number">1.6.</span> <span class="nav-text">连接（Merge）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#making-code-pandorable"><span class="nav-number">1.7.</span> <span class="nav-text">Making Code Pandorable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大值最小值"><span class="nav-number">1.8.</span> <span class="nav-text">最大值最小值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scale-order"><span class="nav-number">1.9.</span> <span class="nav-text">Scale, Order</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bin"><span class="nav-number">1.10.</span> <span class="nav-text">BIN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据透视表pivot-table"><span class="nav-number">1.11.</span> <span class="nav-text">数据透视表，pivot table</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间数据类型"><span class="nav-number">1.12.</span> <span class="nav-text">时间数据类型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#统计"><span class="nav-number">2.</span> <span class="nav-text">统计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#二元分布"><span class="nav-number">2.1.</span> <span class="nav-text">二元分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#均匀分布"><span class="nav-number">2.2.</span> <span class="nav-text">均匀分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正态分布"><span class="nav-number">2.3.</span> <span class="nav-text">正态分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卡方分布chi-squared"><span class="nav-number">2.4.</span> <span class="nav-text">卡方分布（Chi Squared）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#假设检验"><span class="nav-number">2.5.</span> <span class="nav-text">假设检验</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pandas-in-python"><span class="nav-number">1.</span> <span class="nav-text">Pandas in Python</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#读取数据"><span class="nav-number">1.1.</span> <span class="nav-text">读取数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查找"><span class="nav-number">1.2.</span> <span class="nav-text">查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#切片"><span class="nav-number">1.3.</span> <span class="nav-text">切片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚类"><span class="nav-number">1.4.</span> <span class="nav-text">聚类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据清洗"><span class="nav-number">1.5.</span> <span class="nav-text">数据清洗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接merge"><span class="nav-number">1.6.</span> <span class="nav-text">连接（Merge）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#making-code-pandorable"><span class="nav-number">1.7.</span> <span class="nav-text">Making Code Pandorable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大值最小值"><span class="nav-number">1.8.</span> <span class="nav-text">最大值最小值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scale-order"><span class="nav-number">1.9.</span> <span class="nav-text">Scale, Order</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bin"><span class="nav-number">1.10.</span> <span class="nav-text">BIN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据透视表pivot-table"><span class="nav-number">1.11.</span> <span class="nav-text">数据透视表，pivot table</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间数据类型"><span class="nav-number">1.12.</span> <span class="nav-text">时间数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哑变量"><span class="nav-number">1.13.</span> <span class="nav-text">哑变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列位置互换加入新列至任意位置"><span class="nav-number">1.14.</span> <span class="nav-text">列位置互换（加入新列至任意位置）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练集测试集分割"><span class="nav-number">1.15.</span> <span class="nav-text">训练集测试集分割</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#svm-随机森林"><span class="nav-number">1.16.</span> <span class="nav-text">SVM, 随机森林</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#统计我也不知道对还是错了不要看"><span class="nav-number">2.</span> <span class="nav-text">统计（我也不知道对还是错了，不要看）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#二元分布"><span class="nav-number">2.1.</span> <span class="nav-text">二元分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#均匀分布"><span class="nav-number">2.2.</span> <span class="nav-text">均匀分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正态分布"><span class="nav-number">2.3.</span> <span class="nav-text">正态分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卡方分布chi-squared"><span class="nav-number">2.4.</span> <span class="nav-text">卡方分布（Chi Squared）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#假设检验"><span class="nav-number">2.5.</span> <span class="nav-text">假设检验</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -560,7 +569,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -571,7 +580,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -597,7 +606,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
