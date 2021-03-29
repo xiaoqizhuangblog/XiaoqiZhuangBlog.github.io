@@ -54,7 +54,7 @@
 <meta property="og:site_name" content="Xiaoqi">
 <meta property="og:description" content="笔试笔记 笔试做不出来的题回忆">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-03-28T02:59:07.162Z">
+<meta property="og:updated_time" content="2021-03-29T02:45:12.740Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="笔试笔记">
 <meta name="twitter:description" content="笔试笔记 笔试做不出来的题回忆">
@@ -200,10 +200,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-03-28 10:37:42 / Modified: 10:59:07" itemprop="dateCreated datePublished" datetime="2021-03-28T10:37:42+08:00">2021-03-28</time>
+              <time title="Created: 2021-03-28 10:37:42" itemprop="dateCreated datePublished" datetime="2021-03-28T10:37:42+08:00">2021-03-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-29 10:45:12" itemprop="dateModified" datetime="2021-03-29T10:45:12+08:00">2021-03-29</time>
+              </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -240,6 +246,41 @@
 <p><span class="math display">\[P(A|B) = \frac{P(B|A)P(A)}{P(B)}\]</span></p>
 <p><span class="math display">\[P(A \mid B)=\frac{P(B \mid A) P(A)}{\sum_{i=1}^{n} P\left(B \mid A_{i}\right) P\left(A_{i}\right)}\]</span></p>
 <p>全概率公式</p>
+<h2 id="特征选择">特征选择</h2>
+<p>https://www.zhihu.com/question/28641663/answer/110165221</p>
+<h3 id="预处理">预处理</h3>
+<p>常用sklearn.preprocessing</p>
+<p>包含：无量纲化（归一化，标准化（scaled）），亚变量，缺失值填充</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> vstack, array, nan</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> Imputer</span><br><span class="line"></span><br><span class="line"><span class="comment">#缺失值计算，返回值为计算缺失值后的数据</span></span><br><span class="line"><span class="comment">#参数missing_value为缺失值的表示形式，默认为NaN</span></span><br><span class="line"><span class="comment">#参数strategy为缺失值填充方式，默认为mean（均值）</span></span><br><span class="line">Imputer().fit_transform(vstack((array([nan, nan, nan, nan]), iris.data)))</span><br></pre></td></tr></table></figure>
+<h3 id="filter">Filter</h3>
+<ol type="1">
+<li>方差选择法</li>
+<li>相关系数法</li>
+<li>卡方检验</li>
+<li>互信息法</li>
+</ol>
+<h3 id="wrapper">Wrapper</h3>
+<p>递归消除特征</p>
+<h3 id="embedded">Embedded</h3>
+<p>基于惩罚项的特征选择法</p>
+<p>基于GBDT的</p>
+<h2 id="pcalda">PCA，LDA</h2>
+<p>PCA：映射后的样本具有最大的发散性。（无监督）</p>
+<p>LDA：映射后的样本有最好的分类性能。（需要标签），类间距离小，类类距离大。</p>
+<p>PCA: <strong>必须先去中心化，才能使得协方差公式是XX^T</strong></p>
+<ol type="1">
+<li>去中心化后矩阵X: <span class="math inline">\(n\times m\)</span></li>
+<li>协方差矩阵 <span class="math inline">\(C = XX^T / (n-1)\)</span>,必是对称矩阵，必能特征值分解 <span class="math inline">\(C: n \times n\)</span></li>
+<li>特征值分解为 <span class="math inline">\(C = VLV^T\)</span> , V 为特征向量矩阵（每一列是特征向量），L为特征值矩阵（对角线上）</li>
+<li><span class="math inline">\(XV_j\)</span> 即是降到j维后的矩阵。$n m , $</li>
+</ol>
+<p>https://stats.stackexchange.com/questions/134282/relationship-between-svd-and-pca-how-to-use-svd-to-perform-pca</p>
+<p>用SVD分解做PCA更快：</p>
+<p><span class="math inline">\(X = USV^T\)</span></p>
+<p><span class="math inline">\(C = XX^T = VS^2V^T\)</span>$</p>
+<p>所以 <span class="math inline">\(XV = USV^TV = US\)</span></p>
+<p>步骤：</p>
+<p>降到k维， 选U里面的前k列为矩阵<span class="math inline">\(U_k: n\times k\)</span>，和<span class="math inline">\(k \times k\)</span>的S的矩阵<span class="math inline">\(S_K: k\times k\)</span> ， <span class="math inline">\(U_kS_k\)</span> 即降到k维后到矩阵。</p>
 
     </div>
 
@@ -299,7 +340,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#笔试笔记"><span class="nav-number">1.</span> <span class="nav-text">笔试笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#及格分最高设置为多少可以有80的概率及格"><span class="nav-number">1.1.</span> <span class="nav-text">及格分最高设置为多少可以有80%的概率及格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求阶乘尾0数"><span class="nav-number">1.2.</span> <span class="nav-text">求阶乘尾0数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯公式"><span class="nav-number">1.3.</span> <span class="nav-text">贝叶斯公式</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#笔试笔记"><span class="nav-number">1.</span> <span class="nav-text">笔试笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#及格分最高设置为多少可以有80的概率及格"><span class="nav-number">1.1.</span> <span class="nav-text">及格分最高设置为多少可以有80%的概率及格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求阶乘尾0数"><span class="nav-number">1.2.</span> <span class="nav-text">求阶乘尾0数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯公式"><span class="nav-number">1.3.</span> <span class="nav-text">贝叶斯公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征选择"><span class="nav-number">1.4.</span> <span class="nav-text">特征选择</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#预处理"><span class="nav-number">1.4.1.</span> <span class="nav-text">预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#filter"><span class="nav-number">1.4.2.</span> <span class="nav-text">Filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wrapper"><span class="nav-number">1.4.3.</span> <span class="nav-text">Wrapper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#embedded"><span class="nav-number">1.4.4.</span> <span class="nav-text">Embedded</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pcalda"><span class="nav-number">1.5.</span> <span class="nav-text">PCA，LDA</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
