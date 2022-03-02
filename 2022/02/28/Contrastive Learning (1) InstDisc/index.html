@@ -57,7 +57,8 @@
 <meta property="og:image" content="http://yoursite.com/2022/02/28/Contrastive%20Learning%20(1)%20InstDisc/images/image-20220228230043662.png">
 <meta property="og:image" content="http://yoursite.com/2022/02/28/Contrastive%20Learning%20(1)%20InstDisc/images/image-20220228231908238.png">
 <meta property="og:image" content="http://yoursite.com/2022/02/28/Contrastive%20Learning%20(1)%20InstDisc/images/InstDisc.png">
-<meta property="og:updated_time" content="2022-02-28T15:56:04.651Z">
+<meta property="og:image" content="http://yoursite.com/2022/02/28/Contrastive%20Learning%20(1)%20InstDisc/images/memory%20bank.png">
+<meta property="og:updated_time" content="2022-03-01T15:53:10.534Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Contrastive Learning (1) InstDisc">
 <meta name="twitter:description" content="Contrastive Learning (1) InstDisc This article aims to introduce the pioneering work (InstDisc) that leads to contrastive learning. Paper: Zhirong Wu, Yuanjun Xiong, Stella Yu, and Dahua Lin. Unsuperv">
@@ -204,10 +205,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-02-28 23:55:42 / Modified: 23:56:04" itemprop="dateCreated datePublished" datetime="2022-02-28T23:55:42+08:00">2022-02-28</time>
+              <time title="Created: 2022-02-28 23:55:42" itemprop="dateCreated datePublished" datetime="2022-02-28T23:55:42+08:00">2022-02-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-03-01 23:53:10" itemprop="dateModified" datetime="2022-03-01T23:53:10+08:00">2022-03-01</time>
+              </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -262,6 +269,26 @@
 <p>To conclusion, instance discrimination is a tricky pretext task which make the images without labels can have similar label by using image augmentation.</p>
 <p>Pros: easy to implementation, good explanation, proved to be useful</p>
 <p>Cons: the negative samples may contain the positive sample(image another cat image is included but it will be treated as a negative sample in instance discrimination task)</p>
+<h2 id="loss-function-nce-loss">Loss Function: NCE loss</h2>
+<p><span class="math inline">\(Loss = -\log\frac{\exp \left(\mathbf{v}_{i}^{T} \mathbf{v} / \tau\right)}{\sum_{j=1}^{n} \exp \left(\mathbf{v}_{j}^{T} \mathbf{v} / \tau\right)}\)</span></p>
+<p><span class="math inline">\(v_i\)</span> is query, <span class="math inline">\(v\)</span> is positive key, <span class="math inline">\(v_j\)</span> are negative keys. The loss function is similar with Cross Entropy Softmax.</p>
+<p>Actually, I am a little confused between NCE loss and InfoNCE. The equation I give is InfoNCE but paper use NCE loss.</p>
+<p>Never mind, InfoNCE is the mainstream loss in contrastive learning and we will explain it in more detail in the next chapter.</p>
+<h2 id="memory-bank">Memory Bank</h2>
+<p>Another important work in InstDisc is that it proposed a data structure called memory bank, which stored all images’ 128d vectors, also the <span class="math inline">\(v_j\)</span> in the loss function.</p>
+<p>Pipeline in Paper:</p>
+<blockquote>
+<p>Let V = {vj} be the memory bank and fi = fθ(xi) be the feature of xi. During each learning itera- tion, the representation fi as well as the network parameters θ are optimized via stochastic gradient descend. Then fi is updated to V at the corresponding instance entry fi → vi. We initialize all the representations in the memory bank V as unit random vectors.</p>
+</blockquote>
+<p>A more clear flowchart:</p>
+<figure>
+<img src="images/memory%20bank.png" alt="memory bank"><figcaption>memory bank</figcaption>
+</figure>
+<p>Pros: The number of negative samples in the previous comparative learning is not enough because it is strongly related to the batch size. Memory bank liberates this limation. In this paper, Each time nce loss is calculated, 4096 negative samples are randomly selected from the memory bank.</p>
+<p>Cons: encoder network may update too quickly to make the distribution between image vectors has a large difference.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We describe the pretext task: Instance Discrimination, model pipeline, a brief of NCE loss and Memory bank. Actually, this paper also proposed other technique skills, but these techniques have little inspiration for follow-up research.</p>
+<p>Next chapter we will discuss another kind of contrastive learning framework which is also easy, but different from InstDisc.</p>
 
     </div>
 
@@ -283,7 +310,10 @@
     <a href="/2022/02/24/未命名/" rel="prev" title="">
       <i class="fa fa-chevron-left"></i> 
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/03/02/Contrastive Learning (2) SimCLR/" rel="next" title="Contrastive Learning (2) SimCLR">
+      Contrastive Learning (2) SimCLR <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -321,7 +351,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#contrastive-learning-1-instdisc"><span class="nav-number">1.</span> <span class="nav-text">Contrastive Learning (1) InstDisc</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#why-this-paper"><span class="nav-number">2.</span> <span class="nav-text">Why this paper?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#research-motivation"><span class="nav-number">3.</span> <span class="nav-text">Research Motivation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#model-overview"><span class="nav-number">4.</span> <span class="nav-text">Model Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#instance-discrimination"><span class="nav-number">4.1.</span> <span class="nav-text">Instance Discrimination</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#contrastive-learning-1-instdisc"><span class="nav-number">1.</span> <span class="nav-text">Contrastive Learning (1) InstDisc</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#why-this-paper"><span class="nav-number">2.</span> <span class="nav-text">Why this paper?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#research-motivation"><span class="nav-number">3.</span> <span class="nav-text">Research Motivation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#model-overview"><span class="nav-number">4.</span> <span class="nav-text">Model Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#instance-discrimination"><span class="nav-number">4.1.</span> <span class="nav-text">Instance Discrimination</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#loss-function-nce-loss"><span class="nav-number">4.2.</span> <span class="nav-text">Loss Function: NCE loss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#memory-bank"><span class="nav-number">4.3.</span> <span class="nav-text">Memory Bank</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conclusion"><span class="nav-number">4.4.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -337,7 +367,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
