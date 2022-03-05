@@ -58,7 +58,7 @@
 <meta property="og:image" content="http://yoursite.com/2022/02/28/Contrastive%20Learning%20(1)%20InstDisc/images/image-20220228231908238.png">
 <meta property="og:image" content="http://yoursite.com/2022/02/28/Contrastive%20Learning%20(1)%20InstDisc/images/InstDisc.png">
 <meta property="og:image" content="http://yoursite.com/2022/02/28/Contrastive%20Learning%20(1)%20InstDisc/images/memory%20bank.png">
-<meta property="og:updated_time" content="2022-03-01T15:53:10.534Z">
+<meta property="og:updated_time" content="2022-03-05T09:47:46.826Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Contrastive Learning (1) InstDisc">
 <meta name="twitter:description" content="Contrastive Learning (1) InstDisc This article aims to introduce the pioneering work (InstDisc) that leads to contrastive learning. Paper: Zhirong Wu, Yuanjun Xiong, Stella Yu, and Dahua Lin. Unsuperv">
@@ -213,7 +213,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-03-01 23:53:10" itemprop="dateModified" datetime="2022-03-01T23:53:10+08:00">2022-03-01</time>
+                <time title="Modified: 2022-03-05 17:47:46" itemprop="dateModified" datetime="2022-03-05T17:47:46+08:00">2022-03-05</time>
               </span>
 
           
@@ -239,7 +239,7 @@
 <p>Paper: Zhirong Wu, Yuanjun Xiong, Stella Yu, and Dahua Lin. Unsupervised feature learning via non-parametric instance discrimination. In CVPR, 2018. Updated version accessed at: https://arxiv.org/abs/1805.01978v1.</p>
 <a id="more"></a>
 <h1 id="why-this-paper">Why this paper?</h1>
-<p>Self-supervised models such as BERT/GPT have been used with great success in the NLP field. However, supervised learning still occupies most of the work in the CV field. Researchers hope to find a kind of pretext task in the image domain to complete self-supervised learning, just like MASK in the NLP domain. This paper creatively proposes a pretext task called <strong>instance discrimination</strong> which performs well and is still the most mainstream pretext task for comparative learning so far.</p>
+<p>Self-supervised models such as BERT/GPT have been used with great success in the NLP field. However, supervised learning still occupies most of the work in the CV field. Researchers hope to find a kind of pretext task in the image domain to complete self-supervised learning, just like MASK in the NLP domain. This paper creatively proposes a pretext task called <strong>instance discrimination</strong> which performs well and is still the most mainstream pretext task for contrastive learning so far.</p>
 <p>Although techniques about the loss function, how negative samples are stored in this paper are obsolete, the pretext task and the framework in this paper has a milestone significance in the history of contrastive learning and has influenced most of the subsequent work.</p>
 <p>Hence, I choose this paper as the first one in this series of the survey of contrastive learning.</p>
 <h1 id="research-motivation">Research Motivation</h1>
@@ -273,7 +273,7 @@
 <p><span class="math inline">\(Loss = -\log\frac{\exp \left(\mathbf{v}_{i}^{T} \mathbf{v} / \tau\right)}{\sum_{j=1}^{n} \exp \left(\mathbf{v}_{j}^{T} \mathbf{v} / \tau\right)}\)</span></p>
 <p><span class="math inline">\(v_i\)</span> is query, <span class="math inline">\(v\)</span> is positive key, <span class="math inline">\(v_j\)</span> are negative keys. The loss function is similar with Cross Entropy Softmax.</p>
 <p>Actually, I am a little confused between NCE loss and InfoNCE. The equation I give is InfoNCE but paper use NCE loss.</p>
-<p>Never mind, InfoNCE is the mainstream loss in contrastive learning and we will explain it in more detail in the next chapter.</p>
+<p>Never mind, InfoNCE is the mainstream loss in contrastive learning and next I will write a topic on Contrastive Learning Loss Functions.</p>
 <h2 id="memory-bank">Memory Bank</h2>
 <p>Another important work in InstDisc is that it proposed a data structure called memory bank, which stored all images’ 128d vectors, also the <span class="math inline">\(v_j\)</span> in the loss function.</p>
 <p>Pipeline in Paper:</p>
@@ -367,7 +367,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
