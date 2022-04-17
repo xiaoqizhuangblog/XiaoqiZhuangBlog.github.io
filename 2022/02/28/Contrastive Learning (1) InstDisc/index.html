@@ -54,15 +54,15 @@
 <meta property="og:site_name" content="Xiaoqi">
 <meta property="og:description" content="Contrastive Learning (1) InstDisc This article aims to introduce the pioneering work (InstDisc) that leads to contrastive learning. Paper: Zhirong Wu, Yuanjun Xiong, Stella Yu, and Dahua Lin. Unsuperv">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2022/02/28/Contrastive%20Learning%20(1)%20InstDisc/images/image-20220228230043662.png">
-<meta property="og:image" content="http://yoursite.com/2022/02/28/Contrastive%20Learning%20(1)%20InstDisc/images/image-20220228231908238.png">
-<meta property="og:image" content="http://yoursite.com/2022/02/28/Contrastive%20Learning%20(1)%20InstDisc/images/InstDisc.png">
-<meta property="og:image" content="http://yoursite.com/2022/02/28/Contrastive%20Learning%20(1)%20InstDisc/images/memory%20bank.png">
-<meta property="og:updated_time" content="2022-03-05T09:47:46.826Z">
+<meta property="og:image" content="http://yoursite.com/images/image-20220228230043662.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20220228231908238.png">
+<meta property="og:image" content="http://yoursite.com/images/InstDisc.png">
+<meta property="og:image" content="http://yoursite.com/images/memory%20bank.png">
+<meta property="og:updated_time" content="2022-04-17T12:43:19.861Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Contrastive Learning (1) InstDisc">
 <meta name="twitter:description" content="Contrastive Learning (1) InstDisc This article aims to introduce the pioneering work (InstDisc) that leads to contrastive learning. Paper: Zhirong Wu, Yuanjun Xiong, Stella Yu, and Dahua Lin. Unsuperv">
-<meta name="twitter:image" content="http://yoursite.com/2022/02/28/Contrastive%20Learning%20(1)%20InstDisc/images/image-20220228230043662.png">
+<meta name="twitter:image" content="http://yoursite.com/images/image-20220228230043662.png">
 
 <link rel="canonical" href="http://yoursite.com/2022/02/28/Contrastive Learning (1) InstDisc/">
 
@@ -213,7 +213,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-03-05 17:47:46" itemprop="dateModified" datetime="2022-03-05T17:47:46+08:00">2022-03-05</time>
+                <time title="Modified: 2022-04-17 20:43:19" itemprop="dateModified" datetime="2022-04-17T20:43:19+08:00">2022-04-17</time>
               </span>
 
           
@@ -244,7 +244,7 @@
 <p>Hence, I choose this paper as the first one in this series of the survey of contrastive learning.</p>
 <h1 id="research-motivation">Research Motivation</h1>
 <figure>
-<img src="images/image-20220228230043662.png" alt="image-20220228230043662"><figcaption>image-20220228230043662</figcaption>
+<img src="/images/image-20220228230043662.png" alt="image-20220228230043662"><figcaption>image-20220228230043662</figcaption>
 </figure>
 <p>Paper’s Figure 1 is very clear to show the motivation. Authors find that:</p>
 <blockquote>
@@ -257,13 +257,13 @@
 <p>In other words, contrastive learning is also called representation learning which aims to find an image vector(like word vector in NLP) which represents image semantic in a high dimension by unsupervised learning. And then, you can use these vector in your custom downstream tasks with a small annotated dataset.</p>
 <h1 id="model-overview">Model Overview</h1>
 <figure>
-<img src="images/image-20220228231908238.png" alt="image-20220228231908238"><figcaption>image-20220228231908238</figcaption>
+<img src="/images/image-20220228231908238.png" alt="image-20220228231908238"><figcaption>image-20220228231908238</figcaption>
 </figure>
 <p>Figure 2 shows a clear pipeline of the model inference. Now I will describe each part of them and try to make you understand easier.</p>
 <h2 id="instance-discrimination">Instance Discrimination</h2>
 <p>As figure 1 says, we want to get a vertor which similar images are close in a high dimension(128 in this paper) and not similar images are far way from each other without using annotated images. However, although InstDict model is called as a unsupervised model, they actually still uses label. The method they use is really tricky that they take every image as a class and the task is to distinguish every image instance. This task sounds useless, and yes they are. So this kind of task is named as pretext task, which the aim of them is just to let the model can be trained.</p>
 <figure>
-<img src="images/InstDisc.png" alt="InstDisc"><figcaption>InstDisc</figcaption>
+<img src="/images/InstDisc.png" alt="InstDisc"><figcaption>InstDisc</figcaption>
 </figure>
 <p>Above figure shows that a pipline of instance discrimination. An instance, in this example , is an image of a unqiue cat. it will be transferred by image augmentation into 2 images: cropped one and rotated one. These two represent the same cat and so the image vector of these 2 images should be similar in our model, and vertors of other images in red square should be quite different from these 2images. What you find? Yes, we get positive and negative sample by this kind of easy implementation. Usually, in contrastive learning, we call the “cropped cat” (one of the augmentation image) Query, and the combination of the other augmentation image and the rest images is called Keys. Hence, our aim is to find a key in keys which is most similar with the query.</p>
 <p>To conclusion, instance discrimination is a tricky pretext task which make the images without labels can have similar label by using image augmentation.</p>
@@ -272,8 +272,7 @@
 <h2 id="loss-function-nce-loss">Loss Function: NCE loss</h2>
 <p><span class="math inline">\(Loss = -\log\frac{\exp \left(\mathbf{v}_{i}^{T} \mathbf{v} / \tau\right)}{\sum_{j=1}^{n} \exp \left(\mathbf{v}_{j}^{T} \mathbf{v} / \tau\right)}\)</span></p>
 <p><span class="math inline">\(v_i\)</span> is query, <span class="math inline">\(v\)</span> is positive key, <span class="math inline">\(v_j\)</span> are negative keys. The loss function is similar with Cross Entropy Softmax.</p>
-<p>Actually, I am a little confused between NCE loss and InfoNCE. The equation I give is InfoNCE but paper use NCE loss.</p>
-<p>Never mind, InfoNCE is the mainstream loss in contrastive learning and next I will write a topic on Contrastive Learning Loss Functions.</p>
+<p>Actually, InfoNCE is totally the same as NCE loss, which infoNCE uses n (n &lt; j) samples instead of all negative samples to make calculation faster.</p>
 <h2 id="memory-bank">Memory Bank</h2>
 <p>Another important work in InstDisc is that it proposed a data structure called memory bank, which stored all images’ 128d vectors, also the <span class="math inline">\(v_j\)</span> in the loss function.</p>
 <p>Pipeline in Paper:</p>
@@ -282,7 +281,7 @@
 </blockquote>
 <p>A more clear flowchart:</p>
 <figure>
-<img src="images/memory%20bank.png" alt="memory bank"><figcaption>memory bank</figcaption>
+<img src="/images/memory%20bank.png" alt="memory bank"><figcaption>memory bank</figcaption>
 </figure>
 <p>Pros: The number of negative samples in the previous comparative learning is not enough because it is strongly related to the batch size. Memory bank liberates this limation. In this paper, Each time nce loss is calculated, 4096 negative samples are randomly selected from the memory bank.</p>
 <p>Cons: encoder network may update too quickly to make the distribution between image vectors has a large difference.</p>
@@ -307,8 +306,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/03/28/笔试笔记“/" rel="prev" title="笔试笔记">
-      <i class="fa fa-chevron-left"></i> 笔试笔记
+    <a href="/2020/02/29/DATA7202-1st-Week-Review/" rel="prev" title="DATA7202 多元线性回归">
+      <i class="fa fa-chevron-left"></i> DATA7202 多元线性回归
     </a></div>
       <div class="post-nav-item">
     <a href="/2022/03/02/Contrastive Learning (2) SimCLR/" rel="next" title="Contrastive Learning (2) SimCLR">
@@ -367,18 +366,18 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
