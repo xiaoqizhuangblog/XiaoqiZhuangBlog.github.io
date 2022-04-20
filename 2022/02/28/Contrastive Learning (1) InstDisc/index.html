@@ -58,7 +58,7 @@
 <meta property="og:image" content="http://yoursite.com/images/image-20220228231908238.png">
 <meta property="og:image" content="http://yoursite.com/images/InstDisc.png">
 <meta property="og:image" content="http://yoursite.com/images/memory%20bank.png">
-<meta property="og:updated_time" content="2022-04-17T13:37:48.907Z">
+<meta property="og:updated_time" content="2022-04-19T13:29:13.161Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Contrastive Learning (1) InstDisc">
 <meta name="twitter:description" content="Contrastive Learning (1) InstDisc This article aims to introduce the pioneering work (InstDisc) that leads to contrastive learning. Paper: Zhirong Wu, Yuanjun Xiong, Stella Yu, and Dahua Lin. Unsuperv">
@@ -213,7 +213,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-04-17 21:37:48" itemprop="dateModified" datetime="2022-04-17T21:37:48+08:00">2022-04-17</time>
+                <time title="Modified: 2022-04-19 21:29:13" itemprop="dateModified" datetime="2022-04-19T21:29:13+08:00">2022-04-19</time>
               </span>
 
           
@@ -285,6 +285,12 @@
 </figure>
 <p>Pros: The number of negative samples in the previous comparative learning is not enough because it is strongly related to the batch size. Memory bank liberates this limation. In this paper, Each time nce loss is calculated, 4096 negative samples are randomly selected from the memory bank.</p>
 <p>Cons: encoder network may update too quickly to make the distribution between image vectors has a large difference.</p>
+<h2 id="evaluation">Evaluation</h2>
+<p>Since contrastive learning is unsupervised learning and aims to learn good representation feature of images, we cannot directly assess the accuracy of the model.</p>
+<p>InstDisc uses <strong>linear SVM</strong> and <strong>KNN</strong> to evaluate model performance. Simply, it is to use the encoder after model training as a feature extractor, and train a svm or knn on the features of the image after the encoder to evaluate model performance.</p>
+<p>However, since this is a contrastive learning survey, I want to describe a more popular way in later works: <strong>Linear Classification Protocol</strong>. This method also freezes features from trained encoder, and train a supervised linear classifier(a fully-connected layer followed by softmax) and evualte different models between supervised and unspervised models. And ImageNet is always used as evaluation method.</p>
+<p>InstDisc only has 54% accuracy on ImageNet by linear classification, which is much lower than supervised model. But it is a groundbeaking work and the following contrastive models have achieved the same performance with supervised model.</p>
+<p>We will have a global description of model performance after we has discussed several classic contrastive learning models in following chapters.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>We describe the pretext task: Instance Discrimination, model pipeline, a brief of NCE loss and Memory bank. Actually, this paper also proposed other technique skills, but these techniques have little inspiration for follow-up research.</p>
 <p>Next blog we will continue discussing another kinds of contrastive learning framework which are different from InstDisc.</p>
@@ -350,7 +356,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#contrastive-learning-1-instdisc"><span class="nav-number">1.</span> <span class="nav-text">Contrastive Learning (1) InstDisc</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#why-this-paper"><span class="nav-number">2.</span> <span class="nav-text">Why this paper?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#research-motivation"><span class="nav-number">3.</span> <span class="nav-text">Research Motivation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#model-overview"><span class="nav-number">4.</span> <span class="nav-text">Model Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#instance-discrimination"><span class="nav-number">4.1.</span> <span class="nav-text">Instance Discrimination</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#loss-function-nce-loss"><span class="nav-number">4.2.</span> <span class="nav-text">Loss Function: NCE loss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#memory-bank"><span class="nav-number">4.3.</span> <span class="nav-text">Memory Bank</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conclusion"><span class="nav-number">4.4.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#contrastive-learning-1-instdisc"><span class="nav-number">1.</span> <span class="nav-text">Contrastive Learning (1) InstDisc</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#why-this-paper"><span class="nav-number">2.</span> <span class="nav-text">Why this paper?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#research-motivation"><span class="nav-number">3.</span> <span class="nav-text">Research Motivation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#model-overview"><span class="nav-number">4.</span> <span class="nav-text">Model Overview</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#instance-discrimination"><span class="nav-number">4.1.</span> <span class="nav-text">Instance Discrimination</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#loss-function-nce-loss"><span class="nav-number">4.2.</span> <span class="nav-text">Loss Function: NCE loss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#memory-bank"><span class="nav-number">4.3.</span> <span class="nav-text">Memory Bank</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#evaluation"><span class="nav-number">4.4.</span> <span class="nav-text">Evaluation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conclusion"><span class="nav-number">4.5.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

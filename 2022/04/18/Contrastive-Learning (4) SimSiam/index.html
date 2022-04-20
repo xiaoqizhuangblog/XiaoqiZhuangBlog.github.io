@@ -56,7 +56,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2022/04/18/Contrastive-Learning%20(4)%20SimSiam/Contrastive-Learning-1-SimSiam/image-20220418222810766.png">
 <meta property="og:image" content="http://yoursite.com/2022/04/18/Contrastive-Learning%20(4)%20SimSiam/Contrastive-Learning-1-SimSiam/image-20220418223316829.png">
-<meta property="og:updated_time" content="2022-04-18T14:37:03.785Z">
+<meta property="og:image" content="http://yoursite.com/2022/04/18/Contrastive-Learning%20(4)%20SimSiam/Contrastive-Learning-1-SimSiam/image-20220420231942863.png">
+<meta property="og:updated_time" content="2022-04-20T15:24:02.215Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Contrastive Learning (4) SimSiam">
 <meta name="twitter:description" content="Contrastive Learning (4) Simsiam This article aims to introduce a new kind of framework in contrastive learning which does not use negative samples. Paper: Chen, X., &amp;amp; He, K. (2021). Exploring sim">
@@ -203,10 +204,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2022-04-18 22:03:27 / Modified: 22:37:03" itemprop="dateCreated datePublished" datetime="2022-04-18T22:03:27+08:00">2022-04-18</time>
+              <time title="Created: 2022-04-18 22:03:27" itemprop="dateCreated datePublished" datetime="2022-04-18T22:03:27+08:00">2022-04-18</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-04-20 23:24:02" itemprop="dateModified" datetime="2022-04-20T23:24:02+08:00">2022-04-20</time>
+              </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -243,6 +250,28 @@
 </figure>
 <p>Figure 2 is BYOL’s architecture. You can see Simsiam is totally same as BYOL, which the only difference is that BYOL uses a Momentum Encoder <span class="math inline">\(y_{\xi}^{\prime}\)</span> , where <span class="math inline">\(\xi \leftarrow \tau \xi+(1-\tau) \theta\)</span></p>
 <p>Hence, you can think of SimSiam as just a special case of BYOL when <span class="math inline">\(\gamma = 1\)</span>.</p>
+<p>This architecture is very easy to think of, but why was it not first proposed by BYOL until 2020? The biggest problem with training methods without negative samples is that the model will quickly find a shortcut and cause <strong>model collapsing</strong>. Imagine that our encoder only needs to learn to output 0 at this time, the cosine similarity of the loss function is equal to 0, and the model will no longer be updated.</p>
+<p>How BYOL and SimSiam solve model collapsing? They both use a trick: <strong>stop gradient</strong>. We will discuss in detail in the following chapter.</p>
+<h2 id="loss-function">Loss Function</h2>
+<p><span class="math inline">\(\mathcal{D}\left(p_{1}, z_{2}\right)=-\frac{p_{1}}{\left\|p_{1}\right\|_{2}} \cdot \frac{z_{2}}{\left\|z_{2}\right\|_{2}}\)</span></p>
+<p>Denote that the encoder is <span class="math inline">\(f\)</span>, prediction is <span class="math inline">\(h\)</span>, then we have <span class="math inline">\(p = h(f(x))\)</span>, <span class="math inline">\(z = f(x)\)</span></p>
+<p>So the equation is just the cosince similarity of the features between encoder and prediction.</p>
+<p><span class="math inline">\(\mathcal{L}=\frac{1}{2} \mathcal{D}\left(p_{1}, z_{2}\right)+\frac{1}{2} \mathcal{D}\left(p_{2}, z_{1}\right)\)</span></p>
+<p>SimSiam define a summetrized loss like above, where <span class="math inline">\(1, 2\)</span> is the index of two augmentation images from the same image.</p>
+<h2 id="stop-gradient">Stop Gradient</h2>
+<p>Stop Gradient means that when the model start to do gradient decent, the branch with stop-gradient will be treated as a constant. Hence, the loss function also can be seen as: <span class="math inline">\(\mathcal{L}=\frac{1}{2} \mathcal{D}\left(p_{1}, \text { stopgrad }\left(z_{2}\right)\right)+\frac{1}{2} \mathcal{D}\left(p_{2}, \text { stopgrad }\left(z_{1}\right)\right)\)</span></p>
+<p>SimSiam has proved that stop-gradient is the key which prevents model from collapsing solutions with every detailed experiments. You can read them in the paper about experiments and results.</p>
+<p>Authors’ hypothesis is that:</p>
+<blockquote>
+<p>SimSiam is an implementation of an Expectation-Maximization (EM) like algorithm.</p>
+</blockquote>
+<p>The loss function can be like:</p>
+<p><span class="math inline">\(\mathcal{L}(\theta, \eta)=\mathbb{E}_{x, \mathcal{T}}\left[\left\|\mathcal{F}_{\theta}(\mathcal{T}(x))-\eta_{x}\right\|_{2}^{2}\right]\)</span>,</p>
+<p>I think that what paper writes is very clear and I could not simplify any more:</p>
+<blockquote>
+<p><img src="Contrastive-Learning-1-SimSiam/image-20220420231942863.png" alt="image-20220420231942863" style="zoom:50%;"></p>
+</blockquote>
+<p>Than, we can use SGD to solve (7) and get new <span class="math inline">\(\eta_{x}\)</span> by the updated encoder <span class="math inline">\(\mathcal{F}\)</span>.</p>
 
     </div>
 
@@ -302,7 +331,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#contrastive-learning-4-simsiam"><span class="nav-number">1.</span> <span class="nav-text">Contrastive Learning (4) Simsiam</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#novelty"><span class="nav-number">1.1.</span> <span class="nav-text">Novelty</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#framework"><span class="nav-number">1.2.</span> <span class="nav-text">Framework</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#contrastive-learning-4-simsiam"><span class="nav-number">1.</span> <span class="nav-text">Contrastive Learning (4) Simsiam</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#novelty"><span class="nav-number">1.1.</span> <span class="nav-text">Novelty</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#framework"><span class="nav-number">1.2.</span> <span class="nav-text">Framework</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#loss-function"><span class="nav-number">1.3.</span> <span class="nav-text">Loss Function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stop-gradient"><span class="nav-number">1.4.</span> <span class="nav-text">Stop Gradient</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
