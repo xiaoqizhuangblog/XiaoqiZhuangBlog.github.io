@@ -57,7 +57,8 @@
 <meta property="og:image" content="http://yoursite.com/2022/04/18/Contrastive-Learning%20(4)%20SimSiam/Contrastive-Learning-1-SimSiam/image-20220418222810766.png">
 <meta property="og:image" content="http://yoursite.com/2022/04/18/Contrastive-Learning%20(4)%20SimSiam/Contrastive-Learning-1-SimSiam/image-20220418223316829.png">
 <meta property="og:image" content="http://yoursite.com/2022/04/18/Contrastive-Learning%20(4)%20SimSiam/Contrastive-Learning-1-SimSiam/image-20220420231942863.png">
-<meta property="og:updated_time" content="2022-04-20T15:24:02.215Z">
+<meta property="og:image" content="http://yoursite.com/2022/04/18/Contrastive-Learning%20(4)%20SimSiam/Contrastive-Learning-1-SimSiam/image-20220422235855221.png">
+<meta property="og:updated_time" content="2022-04-22T16:07:55.904Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Contrastive Learning (4) SimSiam">
 <meta name="twitter:description" content="Contrastive Learning (4) Simsiam This article aims to introduce a new kind of framework in contrastive learning which does not use negative samples. Paper: Chen, X., &amp;amp; He, K. (2021). Exploring sim">
@@ -212,7 +213,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-04-20 23:24:02" itemprop="dateModified" datetime="2022-04-20T23:24:02+08:00">2022-04-20</time>
+                <time title="Modified: 2022-04-23 00:07:55" itemprop="dateModified" datetime="2022-04-23T00:07:55+08:00">2022-04-23</time>
               </span>
 
           
@@ -239,6 +240,8 @@
 <a id="more"></a>
 <h2 id="novelty">Novelty</h2>
 <p>Simsiam is not the first framework which does not use negative samples. BYOL (Grill, J. B., Strub, F., Altché, F., Tallec, C., Richemond, P., Buchatskaya, E., ... &amp; Valko, M. (2020). Bootstrap your own latent-a new approach to self-supervised learning. <em>Advances in Neural Information Processing Systems</em>, <em>33</em>, 21271-21284.) is early than it and has already achieved better accuracy on ImageNet. Generally, SimSiam is just a special case of BYOL. But SimSiam’s beautiful subtraction of BYOL makes people realize the essence of success in contrastive learning without negative samples.</p>
+<h2 id="note">Note</h2>
+<p>Simsiam does very detailed ablation experiments about its used techniques like: stop-gradient, predictor, hypothesis, loss function, batch normalization. If you want to check result plots, I highly recommend reading the original paper and I will not put them in this blog again.</p>
 <h2 id="framework">Framework</h2>
 <figure>
 <img src="Contrastive-Learning-1-SimSiam/image-20220418222810766.png" alt="image-20220418222810766"><figcaption>image-20220418222810766</figcaption>
@@ -272,6 +275,14 @@
 <p><img src="Contrastive-Learning-1-SimSiam/image-20220420231942863.png" alt="image-20220420231942863" style="zoom:50%;"></p>
 </blockquote>
 <p>Than, we can use SGD to solve (7) and get new <span class="math inline">\(\eta_{x}\)</span> by the updated encoder <span class="math inline">\(\mathcal{F}\)</span>.</p>
+<p>For the prediction and the complete hypothesis, I highly recommend reading the original paper since I could not simplify them more.</p>
+<h2 id="comparision">Comparision</h2>
+<h3 id="result">Result</h3>
+<figure>
+<img src="Contrastive-Learning-1-SimSiam/image-20220422235855221.png" alt="image-20220422235855221"><figcaption>image-20220422235855221</figcaption>
+</figure>
+<p>Table 4 clearly showes that SimSiam uses the simplest framework (no negative pair, no momentum encoder, very samll batch size) achieves a good result(68.1% acc) on ImageNet.</p>
+<p>Hence, although SimSiam does not have any new techniques, it probably shows the kernel of unsupervised learning in the image domain. Such beautiful subtraction operations and exhaustive experimental evidence earned this work the Best Paper Honorable Mentions of CVPR 202.</p>
 
     </div>
 
@@ -331,7 +342,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#contrastive-learning-4-simsiam"><span class="nav-number">1.</span> <span class="nav-text">Contrastive Learning (4) Simsiam</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#novelty"><span class="nav-number">1.1.</span> <span class="nav-text">Novelty</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#framework"><span class="nav-number">1.2.</span> <span class="nav-text">Framework</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#loss-function"><span class="nav-number">1.3.</span> <span class="nav-text">Loss Function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stop-gradient"><span class="nav-number">1.4.</span> <span class="nav-text">Stop Gradient</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#contrastive-learning-4-simsiam"><span class="nav-number">1.</span> <span class="nav-text">Contrastive Learning (4) Simsiam</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#novelty"><span class="nav-number">1.1.</span> <span class="nav-text">Novelty</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#note"><span class="nav-number">1.2.</span> <span class="nav-text">Note</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#framework"><span class="nav-number">1.3.</span> <span class="nav-text">Framework</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#loss-function"><span class="nav-number">1.4.</span> <span class="nav-text">Loss Function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stop-gradient"><span class="nav-number">1.5.</span> <span class="nav-text">Stop Gradient</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#comparision"><span class="nav-number">1.6.</span> <span class="nav-text">Comparision</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#result"><span class="nav-number">1.6.1.</span> <span class="nav-text">Result</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
