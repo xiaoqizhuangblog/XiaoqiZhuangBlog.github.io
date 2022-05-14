@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="self-supervised learning,computer vision,">
 
 
 
@@ -79,14 +79,21 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta name="description" content="Contrastive Learning Survey (3) — MoCo This article decribes a milestone in contrastive learning and the best paper Nominee in CVPR 2020. Paper: He, K., Fan, H., Wu, Y., Xie, S., and Girshick, R. Mome">
+<meta name="keywords" content="self-supervised learning,computer vision">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Contrastive Learning Survey (3) — MoCo">
+<meta property="og:url" content="http://yoursite.com/2022/03/05/Contrastive-Learning-Survey-3-—-MoCo/index.html">
 <meta property="og:site_name" content="Xiaoqi">
+<meta property="og:description" content="Contrastive Learning Survey (3) — MoCo This article decribes a milestone in contrastive learning and the best paper Nominee in CVPR 2020. Paper: He, K., Fan, H., Wu, Y., Xie, S., and Girshick, R. Mome">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-29T06:32:45.675Z">
+<meta property="og:image" content="http://yoursite.com/2022/03/05/Contrastive-Learning-Survey-3-—-MoCo/figure1.png">
+<meta property="og:image" content="http://yoursite.com/2022/03/05/Contrastive-Learning-Survey-3-—-MoCo/simCLR_framework.jpg">
+<meta property="og:updated_time" content="2022-05-14T09:04:29.150Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
+<meta name="twitter:title" content="Contrastive Learning Survey (3) — MoCo">
+<meta name="twitter:description" content="Contrastive Learning Survey (3) — MoCo This article decribes a milestone in contrastive learning and the best paper Nominee in CVPR 2020. Paper: He, K., Fan, H., Wu, Y., Xie, S., and Girshick, R. Mome">
+<meta name="twitter:image" content="http://yoursite.com/2022/03/05/Contrastive-Learning-Survey-3-—-MoCo/figure1.png">
 
 
 
@@ -116,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/">
+  <link rel="canonical" href="http://yoursite.com/2022/03/05/Contrastive-Learning-Survey-3-—-MoCo/">
 
 
 
 
 
-  <title>categories | Xiaoqi</title>
+  <title>Contrastive Learning Survey (3) — MoCo | Xiaoqi</title>
   
 
 
@@ -279,40 +286,198 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/03/05/Contrastive-Learning-Survey-3-—-MoCo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xiaoqi Zhuang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoqi">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">categories</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                目前共计 3 个分类
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Contrastive-Learning/">Contrastive Learning</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DATA7202/">DATA7202</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Mining/">Data Mining</a><span class="category-list-count">1</span></li></ul>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">Contrastive Learning Survey (3) — MoCo</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-03-05T16:41:42+08:00">
+                2022-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Contrastive-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Contrastive Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h1 id="contrastive-learning-survey-3-moco">Contrastive Learning Survey (3) — MoCo</h1>
+<p>This article decribes a milestone in contrastive learning and the best paper <strong>Nominee</strong> in CVPR 2020.</p>
+<p>Paper: He, K., Fan, H., Wu, Y., Xie, S., and Girshick, R. Momentum contrast for unsupervised visual representation learning. <em>arXiv preprint arXiv:1911.05722</em>, 2019. Updated version accessed at: https://arxiv.org/abs/1911.05722.</p>
+<a id="more"></a>
+<h2 id="bottleneck-of-past-work">Bottleneck of past work</h2>
+<p>The requirement of huge batch size makes simCLR hard to land in real scenes. This paper proposes a framework called MoCo which can not only overcome feature consistency but also provide a large negative samples for training.</p>
+<h2 id="model-framework">Model Framework</h2>
+<p><img src="figure1.png" width="50%" height="50%"></p>
+<p>As usual, a CV paper can roughly understand what the paper wants to express through Figure 1.</p>
+<p>A quick review of simCLR:</p>
+<p><img src="simCLR_framework.jpg" width="50%" height="50%"></p>
+<p>The only difference is that MoCo uses a momentum encoder instead of two same encoders.</p>
+<p>Note: simCLR and MoCo are the same period work, and in MoCo V2, projector which is proposed by simCLR is used.</p>
+<h2 id="queue-to-save-negative-samples">Queue to save negative samples</h2>
+<p>We have talked about the cons of InstDisc: inconsistency of negative samples since fast updating encoders; SimCLR: very large batch size to keep negative samples have consistent distribution with positive samples.</p>
+<p>To overcome these bottlenecks, Moco wants to have a large dictionary to save negative samples, where these negative samples also are <strong>kept as consistent as possible despite its evolution</strong>. proposed to use a queue to save negative samples by using queue’s FIFO(first in first out) characteristic. Then, a queue with much larger size than batch size is used and you can use small batch size to train networks.</p>
+<p>The queue size is recommended as 65536. And after each batch, the earliest negative samples with batch size(n) in the queue will be deleted, and the latest n negative samples will be added to the queue to keep the queue updated.</p>
+<p>So far, this queue seems to be like memory bank in InstDisc. And how negative samples in this queue can have same consistency will be discussed in next chapter: a momentum encoder.</p>
+<h2 id="momentum-encoder">Momentum encoder</h2>
+<p>A momentum encoder is like:</p>
+<p><span class="math display">\[\theta_{\mathrm{k}} \leftarrow m \theta_{\mathrm{k}}+(1-m) \theta_{\mathrm{q}}\]</span></p>
+<p>where <span class="math inline">\(\theta_{\mathrm{k}}\)</span> is momentum encoder, <span class="math inline">\(\theta_{\mathrm{q}}\)</span> is the encoder updated by back-propagation. <span class="math inline">\(m\)</span> always equals 0.999. Hence, the momentum encoder is updated very slowly and ensure that the negative samples from <span class="math inline">\(\theta_{\mathrm{k}}\)</span> are kept consistency.</p>
+<h2 id="loss-function">Loss Function</h2>
+<p><span class="math display">\[\mathcal{L}_{q}=-\log \frac{\exp \left(q \cdot k_{+} / \tau\right)}{\sum_{i=0}^{K} \exp \left(q \cdot k_{i} / \tau\right)}\]</span></p>
+<p>Moco proposed infoNCE loss and soon become the mainstream loss in contrastive learning. The only difference between NCE loss and infoNCE loss is that infoNCE only uses K negative samples from instead of all negative samples.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Moco achieves 68.6% accuracy by linear classification protocol on ImageNet. Compared with 54% in InstDice, Moco can be regarded as a milestone work in contrastive learning.</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/self-supervised-learning/" rel="tag"># self-supervised learning</a>
+          
+            <a href="/tags/computer-vision/" rel="tag"># computer vision</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/03/02/Contrastive-Learning-Survey-2-—-SimCLR/" rel="next" title="Contrastive Learning Survey (2) — SimCLR">
+                <i class="fa fa-chevron-left"></i> Contrastive Learning Survey (2) — SimCLR
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/04/18/Contrastive-Learning-Survey-4-—-SimSiam/" rel="prev" title="Contrastive Learning Survey (4) — SimSiam">
+                Contrastive Learning Survey (4) — SimSiam <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -345,8 +510,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -406,6 +580,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#contrastive-learning-survey-3-moco"><span class="nav-number">1.</span> <span class="nav-text">Contrastive Learning Survey (3) — MoCo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#bottleneck-of-past-work"><span class="nav-number">1.1.</span> <span class="nav-text">Bottleneck of past work</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#model-framework"><span class="nav-number">1.2.</span> <span class="nav-text">Model Framework</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#queue-to-save-negative-samples"><span class="nav-number">1.3.</span> <span class="nav-text">Queue to save negative samples</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#momentum-encoder"><span class="nav-number">1.4.</span> <span class="nav-text">Momentum encoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#loss-function"><span class="nav-number">1.5.</span> <span class="nav-text">Loss Function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conclusion"><span class="nav-number">1.6.</span> <span class="nav-text">Conclusion</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -939,6 +1129,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

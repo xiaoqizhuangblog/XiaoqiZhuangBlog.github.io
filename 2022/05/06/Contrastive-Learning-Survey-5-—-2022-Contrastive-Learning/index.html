@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="self-supervised learning,computer vision,">
 
 
 
@@ -79,14 +79,26 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta name="description" content="Contrastive Learning (5) — 2022 Contrastive Learning This article aims to give the lastest researchs on contrastive learning, papers on CVPR 2022, ICLR 2022, and so on.">
+<meta name="keywords" content="self-supervised learning,computer vision">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Contrastive Learning Survey (5) — 2022 Contrastive Learning">
+<meta property="og:url" content="http://yoursite.com/2022/05/06/Contrastive-Learning-Survey-5-—-2022-Contrastive-Learning/index.html">
 <meta property="og:site_name" content="Xiaoqi">
+<meta property="og:description" content="Contrastive Learning (5) — 2022 Contrastive Learning This article aims to give the lastest researchs on contrastive learning, papers on CVPR 2022, ICLR 2022, and so on.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-29T06:32:45.675Z">
+<meta property="og:image" content="http://yoursite.com/2022/05/06/Contrastive-Learning-Survey-5-—-2022-Contrastive-Learning/PCL/framework.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/06/Contrastive-Learning-Survey-5-—-2022-Contrastive-Learning/PCL/pseudo_code.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/06/Contrastive-Learning-Survey-5-—-2022-Contrastive-Learning/HCSC/figure1.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/06/Contrastive-Learning-Survey-5-—-2022-Contrastive-Learning/HCSC/hierarchical_k_means.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/06/Contrastive-Learning-Survey-5-—-2022-Contrastive-Learning/HCSC/sample_method.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/06/Contrastive-Learning-Survey-5-—-2022-Contrastive-Learning/HCSC/query.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/06/Contrastive-Learning-Survey-5-—-2022-Contrastive-Learning/HCSC/cluster.png">
+<meta property="og:updated_time" content="2022-05-14T09:42:27.731Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
+<meta name="twitter:title" content="Contrastive Learning Survey (5) — 2022 Contrastive Learning">
+<meta name="twitter:description" content="Contrastive Learning (5) — 2022 Contrastive Learning This article aims to give the lastest researchs on contrastive learning, papers on CVPR 2022, ICLR 2022, and so on.">
+<meta name="twitter:image" content="http://yoursite.com/2022/05/06/Contrastive-Learning-Survey-5-—-2022-Contrastive-Learning/PCL/framework.png">
 
 
 
@@ -116,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/">
+  <link rel="canonical" href="http://yoursite.com/2022/05/06/Contrastive-Learning-Survey-5-—-2022-Contrastive-Learning/">
 
 
 
 
 
-  <title>categories | Xiaoqi</title>
+  <title>Contrastive Learning Survey (5) — 2022 Contrastive Learning | Xiaoqi</title>
   
 
 
@@ -279,40 +291,219 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/05/06/Contrastive-Learning-Survey-5-—-2022-Contrastive-Learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xiaoqi Zhuang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoqi">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">categories</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                目前共计 3 个分类
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Contrastive-Learning/">Contrastive Learning</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DATA7202/">DATA7202</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Data-Mining/">Data Mining</a><span class="category-list-count">1</span></li></ul>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">Contrastive Learning Survey (5) — 2022 Contrastive Learning</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-05-06T22:07:12+08:00">
+                2022-05-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Contrastive-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Contrastive Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h1 id="contrastive-learning-5-2022-contrastive-learning">Contrastive Learning (5) — 2022 Contrastive Learning</h1>
+<p>This article aims to give the lastest researchs on contrastive learning, papers on CVPR 2022, ICLR 2022, and so on.</p>
+<a id="more"></a>
+<h2 id="pcl-prototypical-contrastive-learning">PCL: PROTOTYPICAL CONTRASTIVE LEARNING</h2>
+<p>Paper: Li J, Zhou P, Xiong C, et al. Prototypical contrastive learning of unsupervised representations[J]. arXiv preprint arXiv:2005.04966, 2020.</p>
+<p>Arxiv: https://arxiv.org/abs/2005.04966</p>
+<p>This paper proposes 2 drawbacks of previous contrastive learning framework.</p>
+<ol type="1">
+<li><blockquote>
+<p>The task of instance discrimination could be solved by exploiting low-level image differences, thus the learned embeddings do not necessarily capture high-level semantics. This is supported by the fact thatthe accuracy of instance classification often rapidly rises to a high level (&gt;90% within 10 epochs) and further training gives limited informative signals. A recent study also shows that better performance of instance discrimination could worsen the performance on downstream tasks.</p>
+</blockquote></li>
+<li>cannot capture the semantic structure of data, since each negative sample shares similar semantics by InfoNCE.</li>
+</ol>
+<h3 id="framework">Framework</h3>
+<p><img src="PCL/framework.png"></p>
+<p><img src="PCL/pseudo_code.png"></p>
+<p>Figure 2 and pseudo-code can help understand PCL:</p>
+<ol type="1">
+<li>use features from momentum encoder to do k-means to get prototypes/cluster centers and concentration(discuss later).</li>
+<li>Use ProtoNCE to update network, which ProtoNCE will use prototypes by the previous step.</li>
+<li>update momentum encoder like MoCo</li>
+</ol>
+<h3 id="protonce">ProtoNCE</h3>
+<p><span class="math display">\[\mathcal{L}_{\text {ProtoNCE }}=\sum_{i=1}^{n}-\left(\log \frac{\exp \left(v_{i} \cdot v_{i}^{\prime} / \tau\right)}{\sum_{j=0}^{r} \exp \left(v_{i} \cdot v_{j}^{\prime} / \tau\right)}+\frac{1}{M} \sum_{m=1}^{M} \log \frac{\exp \left(v_{i} \cdot c_{s}^{m} / \phi_{s}^{m}\right)}{\sum_{j=0}^{r} \exp \left(v_{i} \cdot c_{j}^{m} / \phi_{j}^{m}\right)}\right)\]</span></p>
+<p>where <span class="math inline">\(c\)</span> is cluster information. So this loss combines between Clusters info and Instances Info. <span class="math inline">\(M\)</span> means that they will do k-means M times or M different k clusters, they proposed that M times k-means will have different propotype semantic structure from high semantice to low semantic.</p>
+<p>Another different paramter is <span class="math inline">\(\phi\)</span>, where it always is a hyperparamter of <span class="math inline">\(\tau\)</span>. Here <span class="math inline">\(\phi\)</span> is a dynamic paramter learning with training.</p>
+<p><span class="math display">\[\phi=\frac{\sum_{z=1}^{Z}\left\|v_{z}^{\prime}-c\right\| 2}{Z \log (Z+\alpha)}\]</span></p>
+<p>where <span class="math inline">\(α\)</span> is a smooth parameter to ensure that small clusters do not have an overly-large <span class="math inline">\(\phi\)</span>. They normalize <span class="math inline">\(\phi\)</span> for each set of prototypes <span class="math inline">\(C_m\)</span> such that they have a mean of <span class="math inline">\(\tau\)</span>.</p>
+<h2 id="hcsc-hierarchical-contrastive-selective-coding">HCSC: Hierarchical Contrastive Selective Coding</h2>
+<p><img src="HCSC/figure1.png" width="75%" height="75%"></p>
+<p>This paper proposed that a large dataset contains multiple semantic, e.g. “mammals <span class="math inline">\(\to\)</span> Dogs <span class="math inline">\(\to\)</span> Labradors”, where this kind of hierarachical semantics do not be noticed in previous researches. Actucally, PCL does this like multiple times k-means. But this paper does more work on this.</p>
+<p>Another novelty job is that they propose to select high-quality positive and negative pairs which confirms that they are true negative and positive samples.</p>
+<p>For positive samples: select most similar prototype on each semantic hierarchy to build more abundant positive pairs.</p>
+<p>For negative samples: use a Bernoulli sampling to determine if a sample is kept or discarded by their semantic correlation value.</p>
+<p>### Hierarchical K-means</p>
+<p><img src="HCSC/hierarchical_k_means.png" width="50%" height="50%"></p>
+<p>The difference between HCSC and PCL is that they iterate k-means in the clusters, where PCL do gobal k-means many times.</p>
+<h3 id="sample-selecting">Sample selecting</h3>
+<p><img src="HCSC/sample_method.png"></p>
+<p>For example, mammals will be a global semantic which be shown as a biggest green point. Then “dogs” will be “mammals” branch and be shown as a smaller green point, and “poodles” and “labradors” will be shown as the smallest green points. Every other different color points are those who are different with “Mammals”.</p>
+<p>For (b), when selecting samples, positive pairs will be selected in all green points with different sizes to ensure they have different hierarchical semantic, e.g. not only the augs from themselves, but also “poodles”, “dogs”, “mammals” for a “labradors” image. And Negative pairs will be selected in different color points and sample them by a Bernoulli sampling (dicuss later).</p>
+<p><strong>selecting code</strong></p>
+<p><strong>selecting example</strong></p>
+<p><img src="HCSC/query.png" width="75%" height="75%"></p>
+<p><img src="HCSC/cluster.png"></p>
+<h2 id="contrastive-crop">Contrastive Crop</h2>
+<p>Random crop will hurt image and decrease image semantic.</p>
+<p>提出了一种技术，</p>
+<p>从图中可以发现，对比学习模型本身就可以捕捉物体大概的位置信息，从而来指导crops的选取。</p>
+<p>利用这种特征提取物体边框，避免错误正样本对</p>
+<p>中心抑制，上述方法由于其带来了更小的选取范围，生成具有较高相似度的样本对的可能性也提高了</p>
+<p>降低crops集中在图片中心的概率，从而增大采样的方差。</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/self-supervised-learning/" rel="tag"># self-supervised learning</a>
+          
+            <a href="/tags/computer-vision/" rel="tag"># computer vision</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/04/18/Contrastive-Learning-Survey-4-—-SimSiam/" rel="next" title="Contrastive Learning Survey (4) — SimSiam">
+                <i class="fa fa-chevron-left"></i> Contrastive Learning Survey (4) — SimSiam
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -345,8 +536,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -406,6 +606,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#contrastive-learning-5-2022-contrastive-learning"><span class="nav-number">1.</span> <span class="nav-text">Contrastive Learning (5) — 2022 Contrastive Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#pcl-prototypical-contrastive-learning"><span class="nav-number">1.1.</span> <span class="nav-text">PCL: PROTOTYPICAL CONTRASTIVE LEARNING</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#framework"><span class="nav-number">1.1.1.</span> <span class="nav-text">Framework</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#protonce"><span class="nav-number">1.1.2.</span> <span class="nav-text">ProtoNCE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hcsc-hierarchical-contrastive-selective-coding"><span class="nav-number">1.2.</span> <span class="nav-text">HCSC: Hierarchical Contrastive Selective Coding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sample-selecting"><span class="nav-number">1.2.1.</span> <span class="nav-text">Sample selecting</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#contrastive-crop"><span class="nav-number">1.3.</span> <span class="nav-text">Contrastive Crop</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -939,6 +1155,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

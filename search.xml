@@ -1,459 +1,73 @@
-<!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next gemini use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
-
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="Data Mining,">
-
-
-
-
-
-
-
-
-
-
-<meta name="description" content="Data Mining 笔记  关于数据挖掘的一些知识，内容包括分类，聚类，异常值检测，关联性分析等等。 大量截图和思路来自 the University of Queensland 的Dr Hongzhi Yin所教课程INFS7203 Data Mining。">
-<meta name="keywords" content="Data Mining">
-<meta property="og:type" content="article">
-<meta property="og:title" content="DataMining Notes">
-<meta property="og:url" content="http://yoursite.com/2019/11/29/Data Mining 笔记 /index.html">
-<meta property="og:site_name" content="Xiaoqi">
-<meta property="og:description" content="Data Mining 笔记  关于数据挖掘的一些知识，内容包括分类，聚类，异常值检测，关联性分析等等。 大量截图和思路来自 the University of Queensland 的Dr Hongzhi Yin所教课程INFS7203 Data Mining。">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/11/29/images/DataMining/image-20191106221733796.png">
-<meta property="og:image" content="http://yoursite.com/images/DataMing/image-20191106223823835.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191106223928930.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191106224342530.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191106230226860.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191106230416524.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191106230444301.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191106232014439.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107094244109.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107101011006.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107102524476.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107102555880.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107102734670.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107103215716.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107103330975.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191016195923119.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191016195859318.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191016195732039.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191016212820651.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191017145039838.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191017145213113.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191017145248703.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191016195859318.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191017151143939.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107104418581.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107104735380.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107105318615.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107110531148.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107105452108.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107111021167.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107111103027.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107111351503.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107111529510.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107111600986.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107113748190.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107114517311.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107115105917.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107120016766.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107120304306.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107125740790.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107130848744.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107131546291.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107131602994.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107132455283.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107134314241.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107135247397.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107135420153.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107140059885.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107151133433.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107152732396.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107155311317.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107160738277.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107161118117.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107161637990.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107162038096.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107162232045.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107162626321.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191107162704381.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191014213158445.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191014221044545.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191015101212861.png">
-<meta property="og:image" content="http://yoursite.com/images/1920px-LOF-idea.svg.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191015110704026.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191108094208703.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191108094303685.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191108102944155.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191108110747662.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20191108113503171.png">
-<meta property="og:updated_time" content="2022-05-14T07:48:46.476Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DataMining Notes">
-<meta name="twitter:description" content="Data Mining 笔记  关于数据挖掘的一些知识，内容包括分类，聚类，异常值检测，关联性分析等等。 大量截图和思路来自 the University of Queensland 的Dr Hongzhi Yin所教课程INFS7203 Data Mining。">
-<meta name="twitter:image" content="http://yoursite.com/2019/11/29/images/DataMining/image-20191106221733796.png">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Gemini',
-    version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="http://yoursite.com/2019/11/29/Data Mining 笔记 /">
-
-
-
-
-
-  <title>DataMining Notes | Xiaoqi</title>
-  
-
-
-
-
-
-
-
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Xiaoqi</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-      
-        <p class="site-subtitle">Why always me?</p>
-      
-  </div>
-
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
-            
-            关于
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
-            
-            归档
-          </a>
-        </li>
-      
-
-      
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
-            
-            搜索
-          </a>
-        </li>
-      
-    </ul>
-  
-
-  
-    <div class="site-search">
-      
-  <div class="popup search-popup local-search-popup">
-  <div class="local-search-header clearfix">
-    <span class="search-icon">
-      <i class="fa fa-search"></i>
-    </span>
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
-    <div class="local-search-input-wrapper">
-      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
-    </div>
-  </div>
-  <div id="local-search-result"></div>
-</div>
-
-
-
-    </div>
-  
-</nav>
-
-
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/29/Data Mining 笔记 /">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Xiaoqi Zhuang">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xiaoqi">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">DataMining Notes</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-29T10:16:09+08:00">
-                2019-11-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Data-Mining/" itemprop="url" rel="index">
-                    <span itemprop="name">Data Mining</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h1 id="data-mining-笔记">Data Mining 笔记</h1>
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Contrastive Learning Survey (1) — InstDisc</title>
+    <url>/2022/02/24/Contrastive-Learning-Survey-1-%E2%80%94-InstDisc/</url>
+    <content><![CDATA[<h1 id="contrastive-learning-survey-1-instdisc">Contrastive Learning Survey (1) — InstDisc</h1>
+<p>This article aims to introduce the pioneering work (InstDisc) that leads to contrastive learning.</p>
+<p>Paper: Zhirong Wu, Yuanjun Xiong, Stella Yu, and Dahua Lin. Unsupervised feature learning via non-parametric instance discrimination. In CVPR, 2018. Updated version accessed at: https://arxiv.org/abs/1805.01978v1.</p>
+<a id="more"></a>
+<h1 id="why-this-paper">Why this paper?</h1>
+<p>Self-supervised models such as BERT/GPT have been used with great success in the NLP field. However, supervised learning still occupies most of the work in the CV field. Researchers hope to find a kind of pretext task in the image domain to complete self-supervised learning, just like MASK in the NLP domain. This paper creatively proposes a pretext task called <strong>instance discrimination</strong> which performs well and is still the most mainstream pretext task for contrastive learning so far.</p>
+<p>Although techniques about the loss function, how negative samples are stored in this paper are obsolete, the pretext task and the framework in this paper has a milestone significance in the history of contrastive learning and has influenced most of the subsequent work.</p>
+<p>Hence, I choose this paper as the first one in this series of the survey of contrastive learning.</p>
+<h1 id="research-motivation">Research Motivation</h1>
+<p><img src="figure1.png" width="50%" height="50%"></p>
+<p>Paper’s Figure 1 is very clear to show the motivation. Authors find that:</p>
+<blockquote>
+<p>For an image from class <em>leopard</em>, the classes that get highest responses from a trained neural net classifier are all visually correlated, e.g., <em>jaguar</em> and <em>cheetah</em>. It is not the semantic labeling, but the apparent similarity in the data themselves that brings some classes closer than others.</p>
+</blockquote>
+<p>Hence, they want to:</p>
+<blockquote>
+<p>Our unsupervised approach takes the class-wise supervision to the extreme and learns a feature representation that discriminates among individual instances.</p>
+</blockquote>
+<p>In other words, contrastive learning is also called representation learning which aims to find an image vector(like word vector in NLP) which represents image semantic in a high dimension by unsupervised learning. And then, you can use these vector in your custom downstream tasks with a small annotated dataset.</p>
+<h1 id="model-overview">Model Overview</h1>
+<p><img src="figure2.png"></p>
+<p>Figure 2 shows a clear pipeline of the model inference. Now I will describe each part of them and try to make you understand easier.</p>
+<h2 id="instance-discrimination">Instance Discrimination</h2>
+<p>As figure 1 says, we want to get a vertor which similar images are close in a high dimension(128 in this paper) and not similar images are far way from each other without using annotated images. However, although InstDict model is called as a unsupervised model, they actually still uses label. The method they use is really tricky that they take every image as a class and the task is to distinguish every image instance. This task sounds useless, and yes they are. So this kind of task is named as pretext task, which the aim of them is just to let the model can be trained.</p>
+<p><img src="InstDisc.png"></p>
+<p>Above figure shows that a pipline of instance discrimination. An instance, in this example , is an image of a unqiue cat. it will be transferred by image augmentation into 2 images: cropped one and rotated one. These two represent the same cat and so the image vector of these 2 images should be similar in our model, and vertors of other images in red square should be quite different from these 2images. What you find? Yes, we get positive and negative sample by this kind of easy implementation. Usually, in contrastive learning, we call the “cropped cat” (one of the augmentation image) Query, and the combination of the other augmentation image and the rest images is called Keys. Hence, our aim is to find a key in keys which is most similar with the query.</p>
+<p>To conclusion, instance discrimination is a tricky pretext task which make the images without labels can have similar label by using image augmentation.</p>
+<p>Pros: easy to implementation, good explanation, proved to be useful</p>
+<p>Cons: the negative samples may contain the positive sample(image another cat image is included but it will be treated as a negative sample in instance discrimination task)</p>
+<h2 id="loss-function-nce-loss">Loss Function: NCE loss</h2>
+<p><span class="math display">\[Loss = -\log\frac{\exp \left(\mathbf{v}_{i}^{T} \mathbf{v} / \tau\right)}{\sum_{j=1}^{n} \exp \left(\mathbf{v}_{j}^{T} \mathbf{v} / \tau\right)}\]</span></p>
+<p><span class="math inline">\(v_i\)</span> is query, <span class="math inline">\(v\)</span> is positive key, <span class="math inline">\(v_j\)</span> are negative keys. The loss function is similar with Cross Entropy Softmax.</p>
+<p>Actually, InfoNCE is totally the same as NCE loss, which infoNCE uses n (n &lt; j) samples instead of all negative samples to make calculation faster.</p>
+<h2 id="memory-bank">Memory Bank</h2>
+<p>Another important work in InstDisc is that it proposed a data structure called memory bank, which stored all images’ 128d vectors, also the <span class="math inline">\(v_j\)</span> in the loss function.</p>
+<p>Pipeline in Paper:</p>
+<blockquote>
+<p>Let V = {vj} be the memory bank and fi = fθ(xi) be the feature of xi. During each learning itera- tion, the representation fi as well as the network parameters θ are optimized via stochastic gradient descend. Then fi is updated to V at the corresponding instance entry fi → vi. We initialize all the representations in the memory bank V as unit random vectors.</p>
+</blockquote>
+<p>A more clear flowchart:</p>
+<p><img src="memory%20bank.png"></p>
+<p>Pros: The number of negative samples in the previous comparative learning is not enough because it is strongly related to the batch size. Memory bank liberates this limation. In this paper, Each time nce loss is calculated, 4096 negative samples are randomly selected from the memory bank.</p>
+<p>Cons: encoder network may update too quickly to make the distribution between image vectors has a large difference.</p>
+<h2 id="evaluation">Evaluation</h2>
+<p>Since contrastive learning is unsupervised learning and aims to learn good representation feature of images, we cannot directly assess the accuracy of the model.</p>
+<p>InstDisc uses <strong>linear SVM</strong> and <strong>KNN</strong> to evaluate model performance. Simply, it is to use the encoder after model training as a feature extractor, and train a svm or knn on the features of the image after the encoder to evaluate model performance.</p>
+<p>However, since this is a contrastive learning survey, I want to describe a more popular way in later works: <strong>Linear Classification Protocol</strong>. This method also freezes features from trained encoder, and train a supervised linear classifier(a fully-connected layer followed by softmax) and evualte different models between supervised and unspervised models. And ImageNet is always used as evaluation method.</p>
+<p>InstDisc only has 54% accuracy on ImageNet by linear classification, which is much lower than supervised model. But it is a groundbeaking work and the following contrastive models have achieved the same performance with supervised model.</p>
+<p>We will have a global description of model performance after we has discussed several classic contrastive learning models in following chapters.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We describe the pretext task: Instance Discrimination, model pipeline, a brief of NCE loss and Memory bank. Actually, this paper also proposed other technique skills, but these techniques have little inspiration for follow-up research.</p>
+<p>Next blog we will continue discussing another kinds of contrastive learning framework which are different from InstDisc.</p>
+]]></content>
+      <categories>
+        <category>Contrastive Learning</category>
+      </categories>
+      <tags>
+        <tag>self-supervised learning</tag>
+        <tag>computer vision</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DataMining Notes</title>
+    <url>/2019/11/29/Data%20Mining%20%E7%AC%94%E8%AE%B0%20/</url>
+    <content><![CDATA[<h1 id="data-mining-笔记">Data Mining 笔记</h1>
 <hr>
 <p>关于数据挖掘的一些知识，内容包括分类，聚类，异常值检测，关联性分析等等。</p>
 <p>大量截图和思路来自 the University of Queensland 的Dr Hongzhi Yin所教课程INFS7203 Data Mining。</p>
@@ -1340,741 +954,458 @@
 <p><span class="math inline">\(P(Item1 = 1, Item2 = 3, Item3 =3, Item4 =2|Item5 = 4)\)</span></p>
 <p><span class="math inline">\(P(Item1 = 1, Item2 = 3, Item3 =3, Item4 =2|Item5 = 5)\)</span></p>
 <p>选最高的概率</p>
-
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Data-Mining/" rel="tag"># Data Mining</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/02/29/DATA7202-1st-Week-Review/" rel="prev" title="DATA7202 多元线性回归">
-                DATA7202 多元线性回归 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Xiaoqi Zhuang</p>
-              <p class="site-description motion-element" itemprop="description"></p>
-          </div>
-
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/">
-              
-                  <span class="site-state-item-count">7</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
-                  <span class="site-state-item-name">标签</span>
-                </a>
-              </div>
-            
-
-          </nav>
-
-          
-
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#data-mining-笔记"><span class="nav-number">1.</span> <span class="nav-text">Data Mining 笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#i.-classification-分类"><span class="nav-number">1.1.</span> <span class="nav-text">I. Classification 分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型评估model-evluation"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.模型评估（model evluation）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#混淆矩阵confusion-matrix"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">混淆矩阵（confusion matrix）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#评估方法"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">评估方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类方法"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 分类方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#rote-learner-最原始最土味"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">1. Rote-learner (最原始最土味)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#knnk近邻"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">2. KNN（K近邻）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#naïve-bayes朴素贝叶斯"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">3. Naïve Bayes（朴素贝叶斯)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#决策树"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">4.决策树</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#概念"><span class="nav-number">1.1.2.4.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#gini-index"><span class="nav-number">1.1.2.4.2.</span> <span class="nav-text">1. Gini Index</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#entropy"><span class="nav-number">1.1.2.4.3.</span> <span class="nav-text">2. Entropy</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#error"><span class="nav-number">1.1.2.4.4.</span> <span class="nav-text">3. Error</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#什么时候终止分割"><span class="nav-number">1.1.2.4.5.</span> <span class="nav-text">什么时候终止分割？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#overfitting的坏处"><span class="nav-number">1.1.2.4.6.</span> <span class="nav-text">Overfitting的坏处</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#优缺点"><span class="nav-number">1.1.2.4.7.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#例题如何从零开始构建一个数据库"><span class="nav-number">1.1.2.4.8.</span> <span class="nav-text">例题：如何从零开始构建一个数据库</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ii.similarity相似度"><span class="nav-number">1.2.</span> <span class="nav-text">II.Similarity（相似度）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#曼哈顿距离aka-city-block-taxicab-l_1norm-manhattan-distance"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 曼哈顿距离（aka &quot;City block”, taxicab, \(L_1\)norm , Manhattan distance)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#欧几里得距离euclidean-distanceaka-l_2-norm"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 欧几里得距离（Euclidean distance，aka \(L_2\) norm）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#supermumaka-l_maxnorm-l_inftynorm"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. Supermum(aka \(L_{max}\)norm, \(L_{\infty}\)norm)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二元属性的相似性"><span class="nav-number">1.2.4.</span> <span class="nav-text">二元属性的相似性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cosine-similarity"><span class="nav-number">1.2.5.</span> <span class="nav-text">Cosine Similarity</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iii.-clustering-聚类"><span class="nav-number">1.3.</span> <span class="nav-text">III. Clustering 聚类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k-means"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. K-means</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hierarchical-clustering分层聚类"><span class="nav-number">1.3.3.</span> <span class="nav-text">3. Hierarchical Clustering（分层聚类）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概念-2"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#agglomerative-方法"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">agglomerative 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#limitation-of-min"><span class="nav-number">1.3.3.2.1.</span> <span class="nav-text">Limitation of MIN:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#limitation-of-max"><span class="nav-number">1.3.3.2.2.</span> <span class="nav-text">Limitation of MAX:</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#divisive-方法"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">divisive 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#构建最小扫描树minimum-spanning-tree"><span class="nav-number">1.3.3.3.1.</span> <span class="nav-text">构建最小扫描树（Minimum Spanning Tree）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#density-based-clustering"><span class="nav-number">1.3.4.</span> <span class="nav-text">4. Density-based clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#dbscan"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">DBSCAN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dbscan的缺点"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">DBSCAN的缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何选取eps和minpts"><span class="nav-number">1.3.4.3.</span> <span class="nav-text">如何选取EPS和MinPts</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cluster-validity"><span class="nav-number">1.3.5.</span> <span class="nav-text">5. Cluster Validity</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#groud-truth"><span class="nav-number">1.3.5.1.</span> <span class="nav-text">1. Groud Truth</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#internal-measure"><span class="nav-number">1.3.5.2.</span> <span class="nav-text">2. Internal Measure</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#sse和bss"><span class="nav-number">1.3.5.2.1.</span> <span class="nav-text">SSE和BSS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#silhouette-coefficient"><span class="nav-number">1.3.5.2.2.</span> <span class="nav-text">Silhouette Coefficient：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#correlation-with-distance-matrix"><span class="nav-number">1.3.5.2.3.</span> <span class="nav-text">Correlation with Distance Matrix</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#statistical-framework-for-sse"><span class="nav-number">1.3.5.3.</span> <span class="nav-text">3. Statistical Framework for SSE</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iv.-association-rule-关联性分析"><span class="nav-number">1.4.</span> <span class="nav-text">IV. Association Rule 关联性分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#measures"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. Measures</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#support"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">1. Support</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#confidence"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">2. Confidence</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apriori-algorithm"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. Apriori Algorithm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rule-generation"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. Rule Generation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#maximal-frequent-itemset"><span class="nav-number">1.4.4.</span> <span class="nav-text">Maximal Frequent Itemset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#closed-itemset"><span class="nav-number">1.4.5.</span> <span class="nav-text">Closed itemset</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#v.-anomalyoutlier-异常值检测"><span class="nav-number">1.5.</span> <span class="nav-text">V. Anomaly/Outlier 异常值检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念介绍"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. 概念介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是异常值"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">什么是异常值？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常值检测可以用在哪"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">异常值检测可以用在哪？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常值outlier-和噪声noise是不是一个概念"><span class="nav-number">1.5.1.3.</span> <span class="nav-text">异常值（outlier) 和噪声（noise）是不是一个概念？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常值评估"><span class="nav-number">1.5.1.4.</span> <span class="nav-text">异常值评估</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常值检测方案schema"><span class="nav-number">1.5.1.5.</span> <span class="nav-text">异常值检测方案（schema）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常值类型"><span class="nav-number">1.5.1.6.</span> <span class="nav-text">异常值类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常值检测的各种方法anomaly-detection"><span class="nav-number">1.5.2.</span> <span class="nav-text">2. 异常值检测的各种方法（Anomaly Detection）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#统计检验statistical-based"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">1.统计检验（Statistical-based）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接近度proximity-based"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">2. 接近度（Proximity-based）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基于距离distance"><span class="nav-number">1.5.2.2.1.</span> <span class="nav-text">1. 基于距离（distance）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#基于密度density-based-outlier-detection"><span class="nav-number">1.5.2.2.2.</span> <span class="nav-text">2. 基于密度（Density-Based Outlier Detection）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#聚类检验cluster-based"><span class="nav-number">1.5.2.3.</span> <span class="nav-text">3. 聚类检验（cluster-based）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vi.-recommender-systems"><span class="nav-number">1.6.</span> <span class="nav-text">VI. Recommender Systems</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#user-based"><span class="nav-number">1.6.1.</span> <span class="nav-text">1. User-based</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pearson-correlation"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">Pearson correlation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#peason-correlation的缺点"><span class="nav-number">1.6.1.2.</span> <span class="nav-text">Peason correlation的缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#item-based"><span class="nav-number">1.6.2.</span> <span class="nav-text">2. Item-based</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#latent-factor-modellfm"><span class="nav-number">1.6.3.</span> <span class="nav-text">3.Latent Factor Model(LFM)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#model-based"><span class="nav-number">1.6.4.</span> <span class="nav-text">4. Model-based</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bayes"><span class="nav-number">1.6.4.1.</span> <span class="nav-text">1. Bayes</span></a></li></ol></li></ol></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Xiaoqi Zhuang</span>
-
-  
-</div>
-
-
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    var isXml = true;
-    // Search DB path;
-    var search_path = "search.xml";
-    if (search_path.length === 0) {
-      search_path = "search.xml";
-    } else if (/json$/i.test(search_path)) {
-      isXml = false;
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    var onPopupClose = function (e) {
-      $('.popup').hide();
-      $('#local-search-input').val('');
-      $('.search-result-list').remove();
-      $('#no-result').remove();
-      $(".local-search-pop-overlay").remove();
-      $('body').css('overflow', '');
-    }
-
-    function proceedsearch() {
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
-        .css('overflow', 'hidden');
-      $('.search-popup-overlay').click(onPopupClose);
-      $('.popup').toggle();
-      var $localSearchInput = $('#local-search-input');
-      $localSearchInput.attr("autocapitalize", "none");
-      $localSearchInput.attr("autocorrect", "off");
-      $localSearchInput.focus();
-    }
-
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-
-      // start loading animation
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
-          '<div id="search-loading-icon">' +
-          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
-          '</div>' +
-          '</div>')
-        .css('overflow', 'hidden');
-      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
-
-      $.ajax({
-        url: path,
-        dataType: isXml ? "xml" : "json",
-        async: true,
-        success: function(res) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = isXml ? $("entry", res).map(function() {
-            return {
-              title: $("title", this).text(),
-              content: $("content",this).text(),
-              url: $("url" , this).text()
-            };
-          }).get() : res;
-          var input = document.getElementById(search_id);
-          var resultContent = document.getElementById(content_id);
-          var inputEventFunction = function() {
-            var searchText = input.value.trim().toLowerCase();
-            var keywords = searchText.split(/[\s\-]+/);
-            if (keywords.length > 1) {
-              keywords.push(searchText);
-            }
-            var resultItems = [];
-            if (searchText.length > 0) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var hitCount = 0;
-                var searchTextCount = 0;
-                var title = data.title.trim();
-                var titleInLowerCase = title.toLowerCase();
-                var content = data.content.trim().replace(/<[^>]+>/g,"");
-                var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
-                var indexOfTitle = [];
-                var indexOfContent = [];
-                // only match articles with not empty titles
-                if(title != '') {
-                  keywords.forEach(function(keyword) {
-                    function getIndexByWord(word, text, caseSensitive) {
-                      var wordLen = word.length;
-                      if (wordLen === 0) {
-                        return [];
-                      }
-                      var startPosition = 0, position = [], index = [];
-                      if (!caseSensitive) {
-                        text = text.toLowerCase();
-                        word = word.toLowerCase();
-                      }
-                      while ((position = text.indexOf(word, startPosition)) > -1) {
-                        index.push({position: position, word: word});
-                        startPosition = position + wordLen;
-                      }
-                      return index;
-                    }
-
-                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
-                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
-                  });
-                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
-                    isMatch = true;
-                    hitCount = indexOfTitle.length + indexOfContent.length;
-                  }
-                }
-
-                // show search results
-
-                if (isMatch) {
-                  // sort index by position of keyword
-
-                  [indexOfTitle, indexOfContent].forEach(function (index) {
-                    index.sort(function (itemLeft, itemRight) {
-                      if (itemRight.position !== itemLeft.position) {
-                        return itemRight.position - itemLeft.position;
-                      } else {
-                        return itemLeft.word.length - itemRight.word.length;
-                      }
-                    });
-                  });
-
-                  // merge hits into slices
-
-                  function mergeIntoSlice(text, start, end, index) {
-                    var item = index[index.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    var hits = [];
-                    var searchTextCountInSlice = 0;
-                    while (position + word.length <= end && index.length != 0) {
-                      if (word === searchText) {
-                        searchTextCountInSlice++;
-                      }
-                      hits.push({position: position, length: word.length});
-                      var wordEnd = position + word.length;
-
-                      // move to next position of hit
-
-                      index.pop();
-                      while (index.length != 0) {
-                        item = index[index.length - 1];
-                        position = item.position;
-                        word = item.word;
-                        if (wordEnd > position) {
-                          index.pop();
-                        } else {
-                          break;
-                        }
-                      }
-                    }
-                    searchTextCount += searchTextCountInSlice;
-                    return {
-                      hits: hits,
-                      start: start,
-                      end: end,
-                      searchTextCount: searchTextCountInSlice
-                    };
-                  }
-
-                  var slicesOfTitle = [];
-                  if (indexOfTitle.length != 0) {
-                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
-                  }
-
-                  var slicesOfContent = [];
-                  while (indexOfContent.length != 0) {
-                    var item = indexOfContent[indexOfContent.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    // cut out 100 characters
-                    var start = position - 20;
-                    var end = position + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if (end < position + word.length) {
-                      end = position + word.length;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
-                  }
-
-                  // sort slices in content by search text's count and hits' count
-
-                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
-                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
-                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
-                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
-                      return sliceRight.hits.length - sliceLeft.hits.length;
-                    } else {
-                      return sliceLeft.start - sliceRight.start;
-                    }
-                  });
-
-                  // select top N slices in content
-
-                  var upperBound = parseInt('1');
-                  if (upperBound >= 0) {
-                    slicesOfContent = slicesOfContent.slice(0, upperBound);
-                  }
-
-                  // highlight title and content
-
-                  function highlightKeyword(text, slice) {
-                    var result = '';
-                    var prevEnd = slice.start;
-                    slice.hits.forEach(function (hit) {
-                      result += text.substring(prevEnd, hit.position);
-                      var end = hit.position + hit.length;
-                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
-                      prevEnd = end;
-                    });
-                    result += text.substring(prevEnd, slice.end);
-                    return result;
-                  }
-
-                  var resultItem = '';
-
-                  if (slicesOfTitle.length != 0) {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
-                  } else {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
-                  }
-
-                  slicesOfContent.forEach(function (slice) {
-                    resultItem += "<a href='" + articleUrl + "'>" +
-                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
-                      "...</p>" + "</a>";
-                  });
-
-                  resultItem += "</li>";
-                  resultItems.push({
-                    item: resultItem,
-                    searchTextCount: searchTextCount,
-                    hitCount: hitCount,
-                    id: resultItems.length
-                  });
-                }
-              })
-            };
-            if (keywords.length === 1 && keywords[0] === "") {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
-            } else if (resultItems.length === 0) {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
-            } else {
-              resultItems.sort(function (resultLeft, resultRight) {
-                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
-                  return resultRight.searchTextCount - resultLeft.searchTextCount;
-                } else if (resultLeft.hitCount !== resultRight.hitCount) {
-                  return resultRight.hitCount - resultLeft.hitCount;
-                } else {
-                  return resultRight.id - resultLeft.id;
-                }
-              });
-              var searchResultList = '<ul class=\"search-result-list\">';
-              resultItems.forEach(function (result) {
-                searchResultList += result.item;
-              })
-              searchResultList += "</ul>";
-              resultContent.innerHTML = searchResultList;
-            }
-          }
-
-          if ('auto' === 'auto') {
-            input.addEventListener('input', inputEventFunction);
-          } else {
-            $('.search-icon').click(inputEventFunction);
-            input.addEventListener('keypress', function (event) {
-              if (event.keyCode === 13) {
-                inputEventFunction();
-              }
-            });
-          }
-
-          // remove loading animation
-          $(".local-search-pop-overlay").remove();
-          $('body').css('overflow', '');
-
-          proceedsearch();
-        }
-      });
-    }
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched === false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(onPopupClose);
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-    $(document).on('keyup', function (event) {
-      var shouldDismissSearchPopup = event.which === 27 &&
-        $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        onPopupClose();
-      }
-    });
-  </script>
-
-
-
-
-
-  
-
-  
-
-  
-<script>
-(function(){
-    var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-    }
-    else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-    }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-})();
-</script>
-
-
-  
-  
-
-  
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
-
-
-  
-
-  
-
-</body>
-</html>
+]]></content>
+      <categories>
+        <category>Data Mining</category>
+      </categories>
+      <tags>
+        <tag>Data Mining</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Contrastive Learning Survey (5) — 2022 Contrastive Learning</title>
+    <url>/2022/05/06/Contrastive-Learning-Survey-5-%E2%80%94-2022-Contrastive-Learning/</url>
+    <content><![CDATA[<h1 id="contrastive-learning-5-2022-contrastive-learning">Contrastive Learning (5) — 2022 Contrastive Learning</h1>
+<p>This article aims to give the lastest researchs on contrastive learning, papers on CVPR 2022, ICLR 2022, and so on.</p>
+<a id="more"></a>
+<h2 id="pcl-prototypical-contrastive-learning">PCL: PROTOTYPICAL CONTRASTIVE LEARNING</h2>
+<p>Paper: Li J, Zhou P, Xiong C, et al. Prototypical contrastive learning of unsupervised representations[J]. arXiv preprint arXiv:2005.04966, 2020.</p>
+<p>Arxiv: https://arxiv.org/abs/2005.04966</p>
+<p>This paper proposes 2 drawbacks of previous contrastive learning framework.</p>
+<ol type="1">
+<li><blockquote>
+<p>The task of instance discrimination could be solved by exploiting low-level image differences, thus the learned embeddings do not necessarily capture high-level semantics. This is supported by the fact thatthe accuracy of instance classification often rapidly rises to a high level (&gt;90% within 10 epochs) and further training gives limited informative signals. A recent study also shows that better performance of instance discrimination could worsen the performance on downstream tasks.</p>
+</blockquote></li>
+<li>cannot capture the semantic structure of data, since each negative sample shares similar semantics by InfoNCE.</li>
+</ol>
+<h3 id="framework">Framework</h3>
+<p><img src="PCL/framework.png"></p>
+<p><img src="PCL/pseudo_code.png"></p>
+<p>Figure 2 and pseudo-code can help understand PCL:</p>
+<ol type="1">
+<li>use features from momentum encoder to do k-means to get prototypes/cluster centers and concentration(discuss later).</li>
+<li>Use ProtoNCE to update network, which ProtoNCE will use prototypes by the previous step.</li>
+<li>update momentum encoder like MoCo</li>
+</ol>
+<h3 id="protonce">ProtoNCE</h3>
+<p><span class="math display">\[\mathcal{L}_{\text {ProtoNCE }}=\sum_{i=1}^{n}-\left(\log \frac{\exp \left(v_{i} \cdot v_{i}^{\prime} / \tau\right)}{\sum_{j=0}^{r} \exp \left(v_{i} \cdot v_{j}^{\prime} / \tau\right)}+\frac{1}{M} \sum_{m=1}^{M} \log \frac{\exp \left(v_{i} \cdot c_{s}^{m} / \phi_{s}^{m}\right)}{\sum_{j=0}^{r} \exp \left(v_{i} \cdot c_{j}^{m} / \phi_{j}^{m}\right)}\right)\]</span></p>
+<p>where <span class="math inline">\(c\)</span> is cluster information. So this loss combines between Clusters info and Instances Info. <span class="math inline">\(M\)</span> means that they will do k-means M times or M different k clusters, they proposed that M times k-means will have different propotype semantic structure from high semantice to low semantic.</p>
+<p>Another different paramter is <span class="math inline">\(\phi\)</span>, where it always is a hyperparamter of <span class="math inline">\(\tau\)</span>. Here <span class="math inline">\(\phi\)</span> is a dynamic paramter learning with training.</p>
+<p><span class="math display">\[\phi=\frac{\sum_{z=1}^{Z}\left\|v_{z}^{\prime}-c\right\| 2}{Z \log (Z+\alpha)}\]</span></p>
+<p>where <span class="math inline">\(α\)</span> is a smooth parameter to ensure that small clusters do not have an overly-large <span class="math inline">\(\phi\)</span>. They normalize <span class="math inline">\(\phi\)</span> for each set of prototypes <span class="math inline">\(C_m\)</span> such that they have a mean of <span class="math inline">\(\tau\)</span>.</p>
+<h2 id="hcsc-hierarchical-contrastive-selective-coding">HCSC: Hierarchical Contrastive Selective Coding</h2>
+<p><img src="HCSC/figure1.png" width="75%" height="75%"></p>
+<p>This paper proposed that a large dataset contains multiple semantic, e.g. “mammals <span class="math inline">\(\to\)</span> Dogs <span class="math inline">\(\to\)</span> Labradors”, where this kind of hierarachical semantics do not be noticed in previous researches. Actucally, PCL does this like multiple times k-means. But this paper does more work on this.</p>
+<p>Another novelty job is that they propose to select high-quality positive and negative pairs which confirms that they are true negative and positive samples.</p>
+<p>For positive samples: select most similar prototype on each semantic hierarchy to build more abundant positive pairs.</p>
+<p>For negative samples: use a Bernoulli sampling to determine if a sample is kept or discarded by their semantic correlation value.</p>
+<p>### Hierarchical K-means</p>
+<p><img src="HCSC/hierarchical_k_means.png" width="50%" height="50%"></p>
+<p>The difference between HCSC and PCL is that they iterate k-means in the clusters, where PCL do gobal k-means many times.</p>
+<h3 id="sample-selecting">Sample selecting</h3>
+<p><img src="HCSC/sample_method.png"></p>
+<p>For example, mammals will be a global semantic which be shown as a biggest green point. Then “dogs” will be “mammals” branch and be shown as a smaller green point, and “poodles” and “labradors” will be shown as the smallest green points. Every other different color points are those who are different with “Mammals”.</p>
+<p>For (b), when selecting samples, positive pairs will be selected in all green points with different sizes to ensure they have different hierarchical semantic, e.g. not only the augs from themselves, but also “poodles”, “dogs”, “mammals” for a “labradors” image. And Negative pairs will be selected in different color points and sample them by a Bernoulli sampling (dicuss later).</p>
+<p><strong>selecting code</strong></p>
+<p><strong>selecting example</strong></p>
+<p><img src="HCSC/query.png" width="75%" height="75%"></p>
+<p><img src="HCSC/cluster.png"></p>
+<h2 id="contrastive-crop">Contrastive Crop</h2>
+<p>Random crop will hurt image and decrease image semantic.</p>
+<p>提出了一种技术，</p>
+<p>从图中可以发现，对比学习模型本身就可以捕捉物体大概的位置信息，从而来指导crops的选取。</p>
+<p>利用这种特征提取物体边框，避免错误正样本对</p>
+<p>中心抑制，上述方法由于其带来了更小的选取范围，生成具有较高相似度的样本对的可能性也提高了</p>
+<p>降低crops集中在图片中心的概率，从而增大采样的方差。</p>
+]]></content>
+      <categories>
+        <category>Contrastive Learning</category>
+      </categories>
+      <tags>
+        <tag>self-supervised learning</tag>
+        <tag>computer vision</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Contrastive Learning Survey (4) — SimSiam</title>
+    <url>/2022/04/18/Contrastive-Learning-Survey-4-%E2%80%94-SimSiam/</url>
+    <content><![CDATA[<h1 id="contrastive-learning-4-simsiam">Contrastive Learning (4) — Simsiam</h1>
+<p>This article aims to introduce a new kind of framework in contrastive learning which does not use negative samples.</p>
+<p>Paper: Chen, X., &amp; He, K. (2021). Exploring simple siamese representation learning. In <em>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition</em> (pp. 15750-15758). Updated version accessed at: https://arxiv.org/abs/2011.10566</p>
+<a id="more"></a>
+<h2 id="novelty">Novelty</h2>
+<p>Simsiam is not the first framework which does not use negative samples. BYOL (Grill, J. B., Strub, F., Altché, F., Tallec, C., Richemond, P., Buchatskaya, E., ... &amp; Valko, M. (2020). Bootstrap your own latent-a new approach to self-supervised learning. <em>Advances in Neural Information Processing Systems</em>, <em>33</em>, 21271-21284.) is early than it and has already achieved better accuracy on ImageNet. Generally, SimSiam is just a special case of BYOL. But SimSiam’s beautiful subtraction of BYOL makes people realize the essence of success in contrastive learning without negative samples.</p>
+<h2 id="note">Note</h2>
+<p>Simsiam does very detailed ablation experiments about its used techniques like: stop-gradient, predictor, hypothesis, loss function, batch normalization. If you want to check result plots, I highly recommend reading the original paper and I will not put them in this blog again.</p>
+<h2 id="framework">Framework</h2>
+<p><img src="simsiam.png"></p>
+<p>Just like paper’s name, it is a real simple framework. Model only use a same encoder(encoder + projector) and a predictor.</p>
+<p>Predictor is new one which does not decrible in previous article. A predictor is just an extra MLP. Simsiam wants to make the feature from predictor from <span class="math inline">\(x_1\)</span> (augmentation from image x) can be similar with <span class="math inline">\(x_2\)</span>. Hence, its loss function is just cosine similarity.</p>
+<p><img src="byol.png"></p>
+<p>Figure 2 is BYOL’s architecture. You can see Simsiam is totally same as BYOL, which the only difference is that BYOL uses a Momentum Encoder <span class="math inline">\(y_{\xi}^{\prime}\)</span> , where <span class="math inline">\(\xi \leftarrow \tau \xi+(1-\tau) \theta\)</span></p>
+<p>Hence, you can think of SimSiam as just a special case of BYOL when <span class="math inline">\(\gamma = 1\)</span>.</p>
+<p>This architecture is very easy to think of, but why was it not first proposed by BYOL until 2020? The biggest problem with training methods without negative samples is that the model will quickly find a shortcut and cause <strong>model collapsing</strong>. Imagine that our encoder only needs to learn to output 0 at this time, the cosine similarity of the loss function is equal to 0, and the model will no longer be updated.</p>
+<p>How BYOL and SimSiam solve model collapsing? They both use a trick: <strong>stop gradient</strong>. We will discuss in detail in the following chapter.</p>
+<h2 id="loss-function">Loss Function</h2>
+<p><span class="math display">\[\mathcal{D}\left(p_{1}, z_{2}\right)=-\frac{p_{1}}{\left\|p_{1}\right\|_{2}} \cdot \frac{z_{2}}{\left\|z_{2}\right\|_{2}}\]</span></p>
+<p>Denote that the encoder is <span class="math inline">\(f\)</span>, prediction is <span class="math inline">\(h\)</span>, then we have <span class="math inline">\(p = h(f(x))\)</span>, <span class="math inline">\(z = f(x)\)</span></p>
+<p>So the equation is just the cosince similarity of the features between encoder and prediction.</p>
+<p><span class="math display">\[\mathcal{L}=\frac{1}{2} \mathcal{D}\left(p_{1}, z_{2}\right)+\frac{1}{2} \mathcal{D}\left(p_{2}, z_{1}\right)\]</span></p>
+<p>SimSiam define a summetrized loss like above, where <span class="math inline">\(1, 2\)</span> is the index of two augmentation images from the same image.</p>
+<h2 id="stop-gradient">Stop Gradient</h2>
+<p>Stop Gradient means that when the model start to do gradient decent, the branch with stop-gradient will be treated as a constant. Hence, the loss function also can be seen as: <span class="math display">\[\mathcal{L}=\frac{1}{2} \mathcal{D}\left(p_{1}, \text { stopgrad }\left(z_{2}\right)\right)+\frac{1}{2} \mathcal{D}\left(p_{2}, \text { stopgrad }\left(z_{1}\right)\right)\]</span></p>
+<p>SimSiam has proved that stop-gradient is the key which prevents model from collapsing solutions with every detailed experiments. You can read them in the paper about experiments and results.</p>
+<p>Authors’ hypothesis is that:</p>
+<blockquote>
+<p>SimSiam is an implementation of an Expectation-Maximization (EM) like algorithm.</p>
+</blockquote>
+<p>The loss function can be like:</p>
+<p><span class="math display">\[\mathcal{L}(\theta, \eta)=\mathbb{E}_{x, \mathcal{T}}\left[\left\|\mathcal{F}_{\theta}(\mathcal{T}(x))-\eta_{x}\right\|_{2}^{2}\right]\]</span></p>
+<p>I think that what paper writes is very clear and I could not simplify any more:</p>
+<blockquote>
+<p><img src="hypothesis.png" width="50%" height="50%"></p>
+</blockquote>
+<p>Than, we can use SGD to solve (7) and get new <span class="math inline">\(\eta_{x}\)</span> by the updated encoder <span class="math inline">\(\mathcal{F}\)</span>.</p>
+<p>For the prediction and the complete hypothesis, I highly recommend reading the original paper since I could not simplify them more.</p>
+<h2 id="comparision">Comparision</h2>
+<p><img src="evaluation.png"></p>
+<p>Table 4 is a global table where hasall networks we talked about in the previous chapters. And it clearly showes that SimSiam uses the simplest framework (no negative pair, no momentum encoder, very samll batch size) achieves a good result(68.1% acc) on ImageNet.</p>
+<p>Hence, although SimSiam does not have any new techniques, it probably shows the kernel of unsupervised learning in the image domain. Such beautiful subtraction operations and exhaustive experimental evidence earned this work the Best Paper Honorable Mentions of CVPR 2022.</p>
+]]></content>
+      <categories>
+        <category>Contrastive Learning</category>
+      </categories>
+      <tags>
+        <tag>self-supervised learning</tag>
+        <tag>computer vision</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Contrastive Learning Survey (3) — MoCo</title>
+    <url>/2022/03/05/Contrastive-Learning-Survey-3-%E2%80%94-MoCo/</url>
+    <content><![CDATA[<h1 id="contrastive-learning-survey-3-moco">Contrastive Learning Survey (3) — MoCo</h1>
+<p>This article decribes a milestone in contrastive learning and the best paper <strong>Nominee</strong> in CVPR 2020.</p>
+<p>Paper: He, K., Fan, H., Wu, Y., Xie, S., and Girshick, R. Momentum contrast for unsupervised visual representation learning. <em>arXiv preprint arXiv:1911.05722</em>, 2019. Updated version accessed at: https://arxiv.org/abs/1911.05722.</p>
+<a id="more"></a>
+<h2 id="bottleneck-of-past-work">Bottleneck of past work</h2>
+<p>The requirement of huge batch size makes simCLR hard to land in real scenes. This paper proposes a framework called MoCo which can not only overcome feature consistency but also provide a large negative samples for training.</p>
+<h2 id="model-framework">Model Framework</h2>
+<p><img src="figure1.png" width="50%" height="50%"></p>
+<p>As usual, a CV paper can roughly understand what the paper wants to express through Figure 1.</p>
+<p>A quick review of simCLR:</p>
+<p><img src="simCLR_framework.jpg" width="50%" height="50%"></p>
+<p>The only difference is that MoCo uses a momentum encoder instead of two same encoders.</p>
+<p>Note: simCLR and MoCo are the same period work, and in MoCo V2, projector which is proposed by simCLR is used.</p>
+<h2 id="queue-to-save-negative-samples">Queue to save negative samples</h2>
+<p>We have talked about the cons of InstDisc: inconsistency of negative samples since fast updating encoders; SimCLR: very large batch size to keep negative samples have consistent distribution with positive samples.</p>
+<p>To overcome these bottlenecks, Moco wants to have a large dictionary to save negative samples, where these negative samples also are <strong>kept as consistent as possible despite its evolution</strong>. proposed to use a queue to save negative samples by using queue’s FIFO(first in first out) characteristic. Then, a queue with much larger size than batch size is used and you can use small batch size to train networks.</p>
+<p>The queue size is recommended as 65536. And after each batch, the earliest negative samples with batch size(n) in the queue will be deleted, and the latest n negative samples will be added to the queue to keep the queue updated.</p>
+<p>So far, this queue seems to be like memory bank in InstDisc. And how negative samples in this queue can have same consistency will be discussed in next chapter: a momentum encoder.</p>
+<h2 id="momentum-encoder">Momentum encoder</h2>
+<p>A momentum encoder is like:</p>
+<p><span class="math display">\[\theta_{\mathrm{k}} \leftarrow m \theta_{\mathrm{k}}+(1-m) \theta_{\mathrm{q}}\]</span></p>
+<p>where <span class="math inline">\(\theta_{\mathrm{k}}\)</span> is momentum encoder, <span class="math inline">\(\theta_{\mathrm{q}}\)</span> is the encoder updated by back-propagation. <span class="math inline">\(m\)</span> always equals 0.999. Hence, the momentum encoder is updated very slowly and ensure that the negative samples from <span class="math inline">\(\theta_{\mathrm{k}}\)</span> are kept consistency.</p>
+<h2 id="loss-function">Loss Function</h2>
+<p><span class="math display">\[\mathcal{L}_{q}=-\log \frac{\exp \left(q \cdot k_{+} / \tau\right)}{\sum_{i=0}^{K} \exp \left(q \cdot k_{i} / \tau\right)}\]</span></p>
+<p>Moco proposed infoNCE loss and soon become the mainstream loss in contrastive learning. The only difference between NCE loss and infoNCE loss is that infoNCE only uses K negative samples from instead of all negative samples.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Moco achieves 68.6% accuracy by linear classification protocol on ImageNet. Compared with 54% in InstDice, Moco can be regarded as a milestone work in contrastive learning.</p>
+]]></content>
+      <categories>
+        <category>Contrastive Learning</category>
+      </categories>
+      <tags>
+        <tag>self-supervised learning</tag>
+        <tag>computer vision</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Contrastive Learning Survey (2) — SimCLR</title>
+    <url>/2022/03/02/Contrastive-Learning-Survey-2-%E2%80%94-SimCLR/</url>
+    <content><![CDATA[<h1 id="contrastive-learning-survey-2-simclr">Contrastive Learning Survey (2) — SimCLR</h1>
+<p>This article decribes an end-to-end framework for contrastive learning called SimCLR.</p>
+<p>Paper: Ting Chen, Simon Kornblith, Mohammad Norouzi, and Ge- offrey Hinton. A simple framework for contrastive learning of visual representations. <em>arXiv:2002.05709</em>, 2020. Updated version accessed at: https://arxiv.org/abs/2002.05709.</p>
+<a id="more"></a>
+<h2 id="bottleneck-of-past-work">Bottleneck of past work</h2>
+<p>Although InstDisc which we talked in the last chapter proposed a nice pretext task which makes self-supervised learning seems possible in CV field, the accuracy/performance of InstDisc on image-net is not high, which means that the representation learning from InstDisc is not good.</p>
+<p><img src="figure1.png" width="50%" height="50%"></p>
+<p>Unlike other CV papers that put network structure or images in Figure 1, Figure 1 in simCLR just want to tell people that how good performance simCLR is. Actually, as the name of the paper defines, this is a very simple framework, but it is the first time that unsupervised learning can beat the benchmark supervised model on image-net, which demonstrates the power and confidence of unsupervised learning.</p>
+<h2 id="model-framework">Model Framework</h2>
+<p><img src="figure2.png" width="50%" height="50%"></p>
+<p>If Figure 2 is hard to understand, here is a structure drawn by me.</p>
+<p><img src="simCLR_framework.jpg" width="50%" height="50%"></p>
+<p>The difference from InstDisc to simCLR is that it straightly uses images in the same batch as negative samples instead of using memory bank. In this way, all image vectors are obtained from the same encoder every time, which naturally solves the problem of inconsistent feature distribution in InstDisc.</p>
+<h2 id="model-insights">Model Insights</h2>
+<blockquote>
+<ol type="1">
+<li>Composition of multiple data augmentation operations is crucial in defining the contrastive prediction tasks that yield effective representations. In addition, unsupervised contrastive learning benefits from stronger data augmentation than supervised learning.</li>
+<li>Introducing a learnable nonlinear transformation between the representation and the contrastive loss substantially improves the quality of the learned representations.</li>
+<li>Representation learning with contrastive cross entropy loss benefits from normalized embeddings and an appropriately adjusted temperature parameter.</li>
+<li>Contrastive learning benefits from larger batch sizes and longer training compared to its supervised counterpart. Like supervised learning, contrastive learning benefits from deeper and wider networks.</li>
+</ol>
+</blockquote>
+<p>These 4 insights are the most important essence of this paper. We will discuss in detail one by one.</p>
+<h3 id="data-augmentation">Data augmentation</h3>
+<p>The first insight demonstrates that data guamentation is an important condition for a successful training in contrastive learning.</p>
+<p><img src="augmentation.png" width="50%" height="50%"></p>
+<p>Figure 5 shows that the combination of <strong>random cropping and random color distortion</strong> is the best data augmentation for improving accuracy. This result makes almost all subsequent comparative learning work use this data augmentation strategy.</p>
+<p>Moreover, it conjectures that:</p>
+<blockquote>
+<p>one serious issue when using only random cropping as data augmentation is that most patches from an image share a similar color distribution. Neural nets may exploit this shortcut to solve the predictive task. Therefore, it is critical to compose cropping with color distortion in order to learn generalizable features.</p>
+</blockquote>
+<p>The original paper shows very detailed augmentation strategy and experiment results to prove this point in chapter 3.1, 3.2.</p>
+<h3 id="projection">Projection</h3>
+<p><img src="projector.png" width="50%" height="50%"></p>
+<p>Projection is just a single dense layer with ReLu and is used bewteen the output of encoder and the input of loss function. It can make the outputs of encoder smoother. The experiment results show that add a nonlinear projector(one dense layer + Relu) improves accuracy a lot.</p>
+<blockquote>
+<p>We observe that a nonlinear projection is better than a linear projection (+3%), and much better than no projection (&gt;10%).</p>
+</blockquote>
+<p>Another interesting result is that:</p>
+<blockquote>
+<p>Furthermore, even when nonlinear projection is used, the layer before the projection head, h, is still much better (&gt;10%) than the layer after, z = g(h), which shows that <em>the hidden layer before the projection head is a better representation than the layer after</em>.</p>
+</blockquote>
+<p>which means that projection is really usefull for contrastive learning.</p>
+<h3 id="hyperparameters">Hyperparameters</h3>
+<p><img src="hyperparameters.png" width="50%" height="50%"></p>
+<p>Table 5 shows that temperature <span class="math inline">\(\tau\)</span> has a strong effect on accuracy. Also, if model is trained without l2 norm, it may overfit (much higher in contrastive acc but low acc in downstream tasks).</p>
+<p>In conclusion, this part talks more about tricks. It proves that <span class="math inline">\(\tau\)</span> is an important hyper parameter and l2 norm help representation learning.</p>
+<p>Actually, this chapter in the paper also describes about the loss function. But I decided to dedicate a specialized article for all loss functions in contrastive learning. We will talk it in that article.</p>
+<h3 id="huge-negative-samples">Huge negative samples</h3>
+<p><img src="negative_size.png" width="50%" height="50%"></p>
+<p>Figure 9 shows that the accuracy of simCLR increases significantly with the increase of batch size. Since the size of batch size is the size of negative samples, the paper says that a huge negative sample set is the key to improving the performance of contrastive learning.</p>
+<p>However, if you use a batch size which is more than 1024 to train, it requires huge calculation recourses and many tricks to make it start training. Hence, simCLR is hard to preproduce by ourselves and hard to land in real scene.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Although simCLR almost can not be preproduced and landed, it proves many useful tricks and insights for contrastive learning. Hence, simCLR has a huge impact on follow-up research due to its easy framework and strong results.</p>
+]]></content>
+      <categories>
+        <category>Contrastive Learning</category>
+      </categories>
+      <tags>
+        <tag>self-supervised learning</tag>
+        <tag>computer vision</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DATA7202 多元线性回归</title>
+    <url>/2020/02/29/DATA7202-1st-Week-Review/</url>
+    <content><![CDATA[<p>UQ 2020 Semester 1 DATA7202 <em>Statistical Methods for Data Science</em></p>
+<p>多元线性回归复习笔记（不一定对），省略了很多证明，我能咋办，我也看不懂呀</p>
+<p>好文：</p>
+<p>https://zhuanlan.zhihu.com/p/25436791</p>
+<p>https://www.cnblogs.com/nxld/p/6435677.html</p>
+<p>https://zhuanlan.zhihu.com/p/48541799（几乎所有数学证明可以找到）</p>
+<a id="more"></a>
+<h1 id="离散和连续">离散和连续</h1>
+<p>如果随机变量的值可以都可以逐个列举出来，则为离散型随机变量。如果随机变量X的取值无法逐个列举则为连续型变量。</p>
+<h1 id="极大似然估计mle">极大似然估计（MLE）</h1>
+<h2 id="似然">似然</h2>
+<p>假如我们抛硬币100次，有80次朝上的，我们猜测抛硬币结果朝上的概率为80%。</p>
+<p>这就是<strong>似然</strong>！ 我们通过<strong>事实</strong>，来反推测出这个<strong>事件</strong>的各种参数。（抛硬币是概率，也可以是均值，可以是方差等等）</p>
+<p>计算一个事件的概率需要<strong>参数</strong>和<strong>数据</strong></p>
+<p>比如一个事件的数据是<span class="math inline">\((x_1,…, x_n)\)</span>, 它的参数是<span class="math inline">\((\theta_1,…,\theta_k)\)</span>:</p>
+<p>它的<strong>概率函数</strong>表示为 <span class="math inline">\(f\left(x_1,…,x_{i} ; \theta_{1}, \dots, \theta_{k}\right)\)</span>, 也表示为<span class="math inline">\(f\left(x_1,…,x_{i} {｜} \theta_{1}, \dots, \theta_{k}\right)\)</span>,</p>
+<p>此时参数已知，数据未知，当你知道了数据，你就可以计算出概率。</p>
+<p>它的<strong>似然函数</strong>表示为 <span class="math inline">\(L_{n}\left(\theta_{1}, \ldots, \theta_{k} ; x_{1}, \ldots, x_{n}\right)\)</span></p>
+<p>此时数据已知，参数未知。</p>
+<p>它们的公式相等都表示，都是计算出事件发生概率的公式。</p>
+<h2 id="mle">MLE</h2>
+<p>极大似然估计的理念就是选取最有可能的似然！</p>
+<p>翻译一下就是求出<span class="math inline">\(L_{n}\left(\theta_{1}, \ldots, \theta_{k} ; x_{1}, \ldots, x_{n}\right)\)</span> 每个参数<span class="math inline">\(\theta\)</span> 的最大值！</p>
+<p>最大的参数值的意义代表着最有可能是这个事件的真实参数！</p>
+<p>怎么求呢？</p>
+<p>极大似然估计首先假设事件结果每一次都是<strong>独立</strong>的。</p>
+<p>根据独立性质，<span class="math inline">\(f\left(x_1,…,x_{i} {｜} \theta_{1}, \dots, \theta_{k}\right) = \prod_{i=1}^{n} f\left(x_{i} ; \theta_{1}, \ldots, \theta_{k}\right)\)</span></p>
+<p><span class="math inline">\(\prod\)</span> 表示连乘号，例如：$_{i=1}^{n} x_i = x_1 x_2 … x_n $</p>
+<p>因此我们有了极大似然估计的公式：</p>
+<p>$L_{n}(<em>{1}, , </em>{k} ; x_{1}, , x_{n}) = <em>{i=1}^{n} f(x</em>{i} ; <em>{1}, , </em>{k}) $</p>
+<h2 id="例子抛硬币">例子（抛硬币）</h2>
+<p>抛10枚硬币，记录出现正面的次数。</p>
+<p>假如出现正面的次数为4.</p>
+<p>计算概率：</p>
+<p>即求 <span class="math inline">\(f(4|\theta)\)</span></p>
+<p>根据二项分布定理，<span class="math inline">\(f(x|\theta) = \binom {10}{4} \theta^4 (1-\theta)^6\)</span></p>
+<p>我们要求它的最大值：</p>
+<ol type="1">
+<li>求导：</li>
+</ol>
+<p>对<span class="math inline">\(theta\)</span>求导</p>
+<p>$ =  (4<sup>3(1-)</sup>6-6<sup>4(1-)</sup>5)$</p>
+<ol start="2" type="1">
+<li><p>令其等于0</p>
+<p>$4(1-)-6= 0 $</p>
+<p><span class="math inline">\(\theta = 0.4\)</span></p></li>
+</ol>
+<p>假设我们不知道投硬币的概率，从抛10次得到4次是正面的结果来看，潜意识也会认为是40%。</p>
+<h2 id="例子正态分布">例子（正态分布）</h2>
+<p>用极大似然估计证明正态分布的参数<span class="math inline">\(\mu，\sigma^2\)</span> 是平均值和方差。</p>
+<p><span class="math inline">\(f\left(x ; \mu, \sigma^{2}\right)=\frac{1}{\sqrt{2 \pi \sigma^{2}}} e^{-\frac{(x-\mu)^{2}}{2 \sigma^{2}}}\)</span></p>
+<p>手算或者网上好多，再打一遍latex有点多。</p>
+<p>证明无偏和有偏的我还不懂</p>
+<h1 id="多元线性回归">多元线性回归</h1>
+<p><img src="/images/data7202_1st_3.jpg"></p>
+<p>p是coefficent的数量，即<span class="math inline">\(\Beta\)</span>的数量，n是有多少条数据，即<span class="math inline">\(X\)</span>矩阵的行数。</p>
+<p>以后再举例子，我睿了。</p>
+<h2 id="推导">推导</h2>
+<p><span class="math inline">\(\boldsymbol{Y}=\boldsymbol{X} \boldsymbol{\beta}+\boldsymbol{\varepsilon}\)</span></p>
+<p>根据最小二乘法，极大似然估计或者error function都能计算出 <span class="math inline">\(\boldsymbol{\beta}\)</span>：<span class="math inline">\(\left(X^{\top} X\right)^{-1} X^{\top} Y\)</span></p>
+<p>我们的预测值为：<span class="math inline">\(\widehat{Y}=X \widehat{\boldsymbol{\beta}} = X\left(X^{\top} X\right)^{-1} X^{\top} Y\)</span></p>
+<p>称<span class="math inline">\(X\left(X^{\top} X\right)^{-1} X^{\top}\)</span> 为<strong>hat matrix</strong>，或<strong>H</strong></p>
+<h2 id="h-matrix">H matrix</h2>
+<p><span class="math inline">\(H = X\left(X^{\top} X\right)^{-1} X^{\top}\)</span></p>
+<p><span class="math inline">\(H\)</span> 是一个对称和idempotent（幂等）矩阵</p>
+<p>一个矩阵A是idempotent的意思为 <span class="math inline">\(A^2 = A\)</span></p>
+<p>证明H是idempotent的：</p>
+<p><span class="math inline">\(H^2 = X\left(X^{\top} X\right)^{-1} X^{\top} (X\left(X^{\top} X\right)^{-1} X^{\top}) = X(X^{\top} X^{-1} (X^{\top} X))X^{\top} X^{-1} X^{\top}\)</span></p>
+<p>因为 <span class="math inline">\(X^{\top} X^{-1} (X^{\top} X) = I\)</span></p>
+<p>即 $ H^2 = H$</p>
+<p>证明<span class="math inline">\(H\)</span>是对称的：</p>
+<p>还不会，网上都说显然可知。。。</p>
+<p>##残差</p>
+<p>残差residual为：<span class="math inline">\(e = Y-\widehat{Y}=\left(1_{n}-H\right) Y\)</span></p>
+<p>证明：<span class="math inline">\(\operatorname{Var}(\mathrm{e})=\left(\mathrm{I}_{n}-\mathrm{H}\right)[\operatorname{Var}(\mathrm{Y})]\left(\mathrm{I}_{n}-\mathrm{H}\right)^{\top}=\sigma^{2}\left(\mathrm{I}_{n}-\mathrm{H}\right)\)</span></p>
+<p>令<span class="math inline">\(\mathrm{I}_{n}-\mathrm{H} = A\)</span></p>
+<p>$() = E((A(Y-))(A(Y-))^T) $</p>
+<p><span class="math inline">\(= E(A(Y-\mu)(Y- \mu)^TA^T)\)</span></p>
+<p><span class="math inline">\(= AE((Y-\mu)(Y- \mu)^T)A^T\)</span></p>
+<p><span class="math inline">\(= A\operatorname{Var}(\mathrm{Y})A^T\)</span></p>
+<p><span class="math inline">\(= (\mathrm{I}_{n}-\mathrm{H})\operatorname{Var}(\mathrm{Y})(\mathrm{I}_{n}-\mathrm{H})^T\)</span></p>
+<p>因为<span class="math inline">\((\mathrm{I}_{n}-\mathrm{H})(\mathrm{I}_{n}-\mathrm{H})^T = (\mathrm{I}_{n}-\mathrm{H})\)</span> （根据对称，转置等于本身。再根据幂等，平方等于本身）</p>
+<p><span class="math inline">\(= \sigma^2(\mathrm{I}_{n}-\mathrm{H})\)</span></p>
+<p>因此<span class="math inline">\(e_{i}=\sigma^{2}\left(1-h_{i i}\right)\)</span> ,<span class="math inline">\(h_{ii}\)</span> 是<span class="math inline">\(H\)</span> 的对角元，也叫<strong>杠杆值（leverage）</strong></p>
+<h2 id="leverage杠杆值">leverage杠杆值</h2>
+<p><span class="math inline">\(h_{ii}\)</span> 为<span class="math inline">\(H\)</span>矩阵对角线上的值，它能很大的影响预测值，原因如图：</p>
+<p><img src="/images/data7202_1st_8.jpg"></p>
+<p>由于<span class="math inline">\(\sum_{i=1}^{n} h_{i i}=p\)</span>（好像是根据trace，对称幂等矩阵公式推导的，我睿了）：</p>
+<p>因此如果<span class="math inline">\(h_{ii} &gt; 2p/n\)</span>, 则称观测值<span class="math inline">\(x_i\)</span> 为异常值。</p>
+<p><img src="/images/data7202_1st_6.jpg"></p>
+<p>如果Studentized residual的绝对值非常大，例如<span class="math inline">\(\left|r_{i}^{*}\right|&gt;2\)</span> ，也可以说<span class="math inline">\(x_i\)</span>是异常值。</p>
+<h2 id="model-assumption">Model assumption</h2>
+<p>残差对于model assumption很重要，它必须满足下面四条性质。</p>
+<h3 id="normalityqq-plot">Normality(QQ-PLOT)</h3>
+<p>残差的分布应该接近正态分布（均值为0）</p>
+<p>可以使用qq-plot来判断数据集是否服从正态分布，当qqplot的图近似为一条45度的直线时，则说明该数据服从正态分布。</p>
+<p><img src="/images/data7202_1st_3.jpg"></p>
+<p>上图左半部分近似正态分布，因此qqplot为一条45度直线。而右半分布则不是。</p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line">qqnorm(x)</span><br><span class="line">qqline(x)</span><br></pre></td></tr></table></figure>
+<h3 id="linearity">Linearity</h3>
+<p>模型应该捕获所有系统数据中存在的方差，只留下随机噪声。</p>
+<p>或者说作出的图像近似一条直线。说明可以和我们假设是线性相关一致。</p>
+<p>###homoscedasticity(constant variance)</p>
+<p>假设我们有家庭收入和奢侈品支出的数据。使用二元回归，我们使用家庭收入来预测奢侈品消费。不出所料，收入与支出之间有很强的积极联系。通过检查残差，我们发现了一个问题–残差对于家庭收入较低的值很小（几乎所有低收入家庭在奢侈品上的花费都不多），而较富裕家庭的残差大小却存在很大差异（有些家庭在奢侈品上花了很多钱，而有些家庭的奢侈品花销则比较中等）。这种情况表示异方差性，因为误差的大小随自变量的值而变化。</p>
+<p>如图所示：</p>
+<p><img src="/images/data7202_1st_1.jpg"></p>
+<p>我们发现上述例子就可以对应“nonconstant variance”图，即方差和残差之间存在关联性。</p>
+<p>“contant variance“ 图残差对于自变量或者预测值都没有关联性，说明就是随机误差，是我们想要的结果。</p>
+<p>直接测试符不符合homoscedasticity的代码为</p>
+<p><img src="/images/data7202_1st_4.jpg"></p>
+<p><strong>suggested power transformation</strong> 的用处：</p>
+<p>suggested power transformation值为<span class="math inline">\(p\)</span>, <span class="math inline">\(Y^{p}\)</span>更能满足homoscedasticity性。（<span class="math inline">\(Y\)</span> 就是真实值）</p>
+<p>例子：suggested power transformation值为0.5，那么使用 <span class="math inline">\(Y^{0.5}\)</span> 比使用<span class="math inline">\(Y\)</span> 更能满足homoscedasticity性，此时残差<span class="math inline">\(e = Y^{0.5}-\widehat{Y}\)</span></p>
+<h3 id="independence">independence</h3>
+<p><img src="/images/data7202_1st_2.jpg"></p>
+<p>如果残差根据时间并没有明显线性关系时，说明残差具有独立性。</p>
+<p>时间的意思是自变量输入的顺序。</p>
+<h1 id="具体操作例子">具体操作例子</h1>
+<p>数据：中风患者出院后康复情况</p>
+<p>应变量（<span class="math inline">\(Y\)</span>): 康复出院时的步行速度</p>
+<p>有120组数据，17个自变量属性。</p>
+<p>目的：</p>
+<ol type="1">
+<li>尝试预测出院时的步行速度</li>
+<li>找出哪些自变量最能影响预测值</li>
+</ol>
+<p>变量的含义就不介绍了</p>
+<h2 id="变量处理">变量处理</h2>
+<p>对于分类型变量，一般我们将其处理为dummy variables（哑变量）</p>
+<p>只有2个分类时，例如性别：我们将female = 1， male = 0</p>
+<p>分类数量大于2时，例如例子中的（side of stroke）变量含有“left”，“right”，“other”三个分类</p>
+<p>将其变为：“left” = (1 0 0), “right” = (0 1 0), “other” = (0 0 1)</p>
+<p>实际上我们可以将3类的进行优化，例如：“left” = (1 0), “right” = (0 1), “other” = (0 0)</p>
+<p>既不是left也不是right的自然就是另一个分类。</p>
+<p>这样做的目的可以减少空间。</p>
+<h2 id="第一步线性检查linearity">第一步：线性检查（linearity）</h2>
+<p>我们对所有变量画一次单变量-因变量散点图，观察其是否具有线性。</p>
+<p>因为具有线性才能符合我们的假设，我们的公式。</p>
+<h2 id="第二步相关性">第二步：相关性</h2>
+<p>为什么属性可以影响到因变量（行走速度）呢？</p>
+<p>它可能是相关的，但是相关并不意味着因果关系。 这些变量中有许多相互关联，因为其他因素（例如，运动功能受损的程度）以相似的方式影响其中一个以上的因素。</p>
+<p>我们仍然希望看到似乎与出院步行速度直接相关的解释变量会成为多元回归分析中的最佳预测变量。</p>
+<h2 id="第三步缺失数据">第三步：缺失数据</h2>
+<p>在120组数据中只有85组拥有完整的所有变量。</p>
+<p>然而大多数的多元线性回归会直接去掉含有未知量的数据组。</p>
+<p>这大大缩小了样本大小。鼓励我们尽可能使用较少的解释变量。</p>
+<h3 id="对解释变量的初始剔除">对解释变量的初始剔除</h3>
+<p>对每一个解释变量都做一次简单线性回归，仅保留那些显著关联响应变量的解释变量。</p>
+<p>通过这个操作，我们删除了“FIM cognitive”，“MAS 6-8“，“age”，“gender”，“side of stroke”等变量。</p>
+<h2 id="第四步线性回归">第四步：线性回归</h2>
+<p>对解释变量 &quot;FIM motor score” 和“ walking speed at admission”分别做简单线性回归，如下：</p>
+<p><img src="/images/data7202_1st_7.jpg"></p>
+<h3 id="p-value">p-value</h3>
+<p>当p-value小于给定<span class="math inline">\(\alpha\)</span>, 一般为0.005或0.001时，则称该变量是否有意义。（越小越好）</p>
+<p>具体一点：</p>
+<p>零假设：对于<span class="math inline">\(x_j\)</span>, <span class="math inline">\(\beta_j = 0\)</span> 含义就是<span class="math inline">\(x_j\)</span>这个解释变量对于响应变量毫无影响。</p>
+<p>备择假设：<span class="math inline">\(\beta_j \neq 0\)</span></p>
+<p>如何计算？</p>
+<p>我们计算<span class="math inline">\(\hat{\mathrm{y}}=\mathrm{b}_{0}+\mathrm{b}_{1} \mathrm{x}_{1}+\mathrm{b}_{2} \mathrm{x}_{2}+\ldots+\mathrm{b}_{\mathrm{d}} \mathrm{x}_{\mathrm{d}}\)</span> (排除掉<span class="math inline">\(\mathrm{b}_{j}\)</span>)，比较这个值产生的error和包括<span class="math inline">\(\mathrm{b}_{j}\)</span>时的error。</p>
+<p>当小于某个阈值（<span class="math inline">\(\alpha\)</span>）时，则说明<span class="math inline">\(x_j\)</span>是一个重要的解释变量。</p>
+<p>多元线性回归中一个解释变量的p值通常会比简单线性回归中此变量的p值高（说明更少的重要性）</p>
+<p>甚至可能从“重要”被偏移到“不重要”</p>
+<p>为什么呢？</p>
+<p>因为选择其他的变量的时候就可能已经帮助到响应变量了，所以仅仅增加一个并不能很有效的帮助。</p>
+<p>因此：仅有一些解释变量是重要的。</p>
+<p>我们可以根据p-value值进行排序，讲较大的p-value对应的解释变量剔除。</p>
+<h3 id="coefficient">Coefficient</h3>
+<p>“Coef.“即是<span class="math inline">\(\beta\)</span>的值，越大说明对结果影响越大。（越大越好）</p>
+<p>###R-squared</p>
+<p>https://zhuanlan.zhihu.com/p/47180789</p>
+<h4 id="sstosse">SSTO,SSE</h4>
+<p><span class="math inline">\(SSTO = \sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)^{2}\)</span></p>
+<p><span class="math inline">\(y_i\)</span>是真实值，<span class="math inline">\(\bar{y}\)</span>是样本均值。</p>
+<p><span class="math inline">\(\mathrm{SSE}=\sum_{i=1}^{n}\left(y_{i}-\hat{y}_{i}\right)^{2}\)</span></p>
+<p><span class="math inline">\(\hat{y}_{i}\)</span>是<span class="math inline">\(y\)</span>的预测值。</p>
+<p><img src="/images/data7202_1st_11.jpg"></p>
+<p>从图中看出：</p>
+<p>每个散点就是<span class="math inline">\(y\)</span>。</p>
+<p>绿线就是<span class="math inline">\(\bar{y}\)</span>,因为是常数，所以是一条水平的直线。</p>
+<p>红线是<span class="math inline">\(\hat{y}_{i}\)</span>,是由线性回归得出的直线。</p>
+<p>所以SSTO是真实情况对于平均值的离散程度，而SSE是真实情况对于随机误差的离散情况（可能是个病句）</p>
+<p>由这个两个值我们得到一个重要的判断值：</p>
+<p><span class="math inline">\(R^{2}=\frac{\mathrm{SSTO}-\mathrm{SSE}}{\mathrm{SSTO}} = 1 - \frac{\mathrm{SSE}}{\mathrm{SSTO}}\)</span></p>
+<p>当<span class="math inline">\(R^2\)</span>越接近1，说明回归线更加的精确。</p>
+<p>由于这个是有偏估计，把它变为无偏后的<span class="math inline">\(R^2\)</span>就是“Adj R_squared”，道理以后再搞懂。</p>
+<p>“Adj R_squared” = 0.8，则说明了解释变量解释了80%的响应变量的方差。（越大越好）</p>
+<h2 id="多元线性回归的条件">多元线性回归的条件</h2>
+<ol type="1">
+<li>每一个解释变量和响应变量的关系都逼近一条直线（linearity）</li>
+<li>没有高影响的异常值</li>
+<li>残差逼近正态分布</li>
+<li>残差具有constant varianve（用过 residuals vs fitted values图）</li>
+<li>数据值独立</li>
+<li>解释变量的个数p受到样本大小n的约束，通常我们根据经验法则：<span class="math inline">\(p \leq n/3\)</span></li>
+</ol>
+<h2 id="多元线性回归图">多元线性回归图</h2>
+<p><img src="/images/data7202_1st_9.jpg"></p>
+<p>通常我们使用p-value进行排序（越小越重要），如果p-value值相同，则使用t-test结果的绝对值（越大越重要）</p>
+<p><img src="/images/data7202_1st_10.jpg"></p>
+<p>我们还可以查看所有变量之间的correlation。我们发现有些变量之间也有很强的关联性，这并不好，大多数的做法是去掉它们。</p>
+<h2 id="总结">总结</h2>
+<ol type="1">
+<li>如果需要，可以通过图形，相关性计算以及简单的线性回归与响应进行探索性数据分析，以找出有希望的变量。但是，这不能完全预期多元线性回归的结果。</li>
+<li>估计的斜率系数可以解释为与解释变量的单位增加相关的响应变量的平均变化，而其他解释变量则保持不变。应该报告其置信区间。</li>
+<li>找到关联后，因果关系通常仍然不清楚，但可能存在于变量对之间。这可以激励旨在改善反应变量结果的后续干预研究。</li>
+<li>基于多个解释变量，可以使用多元线性回归为感兴趣的响应变量开发预测方程。</li>
+<li>它还可以量化哪些解释变量与响应变量显着相关。</li>
+<li>分类变量可以变为哑变量放入模型中</li>
+<li>多重线性回归的假设与简单线性回归的假设相同，但对可能的解释变量的数量有额外的限制，建议最多为n / 3，其中n为观察数。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>DATA7202</category>
+      </categories>
+      <tags>
+        <tag>MLE</tag>
+        <tag>stats</tag>
+        <tag>biased estimate</tag>
+      </tags>
+  </entry>
+</search>
