@@ -65,35 +65,62 @@
       </tags>
   </entry>
   <entry>
-    <title>Contrastive Learning Survey (3) — MoCo</title>
-    <url>/2022/03/05/Contrastive-Learning-Survey-3-%E2%80%94-MoCo/</url>
-    <content><![CDATA[<h1 id="contrastive-learning-survey-3-moco">Contrastive Learning Survey (3) — MoCo</h1>
-<p>This article decribes a milestone in contrastive learning and the best paper <strong>Nominee</strong> in CVPR 2020.</p>
-<p>Paper: He, K., Fan, H., Wu, Y., Xie, S., and Girshick, R. Momentum contrast for unsupervised visual representation learning. <em>arXiv preprint arXiv:1911.05722</em>, 2019. Updated version accessed at: https://arxiv.org/abs/1911.05722.</p>
+    <title>Contrastive Learning Survey (2) — SimCLR</title>
+    <url>/2022/03/02/Contrastive-Learning-Survey-2-%E2%80%94-SimCLR/</url>
+    <content><![CDATA[<h1 id="contrastive-learning-survey-2-simclr">Contrastive Learning Survey (2) — SimCLR</h1>
+<p>This article decribes an end-to-end framework for contrastive learning called SimCLR.</p>
+<p>Paper: Ting Chen, Simon Kornblith, Mohammad Norouzi, and Ge- offrey Hinton. A simple framework for contrastive learning of visual representations. <em>arXiv:2002.05709</em>, 2020. Updated version accessed at: https://arxiv.org/abs/2002.05709.</p>
 <a id="more"></a>
 <h2 id="bottleneck-of-past-work">Bottleneck of past work</h2>
-<p>The requirement of huge batch size makes simCLR hard to land in real scenes. This paper proposes a framework called MoCo which can not only overcome feature consistency but also provide a large negative samples for training.</p>
-<h2 id="model-framework">Model Framework</h2>
+<p>Although InstDisc which we talked in the last chapter proposed a nice pretext task which makes self-supervised learning seems possible in CV field, the accuracy/performance of InstDisc on image-net is not high, which means that the representation learning from InstDisc is not good.</p>
 <p><img src="figure1.png" width="50%" height="50%"></p>
-<p>As usual, a CV paper can roughly understand what the paper wants to express through Figure 1.</p>
-<p>A quick review of simCLR:</p>
+<p>Unlike other CV papers that put network structure or images in Figure 1, Figure 1 in simCLR just want to tell people that how good performance simCLR is. Actually, as the name of the paper defines, this is a very simple framework, but it is the first time that unsupervised learning can beat the benchmark supervised model on image-net, which demonstrates the power and confidence of unsupervised learning.</p>
+<h2 id="model-framework">Model Framework</h2>
+<p><img src="figure2.png" width="50%" height="50%"></p>
+<p>If Figure 2 is hard to understand, here is a structure drawn by me.</p>
 <p><img src="simCLR_framework.jpg" width="50%" height="50%"></p>
-<p>The only difference is that MoCo uses a momentum encoder instead of two same encoders.</p>
-<p>Note: simCLR and MoCo are the same period work, and in MoCo V2, projector which is proposed by simCLR is used.</p>
-<h2 id="queue-to-save-negative-samples">Queue to save negative samples</h2>
-<p>We have talked about the cons of InstDisc: inconsistency of negative samples since fast updating encoders; SimCLR: very large batch size to keep negative samples have consistent distribution with positive samples.</p>
-<p>To overcome these bottlenecks, Moco wants to have a large dictionary to save negative samples, where these negative samples also are <strong>kept as consistent as possible despite its evolution</strong>. proposed to use a queue to save negative samples by using queue’s FIFO(first in first out) characteristic. Then, a queue with much larger size than batch size is used and you can use small batch size to train networks.</p>
-<p>The queue size is recommended as 65536. And after each batch, the earliest negative samples with batch size(n) in the queue will be deleted, and the latest n negative samples will be added to the queue to keep the queue updated.</p>
-<p>So far, this queue seems to be like memory bank in InstDisc. And how negative samples in this queue can have same consistency will be discussed in next chapter: a momentum encoder.</p>
-<h2 id="momentum-encoder">Momentum encoder</h2>
-<p>A momentum encoder is like:</p>
-<p><span class="math display">\[\theta_{\mathrm{k}} \leftarrow m \theta_{\mathrm{k}}+(1-m) \theta_{\mathrm{q}}\]</span></p>
-<p>where <span class="math inline">\(\theta_{\mathrm{k}}\)</span> is momentum encoder, <span class="math inline">\(\theta_{\mathrm{q}}\)</span> is the encoder updated by back-propagation. <span class="math inline">\(m\)</span> always equals 0.999. Hence, the momentum encoder is updated very slowly and ensure that the negative samples from <span class="math inline">\(\theta_{\mathrm{k}}\)</span> are kept consistency.</p>
-<h2 id="loss-function">Loss Function</h2>
-<p><span class="math display">\[\mathcal{L}_{q}=-\log \frac{\exp \left(q \cdot k_{+} / \tau\right)}{\sum_{i=0}^{K} \exp \left(q \cdot k_{i} / \tau\right)}\]</span></p>
-<p>Moco proposed infoNCE loss and soon become the mainstream loss in contrastive learning. The only difference between NCE loss and infoNCE loss is that infoNCE only uses K negative samples from instead of all negative samples.</p>
+<p>The difference from InstDisc to simCLR is that it straightly uses images in the same batch as negative samples instead of using memory bank. In this way, all image vectors are obtained from the same encoder every time, which naturally solves the problem of inconsistent feature distribution in InstDisc.</p>
+<h2 id="model-insights">Model Insights</h2>
+<blockquote>
+<ol type="1">
+<li>Composition of multiple data augmentation operations is crucial in defining the contrastive prediction tasks that yield effective representations. In addition, unsupervised contrastive learning benefits from stronger data augmentation than supervised learning.</li>
+<li>Introducing a learnable nonlinear transformation between the representation and the contrastive loss substantially improves the quality of the learned representations.</li>
+<li>Representation learning with contrastive cross entropy loss benefits from normalized embeddings and an appropriately adjusted temperature parameter.</li>
+<li>Contrastive learning benefits from larger batch sizes and longer training compared to its supervised counterpart. Like supervised learning, contrastive learning benefits from deeper and wider networks.</li>
+</ol>
+</blockquote>
+<p>These 4 insights are the most important essence of this paper. We will discuss in detail one by one.</p>
+<h3 id="data-augmentation">Data augmentation</h3>
+<p>The first insight demonstrates that data guamentation is an important condition for a successful training in contrastive learning.</p>
+<p><img src="augmentation.png" width="50%" height="50%"></p>
+<p>Figure 5 shows that the combination of <strong>random cropping and random color distortion</strong> is the best data augmentation for improving accuracy. This result makes almost all subsequent comparative learning work use this data augmentation strategy.</p>
+<p>Moreover, it conjectures that:</p>
+<blockquote>
+<p>one serious issue when using only random cropping as data augmentation is that most patches from an image share a similar color distribution. Neural nets may exploit this shortcut to solve the predictive task. Therefore, it is critical to compose cropping with color distortion in order to learn generalizable features.</p>
+</blockquote>
+<p>The original paper shows very detailed augmentation strategy and experiment results to prove this point in chapter 3.1, 3.2.</p>
+<h3 id="projection">Projection</h3>
+<p><img src="projector.png" width="50%" height="50%"></p>
+<p>Projection is just a single dense layer with ReLu and is used bewteen the output of encoder and the input of loss function. It can make the outputs of encoder smoother. The experiment results show that add a nonlinear projector(one dense layer + Relu) improves accuracy a lot.</p>
+<blockquote>
+<p>We observe that a nonlinear projection is better than a linear projection (+3%), and much better than no projection (&gt;10%).</p>
+</blockquote>
+<p>Another interesting result is that:</p>
+<blockquote>
+<p>Furthermore, even when nonlinear projection is used, the layer before the projection head, h, is still much better (&gt;10%) than the layer after, z = g(h), which shows that <em>the hidden layer before the projection head is a better representation than the layer after</em>.</p>
+</blockquote>
+<p>which means that projection is really usefull for contrastive learning.</p>
+<h3 id="hyperparameters">Hyperparameters</h3>
+<p><img src="hyperparameters.png" width="50%" height="50%"></p>
+<p>Table 5 shows that temperature <span class="math inline">\(\tau\)</span> has a strong effect on accuracy. Also, if model is trained without l2 norm, it may overfit (much higher in contrastive acc but low acc in downstream tasks).</p>
+<p>In conclusion, this part talks more about tricks. It proves that <span class="math inline">\(\tau\)</span> is an important hyper parameter and l2 norm help representation learning.</p>
+<p>Actually, this chapter in the paper also describes about the loss function. But I decided to dedicate a specialized article for all loss functions in contrastive learning. We will talk it in that article.</p>
+<h3 id="huge-negative-samples">Huge negative samples</h3>
+<p><img src="negative_size.png" width="50%" height="50%"></p>
+<p>Figure 9 shows that the accuracy of simCLR increases significantly with the increase of batch size. Since the size of batch size is the size of negative samples, the paper says that a huge negative sample set is the key to improving the performance of contrastive learning.</p>
+<p>However, if you use a batch size which is more than 1024 to train, it requires huge calculation recourses and many tricks to make it start training. Hence, simCLR is hard to preproduce by ourselves and hard to land in real scene.</p>
 <h2 id="conclusion">Conclusion</h2>
-<p>Moco achieves 68.6% accuracy by linear classification protocol on ImageNet. Compared with 54% in InstDice, Moco can be regarded as a milestone work in contrastive learning.</p>
+<p>Although simCLR almost can not be preproduced and landed, it proves many useful tricks and insights for contrastive learning. Hence, simCLR has a huge impact on follow-up research due to its easy framework and strong results.</p>
 ]]></content>
       <categories>
         <category>Contrastive Learning</category>
@@ -158,62 +185,35 @@
       </tags>
   </entry>
   <entry>
-    <title>Contrastive Learning Survey (2) — SimCLR</title>
-    <url>/2022/03/02/Contrastive-Learning-Survey-2-%E2%80%94-SimCLR/</url>
-    <content><![CDATA[<h1 id="contrastive-learning-survey-2-simclr">Contrastive Learning Survey (2) — SimCLR</h1>
-<p>This article decribes an end-to-end framework for contrastive learning called SimCLR.</p>
-<p>Paper: Ting Chen, Simon Kornblith, Mohammad Norouzi, and Ge- offrey Hinton. A simple framework for contrastive learning of visual representations. <em>arXiv:2002.05709</em>, 2020. Updated version accessed at: https://arxiv.org/abs/2002.05709.</p>
+    <title>Contrastive Learning Survey (3) — MoCo</title>
+    <url>/2022/03/05/Contrastive-Learning-Survey-3-%E2%80%94-MoCo/</url>
+    <content><![CDATA[<h1 id="contrastive-learning-survey-3-moco">Contrastive Learning Survey (3) — MoCo</h1>
+<p>This article decribes a milestone in contrastive learning and the best paper <strong>Nominee</strong> in CVPR 2020.</p>
+<p>Paper: He, K., Fan, H., Wu, Y., Xie, S., and Girshick, R. Momentum contrast for unsupervised visual representation learning. <em>arXiv preprint arXiv:1911.05722</em>, 2019. Updated version accessed at: https://arxiv.org/abs/1911.05722.</p>
 <a id="more"></a>
 <h2 id="bottleneck-of-past-work">Bottleneck of past work</h2>
-<p>Although InstDisc which we talked in the last chapter proposed a nice pretext task which makes self-supervised learning seems possible in CV field, the accuracy/performance of InstDisc on image-net is not high, which means that the representation learning from InstDisc is not good.</p>
-<p><img src="figure1.png" width="50%" height="50%"></p>
-<p>Unlike other CV papers that put network structure or images in Figure 1, Figure 1 in simCLR just want to tell people that how good performance simCLR is. Actually, as the name of the paper defines, this is a very simple framework, but it is the first time that unsupervised learning can beat the benchmark supervised model on image-net, which demonstrates the power and confidence of unsupervised learning.</p>
+<p>The requirement of huge batch size makes simCLR hard to land in real scenes. This paper proposes a framework called MoCo which can not only overcome feature consistency but also provide a large negative samples for training.</p>
 <h2 id="model-framework">Model Framework</h2>
-<p><img src="figure2.png" width="50%" height="50%"></p>
-<p>If Figure 2 is hard to understand, here is a structure drawn by me.</p>
+<p><img src="figure1.png" width="50%" height="50%"></p>
+<p>As usual, a CV paper can roughly understand what the paper wants to express through Figure 1.</p>
+<p>A quick review of simCLR:</p>
 <p><img src="simCLR_framework.jpg" width="50%" height="50%"></p>
-<p>The difference from InstDisc to simCLR is that it straightly uses images in the same batch as negative samples instead of using memory bank. In this way, all image vectors are obtained from the same encoder every time, which naturally solves the problem of inconsistent feature distribution in InstDisc.</p>
-<h2 id="model-insights">Model Insights</h2>
-<blockquote>
-<ol type="1">
-<li>Composition of multiple data augmentation operations is crucial in defining the contrastive prediction tasks that yield effective representations. In addition, unsupervised contrastive learning benefits from stronger data augmentation than supervised learning.</li>
-<li>Introducing a learnable nonlinear transformation between the representation and the contrastive loss substantially improves the quality of the learned representations.</li>
-<li>Representation learning with contrastive cross entropy loss benefits from normalized embeddings and an appropriately adjusted temperature parameter.</li>
-<li>Contrastive learning benefits from larger batch sizes and longer training compared to its supervised counterpart. Like supervised learning, contrastive learning benefits from deeper and wider networks.</li>
-</ol>
-</blockquote>
-<p>These 4 insights are the most important essence of this paper. We will discuss in detail one by one.</p>
-<h3 id="data-augmentation">Data augmentation</h3>
-<p>The first insight demonstrates that data guamentation is an important condition for a successful training in contrastive learning.</p>
-<p><img src="augmentation.png" width="50%" height="50%"></p>
-<p>Figure 5 shows that the combination of <strong>random cropping and random color distortion</strong> is the best data augmentation for improving accuracy. This result makes almost all subsequent comparative learning work use this data augmentation strategy.</p>
-<p>Moreover, it conjectures that:</p>
-<blockquote>
-<p>one serious issue when using only random cropping as data augmentation is that most patches from an image share a similar color distribution. Neural nets may exploit this shortcut to solve the predictive task. Therefore, it is critical to compose cropping with color distortion in order to learn generalizable features.</p>
-</blockquote>
-<p>The original paper shows very detailed augmentation strategy and experiment results to prove this point in chapter 3.1, 3.2.</p>
-<h3 id="projection">Projection</h3>
-<p><img src="projector.png" width="50%" height="50%"></p>
-<p>Projection is just a single dense layer with ReLu and is used bewteen the output of encoder and the input of loss function. It can make the outputs of encoder smoother. The experiment results show that add a nonlinear projector(one dense layer + Relu) improves accuracy a lot.</p>
-<blockquote>
-<p>We observe that a nonlinear projection is better than a linear projection (+3%), and much better than no projection (&gt;10%).</p>
-</blockquote>
-<p>Another interesting result is that:</p>
-<blockquote>
-<p>Furthermore, even when nonlinear projection is used, the layer before the projection head, h, is still much better (&gt;10%) than the layer after, z = g(h), which shows that <em>the hidden layer before the projection head is a better representation than the layer after</em>.</p>
-</blockquote>
-<p>which means that projection is really usefull for contrastive learning.</p>
-<h3 id="hyperparameters">Hyperparameters</h3>
-<p><img src="hyperparameters.png" width="50%" height="50%"></p>
-<p>Table 5 shows that temperature <span class="math inline">\(\tau\)</span> has a strong effect on accuracy. Also, if model is trained without l2 norm, it may overfit (much higher in contrastive acc but low acc in downstream tasks).</p>
-<p>In conclusion, this part talks more about tricks. It proves that <span class="math inline">\(\tau\)</span> is an important hyper parameter and l2 norm help representation learning.</p>
-<p>Actually, this chapter in the paper also describes about the loss function. But I decided to dedicate a specialized article for all loss functions in contrastive learning. We will talk it in that article.</p>
-<h3 id="huge-negative-samples">Huge negative samples</h3>
-<p><img src="negative_size.png" width="50%" height="50%"></p>
-<p>Figure 9 shows that the accuracy of simCLR increases significantly with the increase of batch size. Since the size of batch size is the size of negative samples, the paper says that a huge negative sample set is the key to improving the performance of contrastive learning.</p>
-<p>However, if you use a batch size which is more than 1024 to train, it requires huge calculation recourses and many tricks to make it start training. Hence, simCLR is hard to preproduce by ourselves and hard to land in real scene.</p>
+<p>The only difference is that MoCo uses a momentum encoder instead of two same encoders.</p>
+<p>Note: simCLR and MoCo are the same period work, and in MoCo V2, projector which is proposed by simCLR is used.</p>
+<h2 id="queue-to-save-negative-samples">Queue to save negative samples</h2>
+<p>We have talked about the cons of InstDisc: inconsistency of negative samples since fast updating encoders; SimCLR: very large batch size to keep negative samples have consistent distribution with positive samples.</p>
+<p>To overcome these bottlenecks, Moco wants to have a large dictionary to save negative samples, where these negative samples also are <strong>kept as consistent as possible despite its evolution</strong>. proposed to use a queue to save negative samples by using queue’s FIFO(first in first out) characteristic. Then, a queue with much larger size than batch size is used and you can use small batch size to train networks.</p>
+<p>The queue size is recommended as 65536. And after each batch, the earliest negative samples with batch size(n) in the queue will be deleted, and the latest n negative samples will be added to the queue to keep the queue updated.</p>
+<p>So far, this queue seems to be like memory bank in InstDisc. And how negative samples in this queue can have same consistency will be discussed in next chapter: a momentum encoder.</p>
+<h2 id="momentum-encoder">Momentum encoder</h2>
+<p>A momentum encoder is like:</p>
+<p><span class="math display">\[\theta_{\mathrm{k}} \leftarrow m \theta_{\mathrm{k}}+(1-m) \theta_{\mathrm{q}}\]</span></p>
+<p>where <span class="math inline">\(\theta_{\mathrm{k}}\)</span> is momentum encoder, <span class="math inline">\(\theta_{\mathrm{q}}\)</span> is the encoder updated by back-propagation. <span class="math inline">\(m\)</span> always equals 0.999. Hence, the momentum encoder is updated very slowly and ensure that the negative samples from <span class="math inline">\(\theta_{\mathrm{k}}\)</span> are kept consistency.</p>
+<h2 id="loss-function">Loss Function</h2>
+<p><span class="math display">\[\mathcal{L}_{q}=-\log \frac{\exp \left(q \cdot k_{+} / \tau\right)}{\sum_{i=0}^{K} \exp \left(q \cdot k_{i} / \tau\right)}\]</span></p>
+<p>Moco proposed infoNCE loss and soon become the mainstream loss in contrastive learning. The only difference between NCE loss and infoNCE loss is that infoNCE only uses K negative samples from instead of all negative samples.</p>
 <h2 id="conclusion">Conclusion</h2>
-<p>Although simCLR almost can not be preproduced and landed, it proves many useful tricks and insights for contrastive learning. Hence, simCLR has a huge impact on follow-up research due to its easy framework and strong results.</p>
+<p>Moco achieves 68.6% accuracy by linear classification protocol on ImageNet. Compared with 54% in InstDice, Moco can be regarded as a milestone work in contrastive learning.</p>
 ]]></content>
       <categories>
         <category>Contrastive Learning</category>
