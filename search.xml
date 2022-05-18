@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Contrastive Learning (6) — Contrastive Learning with positive/negative sampling</title>
+    <url>/2022/05/17/Contrastive-Learning-6-%E2%80%94-Contrastive-Learning-with-positive-negative-sampling/</url>
+    <content><![CDATA[<h1 id="contrastive-learning-6-contrastive-learning-with-positivenegative-sampling">Contrastive Learning (6) — Contrastive Learning with positive/negative sampling</h1>
+<p>In addition to the lack of high-level semantic representations, the sampling of positive and negative samples for instance discrimination tasks also has obvious problems. Positive samples are all from its own data augmentation, while negative samples are directly sampled from a large memory (within the same batch, memory bank or a momentum encoder). The problem with this is that negative samples may have positive sample, which they are the same class, but are different instances. Another problem is that hard negative samples and easy negative samples have the same weights in InfoNCE loss , which make model too simple if it focus on too many easy negative samples. In this chapter, we will see many interesting works with different methods on solving sampling problem in CL.</p>
+<a id="more"></a>
+<h2 id="what-should-not-be-contrastive-in-contrastive-learning">What Should Not Be Contrastive In Contrastive Learning</h2>
+<p>Link: https://arxiv.org/abs/2008.05659</p>
+<p>Motivation:</p>
+<p><img src="paper1/motivation.png" width="75%" height="75%"></p>
+<p>This paper proposed that data augmentation may hurt image representations, especially when they are used on downstream tasks. For example, a bird identification task is based on representation vectors by color augmentation, or a animal identifacation task is based on representation vectors by rotation augmentation.</p>
+<p>Sounds reasonable, and it did!</p>
+<p>Result:</p>
+<p><img src="paper1/result.png" width="75%" height="75%"></p>
+<p>Table 1 showes that add rotation augmentation on MoCo will significantly reduces its accuracy on IN-100(ImageNet-100) this dataset. And their model LooC has a better result.</p>
+<p>Method:</p>
+<p><img src="paper1/method.png" width="50%" height="50%"></p>
+<p>And add all these <span class="math inline">\(Z\)</span> regions into loss function:</p>
+<p><span class="math display">\[\mathcal{L}_{q}=-\frac{1}{n+1}\left(\log \frac{E_{0,0}^{+}}{E_{0,0}^{+}+\sum_{k^{-}} E_{0,0}^{-}}+\sum_{i=1}^{n} \log \frac{E_{i, i}^{+}}{\sum_{j=0}^{n} E_{i, j}^{+}+\sum_{k^{-}} E_{i, i}^{-}}\right)\]</span></p>
+<p>where <span class="math inline">\(E_{i, j}^{\{+,-\}}=\exp \left(\boldsymbol{z}_{i}^{q} \cdot \boldsymbol{z}_{i}^{k_{j}^{\{+,-\}}} / \tau\right)\)</span></p>
+<p>Insights:</p>
+<p>I think the movitation is quite reasonable, but I cant agree with the solving method which aggregates all different augmentation infomations into the same loss function. It's more like an improvement in robustness, rather than aiming at adapting with specific downstream tasks.</p>
+<p>By the way, I dont like the section of method description. It is a very simple flow but uses so many mathematic symbols, while the most important part of training is simple and hard to understand. This paper also does not provide open source code for me to understanding.</p>
+<h2 id="contrastive-learning-with-stronger-augmentations">Contrastive Learning With Stronger Augmentations</h2>
+<p>Link: https://arxiv.org/abs/2104.07713</p>
+<p>Motivation:</p>
+<figure>
+<img src="Contrastive-Learning-6-%E2%80%94-Contrastive-Learning-with-positive-negative-sampling/image-20220517230527488.png" alt="image-20220517230527488"><figcaption>image-20220517230527488</figcaption>
+</figure>
+<h2 id="contrastive-crop">Contrastive Crop</h2>
+<p>Random crop will hurt image and decrease image semantic.</p>
+<p>提出了一种技术，</p>
+<p>从图中可以发现，对比学习模型本身就可以捕捉物体大概的位置信息，从而来指导crops的选取。</p>
+<p>利用这种特征提取物体边框，避免错误正样本对</p>
+<p>中心抑制，上述方法由于其带来了更小的选取范围，生成具有较高相似度的样本对的可能性也提高了</p>
+<p>降低crops集中在图片中心的概率，从而增大采样的方差。</p>
+]]></content>
+  </entry>
+  <entry>
     <title>Contrastive Learning Survey (1) — InstDisc</title>
     <url>/2022/02/24/Contrastive-Learning-Survey-1-%E2%80%94-InstDisc/</url>
     <content><![CDATA[<h1 id="contrastive-learning-survey-1-instdisc">Contrastive Learning Survey (1) — InstDisc</h1>
@@ -55,6 +93,99 @@
 <h2 id="conclusion">Conclusion</h2>
 <p>We describe the pretext task: Instance Discrimination, model pipeline, a brief of NCE loss and Memory bank. Actually, this paper also proposed other technique skills, but these techniques have little inspiration for follow-up research.</p>
 <p>Next blog we will continue discussing another kinds of contrastive learning framework which are different from InstDisc.</p>
+]]></content>
+      <categories>
+        <category>Contrastive Learning</category>
+      </categories>
+      <tags>
+        <tag>self-supervised learning</tag>
+        <tag>computer vision</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Contrastive Learning Survey (4) — SimSiam</title>
+    <url>/2022/04/18/Contrastive-Learning-Survey-4-%E2%80%94-SimSiam/</url>
+    <content><![CDATA[<h1 id="contrastive-learning-4-simsiam">Contrastive Learning (4) — Simsiam</h1>
+<p>This article aims to introduce a new kind of framework in contrastive learning which does not use negative samples.</p>
+<p>Paper: Chen, X., &amp; He, K. (2021). Exploring simple siamese representation learning. In <em>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition</em> (pp. 15750-15758). Updated version accessed at: https://arxiv.org/abs/2011.10566</p>
+<a id="more"></a>
+<h2 id="novelty">Novelty</h2>
+<p>Simsiam is not the first framework which does not use negative samples. BYOL (Grill, J. B., Strub, F., Altché, F., Tallec, C., Richemond, P., Buchatskaya, E., ... &amp; Valko, M. (2020). Bootstrap your own latent-a new approach to self-supervised learning. <em>Advances in Neural Information Processing Systems</em>, <em>33</em>, 21271-21284.) is early than it and has already achieved better accuracy on ImageNet. Generally, SimSiam is just a special case of BYOL. But SimSiam’s beautiful subtraction of BYOL makes people realize the essence of success in contrastive learning without negative samples.</p>
+<h2 id="note">Note</h2>
+<p>Simsiam does very detailed ablation experiments about its used techniques like: stop-gradient, predictor, hypothesis, loss function, batch normalization. If you want to check result plots, I highly recommend reading the original paper and I will not put them in this blog again.</p>
+<h2 id="framework">Framework</h2>
+<p><img src="simsiam.png"></p>
+<p>Just like paper’s name, it is a real simple framework. Model only use a same encoder(encoder + projector) and a predictor.</p>
+<p>Predictor is new one which does not decrible in previous article. A predictor is just an extra MLP. Simsiam wants to make the feature from predictor from <span class="math inline">\(x_1\)</span> (augmentation from image x) can be similar with <span class="math inline">\(x_2\)</span>. Hence, its loss function is just cosine similarity.</p>
+<p><img src="byol.png"></p>
+<p>Figure 2 is BYOL’s architecture. You can see Simsiam is totally same as BYOL, which the only difference is that BYOL uses a Momentum Encoder <span class="math inline">\(y_{\xi}^{\prime}\)</span> , where <span class="math inline">\(\xi \leftarrow \tau \xi+(1-\tau) \theta\)</span></p>
+<p>Hence, you can think of SimSiam as just a special case of BYOL when <span class="math inline">\(\gamma = 1\)</span>.</p>
+<p>This architecture is very easy to think of, but why was it not first proposed by BYOL until 2020? The biggest problem with training methods without negative samples is that the model will quickly find a shortcut and cause <strong>model collapsing</strong>. Imagine that our encoder only needs to learn to output 0 at this time, the cosine similarity of the loss function is equal to 0, and the model will no longer be updated.</p>
+<p>How BYOL and SimSiam solve model collapsing? They both use a trick: <strong>stop gradient</strong>. We will discuss in detail in the following chapter.</p>
+<h2 id="loss-function">Loss Function</h2>
+<p><span class="math display">\[\mathcal{D}\left(p_{1}, z_{2}\right)=-\frac{p_{1}}{\left\|p_{1}\right\|_{2}} \cdot \frac{z_{2}}{\left\|z_{2}\right\|_{2}}\]</span></p>
+<p>Denote that the encoder is <span class="math inline">\(f\)</span>, prediction is <span class="math inline">\(h\)</span>, then we have <span class="math inline">\(p = h(f(x))\)</span>, <span class="math inline">\(z = f(x)\)</span></p>
+<p>So the equation is just the cosince similarity of the features between encoder and prediction.</p>
+<p><span class="math display">\[\mathcal{L}=\frac{1}{2} \mathcal{D}\left(p_{1}, z_{2}\right)+\frac{1}{2} \mathcal{D}\left(p_{2}, z_{1}\right)\]</span></p>
+<p>SimSiam define a summetrized loss like above, where <span class="math inline">\(1, 2\)</span> is the index of two augmentation images from the same image.</p>
+<h2 id="stop-gradient">Stop Gradient</h2>
+<p>Stop Gradient means that when the model start to do gradient decent, the branch with stop-gradient will be treated as a constant. Hence, the loss function also can be seen as: <span class="math display">\[\mathcal{L}=\frac{1}{2} \mathcal{D}\left(p_{1}, \text { stopgrad }\left(z_{2}\right)\right)+\frac{1}{2} \mathcal{D}\left(p_{2}, \text { stopgrad }\left(z_{1}\right)\right)\]</span></p>
+<p>SimSiam has proved that stop-gradient is the key which prevents model from collapsing solutions with every detailed experiments. You can read them in the paper about experiments and results.</p>
+<p>Authors’ hypothesis is that:</p>
+<blockquote>
+<p>SimSiam is an implementation of an Expectation-Maximization (EM) like algorithm.</p>
+</blockquote>
+<p>The loss function can be like:</p>
+<p><span class="math display">\[\mathcal{L}(\theta, \eta)=\mathbb{E}_{x, \mathcal{T}}\left[\left\|\mathcal{F}_{\theta}(\mathcal{T}(x))-\eta_{x}\right\|_{2}^{2}\right]\]</span></p>
+<p>I think that what paper writes is very clear and I could not simplify any more:</p>
+<blockquote>
+<p><img src="hypothesis.png" width="50%" height="50%"></p>
+</blockquote>
+<p>Than, we can use SGD to solve (7) and get new <span class="math inline">\(\eta_{x}\)</span> by the updated encoder <span class="math inline">\(\mathcal{F}\)</span>.</p>
+<p>For the prediction and the complete hypothesis, I highly recommend reading the original paper since I could not simplify them more.</p>
+<h2 id="comparision">Comparision</h2>
+<p><img src="evaluation.png"></p>
+<p>Table 4 is a global table where hasall networks we talked about in the previous chapters. And it clearly showes that SimSiam uses the simplest framework (no negative pair, no momentum encoder, very samll batch size) achieves a good result(68.1% acc) on ImageNet.</p>
+<p>Hence, although SimSiam does not have any new techniques, it probably shows the kernel of unsupervised learning in the image domain. Such beautiful subtraction operations and exhaustive experimental evidence earned this work the Best Paper Honorable Mentions of CVPR 2022.</p>
+]]></content>
+      <categories>
+        <category>Contrastive Learning</category>
+      </categories>
+      <tags>
+        <tag>self-supervised learning</tag>
+        <tag>computer vision</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Contrastive Learning Survey (3) — MoCo</title>
+    <url>/2022/03/05/Contrastive-Learning-Survey-3-%E2%80%94-MoCo/</url>
+    <content><![CDATA[<h1 id="contrastive-learning-survey-3-moco">Contrastive Learning Survey (3) — MoCo</h1>
+<p>This article decribes a milestone in contrastive learning and the best paper <strong>Nominee</strong> in CVPR 2020.</p>
+<p>Paper: He, K., Fan, H., Wu, Y., Xie, S., and Girshick, R. Momentum contrast for unsupervised visual representation learning. <em>arXiv preprint arXiv:1911.05722</em>, 2019. Updated version accessed at: https://arxiv.org/abs/1911.05722.</p>
+<a id="more"></a>
+<h2 id="bottleneck-of-past-work">Bottleneck of past work</h2>
+<p>The requirement of huge batch size makes simCLR hard to land in real scenes. This paper proposes a framework called MoCo which can not only overcome feature consistency but also provide a large negative samples for training.</p>
+<h2 id="model-framework">Model Framework</h2>
+<p><img src="figure1.png" width="50%" height="50%"></p>
+<p>As usual, a CV paper can roughly understand what the paper wants to express through Figure 1.</p>
+<p>A quick review of simCLR:</p>
+<p><img src="simCLR_framework.jpg" width="50%" height="50%"></p>
+<p>The only difference is that MoCo uses a momentum encoder instead of two same encoders.</p>
+<p>Note: simCLR and MoCo are the same period work, and in MoCo V2, projector which is proposed by simCLR is used.</p>
+<h2 id="queue-to-save-negative-samples">Queue to save negative samples</h2>
+<p>We have talked about the cons of InstDisc: inconsistency of negative samples since fast updating encoders; SimCLR: very large batch size to keep negative samples have consistent distribution with positive samples.</p>
+<p>To overcome these bottlenecks, Moco wants to have a large dictionary to save negative samples, where these negative samples also are <strong>kept as consistent as possible despite its evolution</strong>. proposed to use a queue to save negative samples by using queue’s FIFO(first in first out) characteristic. Then, a queue with much larger size than batch size is used and you can use small batch size to train networks.</p>
+<p>The queue size is recommended as 65536. And after each batch, the earliest negative samples with batch size(n) in the queue will be deleted, and the latest n negative samples will be added to the queue to keep the queue updated.</p>
+<p>So far, this queue seems to be like memory bank in InstDisc. And how negative samples in this queue can have same consistency will be discussed in next chapter: a momentum encoder.</p>
+<h2 id="momentum-encoder">Momentum encoder</h2>
+<p>A momentum encoder is like:</p>
+<p><span class="math display">\[\theta_{\mathrm{k}} \leftarrow m \theta_{\mathrm{k}}+(1-m) \theta_{\mathrm{q}}\]</span></p>
+<p>where <span class="math inline">\(\theta_{\mathrm{k}}\)</span> is momentum encoder, <span class="math inline">\(\theta_{\mathrm{q}}\)</span> is the encoder updated by back-propagation. <span class="math inline">\(m\)</span> always equals 0.999. Hence, the momentum encoder is updated very slowly and ensure that the negative samples from <span class="math inline">\(\theta_{\mathrm{k}}\)</span> are kept consistency.</p>
+<h2 id="loss-function">Loss Function</h2>
+<p><span class="math display">\[\mathcal{L}_{q}=-\log \frac{\exp \left(q \cdot k_{+} / \tau\right)}{\sum_{i=0}^{K} \exp \left(q \cdot k_{i} / \tau\right)}\]</span></p>
+<p>Moco proposed infoNCE loss and soon become the mainstream loss in contrastive learning. The only difference between NCE loss and infoNCE loss is that infoNCE only uses K negative samples from instead of all negative samples.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Moco achieves 68.6% accuracy by linear classification protocol on ImageNet. Compared with 54% in InstDice, Moco can be regarded as a milestone work in contrastive learning.</p>
 ]]></content>
       <categories>
         <category>Contrastive Learning</category>
@@ -131,104 +262,13 @@
       </tags>
   </entry>
   <entry>
-    <title>Contrastive Learning Survey (3) — MoCo</title>
-    <url>/2022/03/05/Contrastive-Learning-Survey-3-%E2%80%94-MoCo/</url>
-    <content><![CDATA[<h1 id="contrastive-learning-survey-3-moco">Contrastive Learning Survey (3) — MoCo</h1>
-<p>This article decribes a milestone in contrastive learning and the best paper <strong>Nominee</strong> in CVPR 2020.</p>
-<p>Paper: He, K., Fan, H., Wu, Y., Xie, S., and Girshick, R. Momentum contrast for unsupervised visual representation learning. <em>arXiv preprint arXiv:1911.05722</em>, 2019. Updated version accessed at: https://arxiv.org/abs/1911.05722.</p>
+    <title>Contrastive Learning Survey (5) — Contrastive Learning with Clustering</title>
+    <url>/2022/05/06/Contrastive-Learning-Survey-5-%E2%80%94-Contrastive%20Learning%20with%20Clustering/</url>
+    <content><![CDATA[<h1 id="contrastive-learning-5-contrastive-learning-with-clustering">Contrastive Learning (5) — Contrastive Learning with Clustering</h1>
+<p>So far, we have discussed Contrastive Learning(CL) frameworks such as InstDisc, SimCLR, MoCo, SimSiam, BYOL, which still the mainstream framework in the lastest CL works. Instead of frameworks, CL still has many also problems or weakness. This chapter will discribe one of it weakness: lacking semantic presententation due to instance discrimination pretext task, i.e. a model good at discriminating instances will lose higher level information like their clusters. Therefore, let’s see how researchers integrate clustering methods into Contrastive Learning. Moreover, this chapter and the next will be like a short survey of the lastest CL papers, which means I will not write every paper clearly and discuss every techniques. We will focus on papers’ motivation, main method and try to give my own insights.</p>
 <a id="more"></a>
-<h2 id="bottleneck-of-past-work">Bottleneck of past work</h2>
-<p>The requirement of huge batch size makes simCLR hard to land in real scenes. This paper proposes a framework called MoCo which can not only overcome feature consistency but also provide a large negative samples for training.</p>
-<h2 id="model-framework">Model Framework</h2>
-<p><img src="figure1.png" width="50%" height="50%"></p>
-<p>As usual, a CV paper can roughly understand what the paper wants to express through Figure 1.</p>
-<p>A quick review of simCLR:</p>
-<p><img src="simCLR_framework.jpg" width="50%" height="50%"></p>
-<p>The only difference is that MoCo uses a momentum encoder instead of two same encoders.</p>
-<p>Note: simCLR and MoCo are the same period work, and in MoCo V2, projector which is proposed by simCLR is used.</p>
-<h2 id="queue-to-save-negative-samples">Queue to save negative samples</h2>
-<p>We have talked about the cons of InstDisc: inconsistency of negative samples since fast updating encoders; SimCLR: very large batch size to keep negative samples have consistent distribution with positive samples.</p>
-<p>To overcome these bottlenecks, Moco wants to have a large dictionary to save negative samples, where these negative samples also are <strong>kept as consistent as possible despite its evolution</strong>. proposed to use a queue to save negative samples by using queue’s FIFO(first in first out) characteristic. Then, a queue with much larger size than batch size is used and you can use small batch size to train networks.</p>
-<p>The queue size is recommended as 65536. And after each batch, the earliest negative samples with batch size(n) in the queue will be deleted, and the latest n negative samples will be added to the queue to keep the queue updated.</p>
-<p>So far, this queue seems to be like memory bank in InstDisc. And how negative samples in this queue can have same consistency will be discussed in next chapter: a momentum encoder.</p>
-<h2 id="momentum-encoder">Momentum encoder</h2>
-<p>A momentum encoder is like:</p>
-<p><span class="math display">\[\theta_{\mathrm{k}} \leftarrow m \theta_{\mathrm{k}}+(1-m) \theta_{\mathrm{q}}\]</span></p>
-<p>where <span class="math inline">\(\theta_{\mathrm{k}}\)</span> is momentum encoder, <span class="math inline">\(\theta_{\mathrm{q}}\)</span> is the encoder updated by back-propagation. <span class="math inline">\(m\)</span> always equals 0.999. Hence, the momentum encoder is updated very slowly and ensure that the negative samples from <span class="math inline">\(\theta_{\mathrm{k}}\)</span> are kept consistency.</p>
-<h2 id="loss-function">Loss Function</h2>
-<p><span class="math display">\[\mathcal{L}_{q}=-\log \frac{\exp \left(q \cdot k_{+} / \tau\right)}{\sum_{i=0}^{K} \exp \left(q \cdot k_{i} / \tau\right)}\]</span></p>
-<p>Moco proposed infoNCE loss and soon become the mainstream loss in contrastive learning. The only difference between NCE loss and infoNCE loss is that infoNCE only uses K negative samples from instead of all negative samples.</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>Moco achieves 68.6% accuracy by linear classification protocol on ImageNet. Compared with 54% in InstDice, Moco can be regarded as a milestone work in contrastive learning.</p>
-]]></content>
-      <categories>
-        <category>Contrastive Learning</category>
-      </categories>
-      <tags>
-        <tag>self-supervised learning</tag>
-        <tag>computer vision</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Contrastive Learning Survey (4) — SimSiam</title>
-    <url>/2022/04/18/Contrastive-Learning-Survey-4-%E2%80%94-SimSiam/</url>
-    <content><![CDATA[<h1 id="contrastive-learning-4-simsiam">Contrastive Learning (4) — Simsiam</h1>
-<p>This article aims to introduce a new kind of framework in contrastive learning which does not use negative samples.</p>
-<p>Paper: Chen, X., &amp; He, K. (2021). Exploring simple siamese representation learning. In <em>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition</em> (pp. 15750-15758). Updated version accessed at: https://arxiv.org/abs/2011.10566</p>
-<a id="more"></a>
-<h2 id="novelty">Novelty</h2>
-<p>Simsiam is not the first framework which does not use negative samples. BYOL (Grill, J. B., Strub, F., Altché, F., Tallec, C., Richemond, P., Buchatskaya, E., ... &amp; Valko, M. (2020). Bootstrap your own latent-a new approach to self-supervised learning. <em>Advances in Neural Information Processing Systems</em>, <em>33</em>, 21271-21284.) is early than it and has already achieved better accuracy on ImageNet. Generally, SimSiam is just a special case of BYOL. But SimSiam’s beautiful subtraction of BYOL makes people realize the essence of success in contrastive learning without negative samples.</p>
-<h2 id="note">Note</h2>
-<p>Simsiam does very detailed ablation experiments about its used techniques like: stop-gradient, predictor, hypothesis, loss function, batch normalization. If you want to check result plots, I highly recommend reading the original paper and I will not put them in this blog again.</p>
-<h2 id="framework">Framework</h2>
-<p><img src="simsiam.png"></p>
-<p>Just like paper’s name, it is a real simple framework. Model only use a same encoder(encoder + projector) and a predictor.</p>
-<p>Predictor is new one which does not decrible in previous article. A predictor is just an extra MLP. Simsiam wants to make the feature from predictor from <span class="math inline">\(x_1\)</span> (augmentation from image x) can be similar with <span class="math inline">\(x_2\)</span>. Hence, its loss function is just cosine similarity.</p>
-<p><img src="byol.png"></p>
-<p>Figure 2 is BYOL’s architecture. You can see Simsiam is totally same as BYOL, which the only difference is that BYOL uses a Momentum Encoder <span class="math inline">\(y_{\xi}^{\prime}\)</span> , where <span class="math inline">\(\xi \leftarrow \tau \xi+(1-\tau) \theta\)</span></p>
-<p>Hence, you can think of SimSiam as just a special case of BYOL when <span class="math inline">\(\gamma = 1\)</span>.</p>
-<p>This architecture is very easy to think of, but why was it not first proposed by BYOL until 2020? The biggest problem with training methods without negative samples is that the model will quickly find a shortcut and cause <strong>model collapsing</strong>. Imagine that our encoder only needs to learn to output 0 at this time, the cosine similarity of the loss function is equal to 0, and the model will no longer be updated.</p>
-<p>How BYOL and SimSiam solve model collapsing? They both use a trick: <strong>stop gradient</strong>. We will discuss in detail in the following chapter.</p>
-<h2 id="loss-function">Loss Function</h2>
-<p><span class="math display">\[\mathcal{D}\left(p_{1}, z_{2}\right)=-\frac{p_{1}}{\left\|p_{1}\right\|_{2}} \cdot \frac{z_{2}}{\left\|z_{2}\right\|_{2}}\]</span></p>
-<p>Denote that the encoder is <span class="math inline">\(f\)</span>, prediction is <span class="math inline">\(h\)</span>, then we have <span class="math inline">\(p = h(f(x))\)</span>, <span class="math inline">\(z = f(x)\)</span></p>
-<p>So the equation is just the cosince similarity of the features between encoder and prediction.</p>
-<p><span class="math display">\[\mathcal{L}=\frac{1}{2} \mathcal{D}\left(p_{1}, z_{2}\right)+\frac{1}{2} \mathcal{D}\left(p_{2}, z_{1}\right)\]</span></p>
-<p>SimSiam define a summetrized loss like above, where <span class="math inline">\(1, 2\)</span> is the index of two augmentation images from the same image.</p>
-<h2 id="stop-gradient">Stop Gradient</h2>
-<p>Stop Gradient means that when the model start to do gradient decent, the branch with stop-gradient will be treated as a constant. Hence, the loss function also can be seen as: <span class="math display">\[\mathcal{L}=\frac{1}{2} \mathcal{D}\left(p_{1}, \text { stopgrad }\left(z_{2}\right)\right)+\frac{1}{2} \mathcal{D}\left(p_{2}, \text { stopgrad }\left(z_{1}\right)\right)\]</span></p>
-<p>SimSiam has proved that stop-gradient is the key which prevents model from collapsing solutions with every detailed experiments. You can read them in the paper about experiments and results.</p>
-<p>Authors’ hypothesis is that:</p>
-<blockquote>
-<p>SimSiam is an implementation of an Expectation-Maximization (EM) like algorithm.</p>
-</blockquote>
-<p>The loss function can be like:</p>
-<p><span class="math display">\[\mathcal{L}(\theta, \eta)=\mathbb{E}_{x, \mathcal{T}}\left[\left\|\mathcal{F}_{\theta}(\mathcal{T}(x))-\eta_{x}\right\|_{2}^{2}\right]\]</span></p>
-<p>I think that what paper writes is very clear and I could not simplify any more:</p>
-<blockquote>
-<p><img src="hypothesis.png" width="50%" height="50%"></p>
-</blockquote>
-<p>Than, we can use SGD to solve (7) and get new <span class="math inline">\(\eta_{x}\)</span> by the updated encoder <span class="math inline">\(\mathcal{F}\)</span>.</p>
-<p>For the prediction and the complete hypothesis, I highly recommend reading the original paper since I could not simplify them more.</p>
-<h2 id="comparision">Comparision</h2>
-<p><img src="evaluation.png"></p>
-<p>Table 4 is a global table where hasall networks we talked about in the previous chapters. And it clearly showes that SimSiam uses the simplest framework (no negative pair, no momentum encoder, very samll batch size) achieves a good result(68.1% acc) on ImageNet.</p>
-<p>Hence, although SimSiam does not have any new techniques, it probably shows the kernel of unsupervised learning in the image domain. Such beautiful subtraction operations and exhaustive experimental evidence earned this work the Best Paper Honorable Mentions of CVPR 2022.</p>
-]]></content>
-      <categories>
-        <category>Contrastive Learning</category>
-      </categories>
-      <tags>
-        <tag>self-supervised learning</tag>
-        <tag>computer vision</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Contrastive Learning Survey (5) — 2022 Contrastive Learning</title>
-    <url>/2022/05/06/Contrastive-Learning-Survey-5-%E2%80%94-2022-Contrastive-Learning/</url>
-    <content><![CDATA[<h1 id="contrastive-learning-5-2022-contrastive-learning">Contrastive Learning (5) — 2022 Contrastive Learning</h1>
-<p>This article aims to give the lastest researchs on contrastive learning, papers on CVPR 2022, ICLR 2022, and so on.</p>
-<a id="more"></a>
+<h2 id="swav">SWaV</h2>
+<p>To be improved.</p>
 <h2 id="pcl-prototypical-contrastive-learning">PCL: PROTOTYPICAL CONTRASTIVE LEARNING</h2>
 <p>Paper: Li J, Zhou P, Xiong C, et al. Prototypical contrastive learning of unsupervised representations[J]. arXiv preprint arXiv:2005.04966, 2020.</p>
 <p>Arxiv: https://arxiv.org/abs/2005.04966</p>
@@ -271,13 +311,6 @@
 <p><strong>selecting example</strong></p>
 <p><img src="HCSC/query.png" width="75%" height="75%"></p>
 <p><img src="HCSC/cluster.png"></p>
-<h2 id="contrastive-crop">Contrastive Crop</h2>
-<p>Random crop will hurt image and decrease image semantic.</p>
-<p>提出了一种技术，</p>
-<p>从图中可以发现，对比学习模型本身就可以捕捉物体大概的位置信息，从而来指导crops的选取。</p>
-<p>利用这种特征提取物体边框，避免错误正样本对</p>
-<p>中心抑制，上述方法由于其带来了更小的选取范围，生成具有较高相似度的样本对的可能性也提高了</p>
-<p>降低crops集中在图片中心的概率，从而增大采样的方差。</p>
 ]]></content>
       <categories>
         <category>Contrastive Learning</category>
