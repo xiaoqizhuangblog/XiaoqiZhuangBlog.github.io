@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="self-supervised learning,computer vision,">
 
 
 
@@ -79,22 +79,26 @@
 
 
 
-<meta name="description" content="Contrastive Learning (6) — Contrastive Learning with positive/negative sampling In addition to the lack of high-level semantic representations, the sampling of positive and negative samples for instan">
+<meta name="description" content="In addition to the lack of high-level semantic representations, the sampling of positive and negative samples for instance discrimination tasks also has obvious problems. Positive samples are all from">
+<meta name="keywords" content="self-supervised learning,computer vision">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Contrastive Learning (6) — Contrastive Learning with positive&#x2F;negative sampling">
 <meta property="og:url" content="http://yoursite.com/2022/05/17/Contrastive-Learning-6-—-Contrastive-Learning-with-positive-negative-sampling/index.html">
 <meta property="og:site_name" content="Xiaoqi">
-<meta property="og:description" content="Contrastive Learning (6) — Contrastive Learning with positive/negative sampling In addition to the lack of high-level semantic representations, the sampling of positive and negative samples for instan">
+<meta property="og:description" content="In addition to the lack of high-level semantic representations, the sampling of positive and negative samples for instance discrimination tasks also has obvious problems. Positive samples are all from">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-6-—-Contrastive-Learning-with-positive-negative-sampling/paper1/motivation.png">
-<meta property="og:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-6-—-Contrastive-Learning-with-positive-negative-sampling/paper1/result.png">
-<meta property="og:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-6-—-Contrastive-Learning-with-positive-negative-sampling/paper1/method.png">
-<meta property="og:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-6-—-Contrastive-Learning-with-positive-negative-sampling/Contrastive-Learning-6-%E2%80%94-Contrastive-Learning-with-positive-negative-sampling/image-20220517230527488.png">
-<meta property="og:updated_time" content="2022-05-18T05:17:23.481Z">
+<meta property="og:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-6-—-Contrastive-Learning-with-positive-negative-sampling/LooC/motivation.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-6-—-Contrastive-Learning-with-positive-negative-sampling/LooC/result.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-6-—-Contrastive-Learning-with-positive-negative-sampling/LooC/method.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-6-—-Contrastive-Learning-with-positive-negative-sampling/FPC/method.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-6-—-Contrastive-Learning-with-positive-negative-sampling/FPC/elimination.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-6-—-Contrastive-Learning-with-positive-negative-sampling/FPC/attraction.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-6-—-Contrastive-Learning-with-positive-negative-sampling/Invariance_Propagation/method.png">
+<meta property="og:updated_time" content="2022-05-18T15:05:21.602Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Contrastive Learning (6) — Contrastive Learning with positive&#x2F;negative sampling">
-<meta name="twitter:description" content="Contrastive Learning (6) — Contrastive Learning with positive/negative sampling In addition to the lack of high-level semantic representations, the sampling of positive and negative samples for instan">
-<meta name="twitter:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-6-—-Contrastive-Learning-with-positive-negative-sampling/paper1/motivation.png">
+<meta name="twitter:description" content="In addition to the lack of high-level semantic representations, the sampling of positive and negative samples for instance discrimination tasks also has obvious problems. Positive samples are all from">
+<meta name="twitter:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-6-—-Contrastive-Learning-with-positive-negative-sampling/LooC/motivation.png">
 
 
 
@@ -339,6 +343,28 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Contrastive-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Contrastive Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -366,32 +392,100 @@
       
 
       
-        <h1 id="contrastive-learning-6-contrastive-learning-with-positivenegative-sampling">Contrastive Learning (6) — Contrastive Learning with positive/negative sampling</h1>
-<p>In addition to the lack of high-level semantic representations, the sampling of positive and negative samples for instance discrimination tasks also has obvious problems. Positive samples are all from its own data augmentation, while negative samples are directly sampled from a large memory (within the same batch, memory bank or a momentum encoder). The problem with this is that negative samples may have positive sample, which they are the same class, but are different instances. Another problem is that hard negative samples and easy negative samples have the same weights in InfoNCE loss , which make model too simple if it focus on too many easy negative samples. In this chapter, we will see many interesting works with different methods on solving sampling problem in CL.</p>
+        <p>In addition to the lack of high-level semantic representations, the sampling of positive and negative samples for instance discrimination tasks also has obvious problems. Positive samples are all from its own data augmentation, while negative samples are directly sampled from a large memory (within the same batch, memory bank or a momentum encoder). The problem with this is that negative samples may have positive sample, which they are the same class, but are different instances. Another problem is that hard negative samples and easy negative samples have the same weights in InfoNCE loss , which make model too simple if it focus on too many easy negative samples. In this chapter, we will see many interesting works with different methods on solving sampling problem in CL.</p>
 <a id="more"></a>
 <h2 id="what-should-not-be-contrastive-in-contrastive-learning">What Should Not Be Contrastive In Contrastive Learning</h2>
 <p>Link: https://arxiv.org/abs/2008.05659</p>
-<p>Motivation:</p>
-<p><img src="paper1/motivation.png" width="75%" height="75%"></p>
-<p>This paper proposed that data augmentation may hurt image representations, especially when they are used on downstream tasks. For example, a bird identification task is based on representation vectors by color augmentation, or a animal identifacation task is based on representation vectors by rotation augmentation.</p>
+<p><strong>Motivation: </strong></p>
+<p><img src="LooC/motivation.png"></p>
+<p>This paper proposed that data augmentation may hurt image representations, especially when they are used on downstream tasks. For example, representation vectors by color augmentation are used on a bird identification task , or representation vectors by rotation augmentation are used on a animal identifacation task.</p>
 <p>Sounds reasonable, and it did!</p>
-<p>Result:</p>
-<p><img src="paper1/result.png" width="75%" height="75%"></p>
-<p>Table 1 showes that add rotation augmentation on MoCo will significantly reduces its accuracy on IN-100(ImageNet-100) this dataset. And their model LooC has a better result.</p>
-<p>Method:</p>
-<p><img src="paper1/method.png" width="50%" height="50%"></p>
+<p><strong>Result:</strong></p>
+<p><img src="LooC/result.png" width="75%" height="75%"></p>
+<p>Table 1 shows that add rotation augmentation on MoCo will significantly reduces its accuracy on IN-100(ImageNet-100) this dataset. And their model LooC has a better result.</p>
+<p><strong>Method:</strong></p>
+<p><img src="LooC/method.png"></p>
 <p>And add all these <span class="math inline">\(Z\)</span> regions into loss function:</p>
 <p><span class="math display">\[\mathcal{L}_{q}=-\frac{1}{n+1}\left(\log \frac{E_{0,0}^{+}}{E_{0,0}^{+}+\sum_{k^{-}} E_{0,0}^{-}}+\sum_{i=1}^{n} \log \frac{E_{i, i}^{+}}{\sum_{j=0}^{n} E_{i, j}^{+}+\sum_{k^{-}} E_{i, i}^{-}}\right)\]</span></p>
 <p>where <span class="math inline">\(E_{i, j}^{\{+,-\}}=\exp \left(\boldsymbol{z}_{i}^{q} \cdot \boldsymbol{z}_{i}^{k_{j}^{\{+,-\}}} / \tau\right)\)</span></p>
-<p>Insights:</p>
+<p><strong>Insights:</strong></p>
 <p>I think the movitation is quite reasonable, but I cant agree with the solving method which aggregates all different augmentation infomations into the same loss function. It's more like an improvement in robustness, rather than aiming at adapting with specific downstream tasks.</p>
 <p>By the way, I dont like the section of method description. It is a very simple flow but uses so many mathematic symbols, while the most important part of training is simple and hard to understand. This paper also does not provide open source code for me to understanding.</p>
-<h2 id="contrastive-learning-with-stronger-augmentations">Contrastive Learning With Stronger Augmentations</h2>
-<p>Link: https://arxiv.org/abs/2104.07713</p>
-<p>Motivation:</p>
-<figure>
-<img src="Contrastive-Learning-6-%E2%80%94-Contrastive-Learning-with-positive-negative-sampling/image-20220517230527488.png" alt="image-20220517230527488"><figcaption>image-20220517230527488</figcaption>
-</figure>
+<h2 id="boosting-contrastive-self-supervised-learning-with-false-negative-cancellation">Boosting Contrastive Self-Supervised Learning with False Negative Cancellation</h2>
+<p>Link: https://arxiv.org/abs/2010.02037</p>
+<p><strong>Motivation</strong>:</p>
+<p>Negative samples by instance discrimination will contain many potential positive samples(images in the same class). And these false negative samples will hurt CL in 2 ways: <strong>discarding semantic information</strong> and <strong>slow convergence</strong></p>
+<p><strong>Method</strong>:</p>
+<p><img src="FPC/method.png"></p>
+<p>There are 3 parts:</p>
+<ol type="1">
+<li>Traditional CL framework</li>
+<li>False Negative Identification</li>
+<li>False Negative Cancellation
+<ol type="1">
+<li>Elimination</li>
+<li>Attraction</li>
+</ol></li>
+</ol>
+<p>The first part is the model backbone. This paper use SimCLR and MoCo.</p>
+<p>The second part is the method how to find those false negatives without label information.</p>
+<p>The approach to identify false negatives based on the following observations:</p>
+<ol type="1">
+<li>False negatives are samples from different images with the same semantic content, therefore they should hold certain similarity (e.g., dog features).</li>
+<li>A false negative may not be as similar to the anchor as it is to other augmentations of the same image, as each augmentation only holds a specific view of the object</li>
+</ol>
+<p>Based on above observations, the strategy follows as:</p>
+<ol type="1">
+<li>Create a support set contains the image itself, its original augmentation(put into model), and extra augmentations (to hold the second observation).</li>
+<li>Each negative sample compute a similarity score set, e.g. a negative sample will have 8 similarity scores if the size of support set is 8. This paper use <strong>cosine similarity</strong>.</li>
+<li>Using an aggregation method for the similarity score set, <strong>Maximum</strong> or <strong>Mean</strong></li>
+<li>Selecting the most similar negative samples as false negative samples.
+<ol type="1">
+<li>Select <strong>top k</strong> high similarity samples</li>
+<li>Select the samples those similarity score <strong>is greater than a threshold</strong></li>
+</ol></li>
+</ol>
+<p>The third part is how to use these false negative samples. There are 2 approaches:</p>
+<p><strong>False Negative Elimination</strong>: These false negatives do not contrast against them, which means drop them from the loss function.</p>
+<p><strong>False Negative Attraction</strong>: These false negatives will be added into positive samples just like supervised contrastive learning’s loss function.</p>
+<p><strong>Insights</strong>:</p>
+<p>This paper gives many insights from their exhaustive experiments since it is from Google.</p>
+<p><img src="FPC/elimination.png" width="75%" height="75%"></p>
+<p>The Gap between FNE and baseline will be larger with the increasing random crop ratio. It is reasonable since larger crop ratio will lead to a higher ratio of false negatives.</p>
+<p><img src="FPC/attraction.png" width="75%" height="75%"></p>
+<p>The attraction strategy is much more sensitive to the quality of the found false negatives compared to the elimination strategy.</p>
+<p>The paper has many other interesting findins and really recommend you to read paper.</p>
+<h2 id="unsupervised-representation-learning-by-invariance-propagation">Unsupervised Representation Learning by Invariance Propagation</h2>
+<p>Link: https://arxiv.org/abs/2010.11694</p>
+<p><strong>Motivation:</strong></p>
+<p>This paper also aims to solve the positive/negative sampling problem.</p>
+<ol type="1">
+<li>negative samples by random may have positive samples.</li>
+<li>Positive samples also should have different levels. Easy positive samples and hard positive samples have the same impact on model now.</li>
+</ol>
+<p><strong>Method:</strong></p>
+<p>This paper has a assumption that:</p>
+<blockquote>
+<p>If two points v1 and v2 in a high-density region are close, then their semantic information should be similar.</p>
+</blockquote>
+<p>Hence, we can use metric method like KNN to calculate anchors’ positive samples step by step.</p>
+<p><img src="Invariance_Propagation/method.png"></p>
+<p><strong>Strategy of Positive samples of an anchor image</strong>:</p>
+<p>The process is illustrated in Fig 1. In each step, all k-nearest neighbors of the current discovered positive samples are added to the positive sample set. The process repeats l steps.</p>
+<p>The difference between tradition KNN and their approach can be shown in the last step of Figure 1. Samples in the dashed circle are positive samples discovered by KNN. By comparison, in their approach, point B is included in K-nearest neighbors of point A and point C is not included.</p>
+<p><strong>Hard Sampleing Strategy:</strong></p>
+<p>The core is that this paper think positive samples which are already close to the anchor and negative samples which are already far away from the anchor are easy samples. They do not need to be optimized more. However, those positive samples that are far away in the positive sample set(C in Fig 1 )and the negative samples that are relatively close(B in Fig 1) are difficult samples that are more helpful to the model.</p>
+<p>Strategy:</p>
+<ol type="1">
+<li><p>Select P samples with the lowest similarity to construct the hard positive sample set <span class="math inline">\(\mathcal{N}^{h}(i)\)</span>.</p>
+<p>These hard positive samples deviate far from the anchor sample such that they provide more intra-class variations, which is beneficial to learn more abstract invariance.</p></li>
+<li><p>Denote the M nearest neighbors of <span class="math inline">\(v_i\)</span> as <span class="math inline">\(\mathcal{N}_{M}(i)\)</span>, The <span class="math inline">\(M\)</span> is large enough such that <span class="math inline">\(\mathcal{N}(i) \subseteq \mathcal{N}_{M}(i)\)</span>. Then denote the hard negative sample set <span class="math inline">\(\mathcal{N}_{n e g}(i)=\mathcal{N}_{M}(i)-\mathcal{N}(i)\)</span>.</p></li>
+</ol>
+<p>Then the hard sample mining loss can be like:</p>
+<p><span class="math display">\[\begin{aligned} \mathcal{L}_{i n v}\left(x_{i}\right) &amp;=-\log P_{v_{i}}\left(\mathcal{N}^{h}(i) \mid B(i)\right) \\ &amp;=-\log \frac{\sum_{p \in \mathcal{N}^{h}(i)} \exp \left(\bar{v}_{p} \cdot v_{i} / \tau\right)}{\sum_{n \in B(i)} \exp \left(\bar{v}_{n} \cdot v_{i} / \tau\right)} \end{aligned}\]</span></p>
+<p>The overall loss function is just InfoNCE + hard sample mining loss, as follow:</p>
+<p><span class="math display">\[\mathcal{L}\left(x_{i}\right)=\mathcal{L}_{i n s}\left(x_{i}\right)+\lambda_{i n v} \cdot \omega(t) \cdot \mathcal{L}_{i n v}\left(x_{i}\right)\]</span></p>
+<p>where <span class="math inline">\(\omega(t)\)</span> as 0 is the first T epochs, because it is not reliable in frist <span class="math inline">\(t\)</span> epoches.</p>
 <h2 id="contrastive-crop">Contrastive Crop</h2>
 <p>Random crop will hurt image and decrease image semantic.</p>
 <p>提出了一种技术，</p>
@@ -413,6 +507,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/self-supervised-learning/" rel="tag"># self-supervised learning</a>
+          
+            <a href="/tags/computer-vision/" rel="tag"># computer vision</a>
+          
+        </div>
       
 
       
@@ -563,7 +665,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#contrastive-learning-6-contrastive-learning-with-positivenegative-sampling"><span class="nav-number">1.</span> <span class="nav-text">Contrastive Learning (6) — Contrastive Learning with positive/negative sampling</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#what-should-not-be-contrastive-in-contrastive-learning"><span class="nav-number">1.1.</span> <span class="nav-text">What Should Not Be Contrastive In Contrastive Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#contrastive-learning-with-stronger-augmentations"><span class="nav-number">1.2.</span> <span class="nav-text">Contrastive Learning With Stronger Augmentations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#contrastive-crop"><span class="nav-number">1.3.</span> <span class="nav-text">Contrastive Crop</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#what-should-not-be-contrastive-in-contrastive-learning"><span class="nav-number">1.</span> <span class="nav-text">What Should Not Be Contrastive In Contrastive Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#boosting-contrastive-self-supervised-learning-with-false-negative-cancellation"><span class="nav-number">2.</span> <span class="nav-text">Boosting Contrastive Self-Supervised Learning with False Negative Cancellation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unsupervised-representation-learning-by-invariance-propagation"><span class="nav-number">3.</span> <span class="nav-text">Unsupervised Representation Learning by Invariance Propagation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#contrastive-crop"><span class="nav-number">4.</span> <span class="nav-text">Contrastive Crop</span></a></li></ol></div>
             
 
           </div>
