@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="self-supervised learning,computer vision,">
 
 
 
@@ -79,13 +79,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Xiaoqi">
-<meta property="og:url" content="http://yoursite.com/categories/Data-Mining/index.html">
+<meta name="description" content="Why Contrastive Learning can work? It is also an interesting field and has many excellent papers. At present, mutual information is a key point in my cognition. Of course, this chapter will continue t">
+<meta name="keywords" content="self-supervised learning,computer vision">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Contrastive Learning Survey (7) — Contrastive Learning theory">
+<meta property="og:url" content="http://yoursite.com/2022/05/19/Contrastive-Learning-Survey-7-—-Contrastive-Learning-theory/index.html">
 <meta property="og:site_name" content="Xiaoqi">
+<meta property="og:description" content="Why Contrastive Learning can work? It is also an interesting field and has many excellent papers. At present, mutual information is a key point in my cognition. Of course, this chapter will continue t">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2022-05-19T15:02:07.687Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Xiaoqi">
+<meta name="twitter:title" content="Contrastive Learning Survey (7) — Contrastive Learning theory">
+<meta name="twitter:description" content="Why Contrastive Learning can work? It is also an interesting field and has many excellent papers. At present, mutual information is a key point in my cognition. Of course, this chapter will continue t">
 
 
 
@@ -115,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/Data-Mining/">
+  <link rel="canonical" href="http://yoursite.com/2022/05/19/Contrastive-Learning-Survey-7-—-Contrastive-Learning-theory/">
 
 
 
 
 
-  <title>Category: Data Mining | Xiaoqi</title>
+  <title>Contrastive Learning Survey (7) — Contrastive Learning theory | Xiaoqi</title>
   
 
 
@@ -140,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -276,53 +281,176 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Data Mining<small>Category</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/05/19/Contrastive-Learning-Survey-7-—-Contrastive-Learning-theory/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xiaoqi Zhuang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiaoqi">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/11/29/Data Mining 笔记 /" itemprop="url">
-              
-                <span itemprop="name">DataMining Notes</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Contrastive Learning Survey (7) — Contrastive Learning theory</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-11-29T10:16:09+08:00" content="2019-11-29">
-          11-29
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-05-19T22:54:06+08:00">
+                2022-05-19
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Contrastive-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Contrastive Learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Why Contrastive Learning can work? It is also an interesting field and has many excellent papers.</p>
+<p>At present, <strong>mutual information</strong> is a key point in my cognition. Of course, this chapter will continue to be updated as my research progresses.</p>
+<a id="more"></a>
+<h2 id="what-makes-for-good-views-for-contrastive-learning">What Makes for Good Views for Contrastive Learning</h2>
+<h2 id="demystifying-self-supervised-learning-an-information-theoretical-framework">Demystifying Self-Supervised Learning: An Information-Theoretical Framework</h2>
+<h2 id="on-mutual-information-in-contrastive-learning-for-visual-representations">On Mutual Information in Contrastive Learning for Visual Representations</h2>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/self-supervised-learning/" rel="tag"># self-supervised learning</a>
+          
+            <a href="/tags/computer-vision/" rel="tag"># computer vision</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/05/17/Contrastive-Learning-Survey-6-—-Contrastive-Learning-with-positive-negative-sampling/" rel="next" title="Contrastive Learning Survey(6) — Contrastive Learning with positive/negative sampling">
+                <i class="fa fa-chevron-left"></i> Contrastive Learning Survey(6) — Contrastive Learning with positive/negative sampling
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -330,6 +458,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -350,8 +482,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -411,6 +552,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#what-makes-for-good-views-for-contrastive-learning"><span class="nav-number">1.</span> <span class="nav-text">What Makes for Good Views for Contrastive Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#demystifying-self-supervised-learning-an-information-theoretical-framework"><span class="nav-number">2.</span> <span class="nav-text">Demystifying Self-Supervised Learning: An Information-Theoretical Framework</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#on-mutual-information-in-contrastive-learning-for-visual-representations"><span class="nav-number">3.</span> <span class="nav-text">On Mutual Information in Contrastive Learning for Visual Representations</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -551,6 +708,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
