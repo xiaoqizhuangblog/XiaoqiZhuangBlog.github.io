@@ -1,69 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Contrastive Learning Survey (1) — InstDisc</title>
-    <url>/2022/02/24/Contrastive-Learning-Survey-1-%E2%80%94-InstDisc/</url>
-    <content><![CDATA[<p>This article aims to introduce the pioneering work (InstDisc) that leads to contrastive learning.</p>
-<p>Paper: Zhirong Wu, Yuanjun Xiong, Stella Yu, and Dahua Lin. Unsupervised feature learning via non-parametric instance discrimination. In CVPR, 2018. Updated version accessed at: https://arxiv.org/abs/1805.01978v1.</p>
-<a id="more"></a>
-<h1 id="why-this-paper">Why this paper?</h1>
-<p>Self-supervised models such as BERT/GPT have been used with great success in the NLP field. However, supervised learning still occupies most of the work in the CV field. Researchers hope to find a kind of pretext task in the image domain to complete self-supervised learning, just like MASK in the NLP domain. This paper creatively proposes a pretext task called <strong>instance discrimination</strong> which performs well and is still the most mainstream pretext task for contrastive learning so far.</p>
-<p>Although techniques about the loss function, how negative samples are stored in this paper are obsolete, the pretext task and the framework in this paper has a milestone significance in the history of contrastive learning and has influenced most of the subsequent work.</p>
-<p>Hence, I choose this paper as the first one in this series of the survey of contrastive learning.</p>
-<h1 id="research-motivation">Research Motivation</h1>
-<p><img src="figure1.png" width="50%" height="50%"></p>
-<p>Paper’s Figure 1 is very clear to show the motivation. Authors find that:</p>
-<blockquote>
-<p>For an image from class <em>leopard</em>, the classes that get highest responses from a trained neural net classifier are all visually correlated, e.g., <em>jaguar</em> and <em>cheetah</em>. It is not the semantic labeling, but the apparent similarity in the data themselves that brings some classes closer than others.</p>
-</blockquote>
-<p>Hence, they want to:</p>
-<blockquote>
-<p>Our unsupervised approach takes the class-wise supervision to the extreme and learns a feature representation that discriminates among individual instances.</p>
-</blockquote>
-<p>In other words, contrastive learning is also called representation learning which aims to find an image vector(like word vector in NLP) which represents image semantic in a high dimension by unsupervised learning. And then, you can use these vector in your custom downstream tasks with a small annotated dataset.</p>
-<h1 id="model-overview">Model Overview</h1>
-<p><img src="figure2.png"></p>
-<p>Figure 2 shows a clear pipeline of the model inference. Now I will describe each part of them and try to make you understand easier.</p>
-<h2 id="instance-discrimination">Instance Discrimination</h2>
-<p>As figure 1 says, we want to get a vertor which similar images are close in a high dimension(128 in this paper) and not similar images are far way from each other without using annotated images. However, although InstDict model is called as a unsupervised model, they actually still uses label. The method they use is really tricky that they take every image as a class and the task is to distinguish every image instance. This task sounds useless, and yes they are. So this kind of task is named as pretext task, which the aim of them is just to let the model can be trained.</p>
-<p><img src="InstDisc.png"></p>
-<p>Above figure shows that a pipline of instance discrimination. An instance, in this example , is an image of a unqiue cat. it will be transferred by image augmentation into 2 images: cropped one and rotated one. These two represent the same cat and so the image vector of these 2 images should be similar in our model, and vertors of other images in red square should be quite different from these 2images. What you find? Yes, we get positive and negative sample by this kind of easy implementation. Usually, in contrastive learning, we call the “cropped cat” (one of the augmentation image) Query, and the combination of the other augmentation image and the rest images is called Keys. Hence, our aim is to find a key in keys which is most similar with the query.</p>
-<p>To conclusion, instance discrimination is a tricky pretext task which make the images without labels can have similar label by using image augmentation.</p>
-<p>Pros: easy to implementation, good explanation, proved to be useful</p>
-<p>Cons: the negative samples may contain the positive sample(image another cat image is included but it will be treated as a negative sample in instance discrimination task)</p>
-<h2 id="loss-function-nce-loss">Loss Function: NCE loss</h2>
-<p><span class="math display">\[Loss = -\log\frac{\exp \left(\mathbf{v}_{i}^{T} \mathbf{v} / \tau\right)}{\sum_{j=1}^{n} \exp \left(\mathbf{v}_{j}^{T} \mathbf{v} / \tau\right)}\]</span></p>
-<p><span class="math inline">\(v_i\)</span> is query, <span class="math inline">\(v\)</span> is positive key, <span class="math inline">\(v_j\)</span> are negative keys. The loss function is similar with Cross Entropy Softmax.</p>
-<p>Actually, InfoNCE is totally the same as NCE loss, which infoNCE uses n (n &lt; j) samples instead of all negative samples to make calculation faster.</p>
-<h2 id="memory-bank">Memory Bank</h2>
-<p>Another important work in InstDisc is that it proposed a data structure called memory bank, which stored all images’ 128d vectors, also the <span class="math inline">\(v_j\)</span> in the loss function.</p>
-<p>Pipeline in Paper:</p>
-<blockquote>
-<p>Let V = {vj} be the memory bank and fi = fθ(xi) be the feature of xi. During each learning itera- tion, the representation fi as well as the network parameters θ are optimized via stochastic gradient descend. Then fi is updated to V at the corresponding instance entry fi → vi. We initialize all the representations in the memory bank V as unit random vectors.</p>
-</blockquote>
-<p>A more clear flowchart:</p>
-<p><img src="memory%20bank.png"></p>
-<p>Pros: The number of negative samples in the previous comparative learning is not enough because it is strongly related to the batch size. Memory bank liberates this limation. In this paper, Each time nce loss is calculated, 4096 negative samples are randomly selected from the memory bank.</p>
-<p>Cons: encoder network may update too quickly to make the distribution between image vectors has a large difference.</p>
-<h2 id="evaluation">Evaluation</h2>
-<p>Since contrastive learning is unsupervised learning and aims to learn good representation feature of images, we cannot directly assess the accuracy of the model.</p>
-<p>InstDisc uses <strong>linear SVM</strong> and <strong>KNN</strong> to evaluate model performance. Simply, it is to use the encoder after model training as a feature extractor, and train a svm or knn on the features of the image after the encoder to evaluate model performance.</p>
-<p>However, since this is a contrastive learning survey, I want to describe a more popular way in later works: <strong>Linear Classification Protocol</strong>. This method also freezes features from trained encoder, and train a supervised linear classifier(a fully-connected layer followed by softmax) and evualte different models between supervised and unspervised models. And ImageNet is always used as evaluation method.</p>
-<p>InstDisc only has 54% accuracy on ImageNet by linear classification, which is much lower than supervised model. But it is a groundbeaking work and the following contrastive models have achieved the same performance with supervised model.</p>
-<p>We will have a global description of model performance after we has discussed several classic contrastive learning models in following chapters.</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>We describe the pretext task: Instance Discrimination, model pipeline, a brief of NCE loss and Memory bank. Actually, this paper also proposed other technique skills, but these techniques have little inspiration for follow-up research.</p>
-<p>Next blog we will continue discussing another kinds of contrastive learning framework which are different from InstDisc.</p>
-]]></content>
-      <categories>
-        <category>Contrastive Learning</category>
-      </categories>
-      <tags>
-        <tag>self-supervised learning</tag>
-        <tag>computer vision</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Contrastive Learning Survey (2) — SimCLR</title>
     <url>/2022/03/02/Contrastive-Learning-Survey-2-%E2%80%94-SimCLR/</url>
     <content><![CDATA[<p>This article decribes an end-to-end framework for contrastive learning called SimCLR.</p>
@@ -119,59 +56,6 @@
 <p>However, if you use a batch size which is more than 1024 to train, it requires huge calculation recourses and many tricks to make it start training. Hence, simCLR is hard to preproduce by ourselves and hard to land in real scene.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>Although simCLR almost can not be preproduced and landed, it proves many useful tricks and insights for contrastive learning. Hence, simCLR has a huge impact on follow-up research due to its easy framework and strong results.</p>
-]]></content>
-      <categories>
-        <category>Contrastive Learning</category>
-      </categories>
-      <tags>
-        <tag>self-supervised learning</tag>
-        <tag>computer vision</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Contrastive Learning Survey (4) — SimSiam</title>
-    <url>/2022/04/18/Contrastive-Learning-Survey-4-%E2%80%94-SimSiam/</url>
-    <content><![CDATA[<p>This article aims to introduce a new kind of framework in contrastive learning which does not use negative samples.</p>
-<p>Paper: Chen, X., &amp; He, K. (2021). Exploring simple siamese representation learning. In <em>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition</em> (pp. 15750-15758). Updated version accessed at: https://arxiv.org/abs/2011.10566</p>
-<a id="more"></a>
-<h2 id="novelty">Novelty</h2>
-<p>Simsiam is not the first framework which does not use negative samples. BYOL (Grill, J. B., Strub, F., Altché, F., Tallec, C., Richemond, P., Buchatskaya, E., ... &amp; Valko, M. (2020). Bootstrap your own latent-a new approach to self-supervised learning. <em>Advances in Neural Information Processing Systems</em>, <em>33</em>, 21271-21284.) is early than it and has already achieved better accuracy on ImageNet. Generally, SimSiam is just a special case of BYOL. But SimSiam’s beautiful subtraction of BYOL makes people realize the essence of success in contrastive learning without negative samples.</p>
-<h2 id="note">Note</h2>
-<p>Simsiam does very detailed ablation experiments about its used techniques like: stop-gradient, predictor, hypothesis, loss function, batch normalization. If you want to check result plots, I highly recommend reading the original paper and I will not put them in this blog again.</p>
-<h2 id="framework">Framework</h2>
-<p><img src="simsiam.png"></p>
-<p>Just like paper’s name, it is a real simple framework. Model only use a same encoder(encoder + projector) and a predictor.</p>
-<p>Predictor is new one which does not decrible in previous article. A predictor is just an extra MLP. Simsiam wants to make the feature from predictor from <span class="math inline">\(x_1\)</span> (augmentation from image x) can be similar with <span class="math inline">\(x_2\)</span>. Hence, its loss function is just cosine similarity.</p>
-<p><img src="byol.png"></p>
-<p>Figure 2 is BYOL’s architecture. You can see Simsiam is totally same as BYOL, which the only difference is that BYOL uses a Momentum Encoder <span class="math inline">\(y_{\xi}^{\prime}\)</span> , where <span class="math inline">\(\xi \leftarrow \tau \xi+(1-\tau) \theta\)</span></p>
-<p>Hence, you can think of SimSiam as just a special case of BYOL when <span class="math inline">\(\gamma = 1\)</span>.</p>
-<p>This architecture is very easy to think of, but why was it not first proposed by BYOL until 2020? The biggest problem with training methods without negative samples is that the model will quickly find a shortcut and cause <strong>model collapsing</strong>. Imagine that our encoder only needs to learn to output 0 at this time, the cosine similarity of the loss function is equal to 0, and the model will no longer be updated.</p>
-<p>How BYOL and SimSiam solve model collapsing? They both use a trick: <strong>stop gradient</strong>. We will discuss in detail in the following chapter.</p>
-<h2 id="loss-function">Loss Function</h2>
-<p><span class="math display">\[\mathcal{D}\left(p_{1}, z_{2}\right)=-\frac{p_{1}}{\left\|p_{1}\right\|_{2}} \cdot \frac{z_{2}}{\left\|z_{2}\right\|_{2}}\]</span></p>
-<p>Denote that the encoder is <span class="math inline">\(f\)</span>, prediction is <span class="math inline">\(h\)</span>, then we have <span class="math inline">\(p = h(f(x))\)</span>, <span class="math inline">\(z = f(x)\)</span></p>
-<p>So the equation is just the cosince similarity of the features between encoder and prediction.</p>
-<p><span class="math display">\[\mathcal{L}=\frac{1}{2} \mathcal{D}\left(p_{1}, z_{2}\right)+\frac{1}{2} \mathcal{D}\left(p_{2}, z_{1}\right)\]</span></p>
-<p>SimSiam define a summetrized loss like above, where <span class="math inline">\(1, 2\)</span> is the index of two augmentation images from the same image.</p>
-<h2 id="stop-gradient">Stop Gradient</h2>
-<p>Stop Gradient means that when the model start to do gradient decent, the branch with stop-gradient will be treated as a constant. Hence, the loss function also can be seen as: <span class="math display">\[\mathcal{L}=\frac{1}{2} \mathcal{D}\left(p_{1}, \text { stopgrad }\left(z_{2}\right)\right)+\frac{1}{2} \mathcal{D}\left(p_{2}, \text { stopgrad }\left(z_{1}\right)\right)\]</span></p>
-<p>SimSiam has proved that stop-gradient is the key which prevents model from collapsing solutions with every detailed experiments. You can read them in the paper about experiments and results.</p>
-<p>Authors’ hypothesis is that:</p>
-<blockquote>
-<p>SimSiam is an implementation of an Expectation-Maximization (EM) like algorithm.</p>
-</blockquote>
-<p>The loss function can be like:</p>
-<p><span class="math display">\[\mathcal{L}(\theta, \eta)=\mathbb{E}_{x, \mathcal{T}}\left[\left\|\mathcal{F}_{\theta}(\mathcal{T}(x))-\eta_{x}\right\|_{2}^{2}\right]\]</span></p>
-<p>I think that what paper writes is very clear and I could not simplify any more:</p>
-<blockquote>
-<p><img src="hypothesis.png" width="50%" height="50%"></p>
-</blockquote>
-<p>Than, we can use SGD to solve (7) and get new <span class="math inline">\(\eta_{x}\)</span> by the updated encoder <span class="math inline">\(\mathcal{F}\)</span>.</p>
-<p>For the prediction and the complete hypothesis, I highly recommend reading the original paper since I could not simplify them more.</p>
-<h2 id="comparision">Comparision</h2>
-<p><img src="evaluation.png"></p>
-<p>Table 4 is a global table where hasall networks we talked about in the previous chapters. And it clearly showes that SimSiam uses the simplest framework (no negative pair, no momentum encoder, very samll batch size) achieves a good result(68.1% acc) on ImageNet.</p>
-<p>Hence, although SimSiam does not have any new techniques, it probably shows the kernel of unsupervised learning in the image domain. Such beautiful subtraction operations and exhaustive experimental evidence earned this work the Best Paper Honorable Mentions of CVPR 2022.</p>
 ]]></content>
       <categories>
         <category>Contrastive Learning</category>
@@ -278,6 +162,122 @@
       </tags>
   </entry>
   <entry>
+    <title>Contrastive Learning Survey (1) — InstDisc</title>
+    <url>/2022/02/24/Contrastive-Learning-Survey-1-%E2%80%94-InstDisc/</url>
+    <content><![CDATA[<p>This article aims to introduce the pioneering work (InstDisc) that leads to contrastive learning.</p>
+<p>Paper: Zhirong Wu, Yuanjun Xiong, Stella Yu, and Dahua Lin. Unsupervised feature learning via non-parametric instance discrimination. In CVPR, 2018. Updated version accessed at: https://arxiv.org/abs/1805.01978v1.</p>
+<a id="more"></a>
+<h1 id="why-this-paper">Why this paper?</h1>
+<p>Self-supervised models such as BERT/GPT have been used with great success in the NLP field. However, supervised learning still occupies most of the work in the CV field. Researchers hope to find a kind of pretext task in the image domain to complete self-supervised learning, just like MASK in the NLP domain. This paper creatively proposes a pretext task called <strong>instance discrimination</strong> which performs well and is still the most mainstream pretext task for contrastive learning so far.</p>
+<p>Although techniques about the loss function, how negative samples are stored in this paper are obsolete, the pretext task and the framework in this paper has a milestone significance in the history of contrastive learning and has influenced most of the subsequent work.</p>
+<p>Hence, I choose this paper as the first one in this series of the survey of contrastive learning.</p>
+<h1 id="research-motivation">Research Motivation</h1>
+<p><img src="figure1.png" width="50%" height="50%"></p>
+<p>Paper’s Figure 1 is very clear to show the motivation. Authors find that:</p>
+<blockquote>
+<p>For an image from class <em>leopard</em>, the classes that get highest responses from a trained neural net classifier are all visually correlated, e.g., <em>jaguar</em> and <em>cheetah</em>. It is not the semantic labeling, but the apparent similarity in the data themselves that brings some classes closer than others.</p>
+</blockquote>
+<p>Hence, they want to:</p>
+<blockquote>
+<p>Our unsupervised approach takes the class-wise supervision to the extreme and learns a feature representation that discriminates among individual instances.</p>
+</blockquote>
+<p>In other words, contrastive learning is also called representation learning which aims to find an image vector(like word vector in NLP) which represents image semantic in a high dimension by unsupervised learning. And then, you can use these vector in your custom downstream tasks with a small annotated dataset.</p>
+<h1 id="model-overview">Model Overview</h1>
+<p><img src="figure2.png"></p>
+<p>Figure 2 shows a clear pipeline of the model inference. Now I will describe each part of them and try to make you understand easier.</p>
+<h2 id="instance-discrimination">Instance Discrimination</h2>
+<p>As figure 1 says, we want to get a vertor which similar images are close in a high dimension(128 in this paper) and not similar images are far way from each other without using annotated images. However, although InstDict model is called as a unsupervised model, they actually still uses label. The method they use is really tricky that they take every image as a class and the task is to distinguish every image instance. This task sounds useless, and yes they are. So this kind of task is named as pretext task, which the aim of them is just to let the model can be trained.</p>
+<p><img src="InstDisc.png"></p>
+<p>Above figure shows that a pipline of instance discrimination. An instance, in this example , is an image of a unqiue cat. it will be transferred by image augmentation into 2 images: cropped one and rotated one. These two represent the same cat and so the image vector of these 2 images should be similar in our model, and vertors of other images in red square should be quite different from these 2images. What you find? Yes, we get positive and negative sample by this kind of easy implementation. Usually, in contrastive learning, we call the “cropped cat” (one of the augmentation image) Query, and the combination of the other augmentation image and the rest images is called Keys. Hence, our aim is to find a key in keys which is most similar with the query.</p>
+<p>To conclusion, instance discrimination is a tricky pretext task which make the images without labels can have similar label by using image augmentation.</p>
+<p>Pros: easy to implementation, good explanation, proved to be useful</p>
+<p>Cons: the negative samples may contain the positive sample(image another cat image is included but it will be treated as a negative sample in instance discrimination task)</p>
+<h2 id="loss-function-nce-loss">Loss Function: NCE loss</h2>
+<p><span class="math display">\[Loss = -\log\frac{\exp \left(\mathbf{v}_{i}^{T} \mathbf{v} / \tau\right)}{\sum_{j=1}^{n} \exp \left(\mathbf{v}_{j}^{T} \mathbf{v} / \tau\right)}\]</span></p>
+<p><span class="math inline">\(v_i\)</span> is query, <span class="math inline">\(v\)</span> is positive key, <span class="math inline">\(v_j\)</span> are negative keys. The loss function is similar with Cross Entropy Softmax.</p>
+<p>Actually, InfoNCE is totally the same as NCE loss, which infoNCE uses n (n &lt; j) samples instead of all negative samples to make calculation faster.</p>
+<h2 id="memory-bank">Memory Bank</h2>
+<p>Another important work in InstDisc is that it proposed a data structure called memory bank, which stored all images’ 128d vectors, also the <span class="math inline">\(v_j\)</span> in the loss function.</p>
+<p>Pipeline in Paper:</p>
+<blockquote>
+<p>Let V = {vj} be the memory bank and fi = fθ(xi) be the feature of xi. During each learning itera- tion, the representation fi as well as the network parameters θ are optimized via stochastic gradient descend. Then fi is updated to V at the corresponding instance entry fi → vi. We initialize all the representations in the memory bank V as unit random vectors.</p>
+</blockquote>
+<p>A more clear flowchart:</p>
+<p><img src="memory%20bank.png"></p>
+<p>Pros: The number of negative samples in the previous comparative learning is not enough because it is strongly related to the batch size. Memory bank liberates this limation. In this paper, Each time nce loss is calculated, 4096 negative samples are randomly selected from the memory bank.</p>
+<p>Cons: encoder network may update too quickly to make the distribution between image vectors has a large difference.</p>
+<h2 id="evaluation">Evaluation</h2>
+<p>Since contrastive learning is unsupervised learning and aims to learn good representation feature of images, we cannot directly assess the accuracy of the model.</p>
+<p>InstDisc uses <strong>linear SVM</strong> and <strong>KNN</strong> to evaluate model performance. Simply, it is to use the encoder after model training as a feature extractor, and train a svm or knn on the features of the image after the encoder to evaluate model performance.</p>
+<p>However, since this is a contrastive learning survey, I want to describe a more popular way in later works: <strong>Linear Classification Protocol</strong>. This method also freezes features from trained encoder, and train a supervised linear classifier(a fully-connected layer followed by softmax) and evualte different models between supervised and unspervised models. And ImageNet is always used as evaluation method.</p>
+<p>InstDisc only has 54% accuracy on ImageNet by linear classification, which is much lower than supervised model. But it is a groundbeaking work and the following contrastive models have achieved the same performance with supervised model.</p>
+<p>We will have a global description of model performance after we has discussed several classic contrastive learning models in following chapters.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We describe the pretext task: Instance Discrimination, model pipeline, a brief of NCE loss and Memory bank. Actually, this paper also proposed other technique skills, but these techniques have little inspiration for follow-up research.</p>
+<p>Next blog we will continue discussing another kinds of contrastive learning framework which are different from InstDisc.</p>
+]]></content>
+      <categories>
+        <category>Contrastive Learning</category>
+      </categories>
+      <tags>
+        <tag>self-supervised learning</tag>
+        <tag>computer vision</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Contrastive Learning Survey (4) — SimSiam</title>
+    <url>/2022/04/18/Contrastive-Learning-Survey-4-%E2%80%94-SimSiam/</url>
+    <content><![CDATA[<p>This article aims to introduce a new kind of framework in contrastive learning which does not use negative samples.</p>
+<p>Paper: Chen, X., &amp; He, K. (2021). Exploring simple siamese representation learning. In <em>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition</em> (pp. 15750-15758). Updated version accessed at: https://arxiv.org/abs/2011.10566</p>
+<a id="more"></a>
+<h2 id="novelty">Novelty</h2>
+<p>Simsiam is not the first framework which does not use negative samples. BYOL (Grill, J. B., Strub, F., Altché, F., Tallec, C., Richemond, P., Buchatskaya, E., ... &amp; Valko, M. (2020). Bootstrap your own latent-a new approach to self-supervised learning. <em>Advances in Neural Information Processing Systems</em>, <em>33</em>, 21271-21284.) is early than it and has already achieved better accuracy on ImageNet. Generally, SimSiam is just a special case of BYOL. But SimSiam’s beautiful subtraction of BYOL makes people realize the essence of success in contrastive learning without negative samples.</p>
+<h2 id="note">Note</h2>
+<p>Simsiam does very detailed ablation experiments about its used techniques like: stop-gradient, predictor, hypothesis, loss function, batch normalization. If you want to check result plots, I highly recommend reading the original paper and I will not put them in this blog again.</p>
+<h2 id="framework">Framework</h2>
+<p><img src="simsiam.png"></p>
+<p>Just like paper’s name, it is a real simple framework. Model only use a same encoder(encoder + projector) and a predictor.</p>
+<p>Predictor is new one which does not decrible in previous article. A predictor is just an extra MLP. Simsiam wants to make the feature from predictor from <span class="math inline">\(x_1\)</span> (augmentation from image x) can be similar with <span class="math inline">\(x_2\)</span>. Hence, its loss function is just cosine similarity.</p>
+<p><img src="byol.png"></p>
+<p>Figure 2 is BYOL’s architecture. You can see Simsiam is totally same as BYOL, which the only difference is that BYOL uses a Momentum Encoder <span class="math inline">\(y_{\xi}^{\prime}\)</span> , where <span class="math inline">\(\xi \leftarrow \tau \xi+(1-\tau) \theta\)</span></p>
+<p>Hence, you can think of SimSiam as just a special case of BYOL when <span class="math inline">\(\gamma = 1\)</span>.</p>
+<p>This architecture is very easy to think of, but why was it not first proposed by BYOL until 2020? The biggest problem with training methods without negative samples is that the model will quickly find a shortcut and cause <strong>model collapsing</strong>. Imagine that our encoder only needs to learn to output 0 at this time, the cosine similarity of the loss function is equal to 0, and the model will no longer be updated.</p>
+<p>How BYOL and SimSiam solve model collapsing? They both use a trick: <strong>stop gradient</strong>. We will discuss in detail in the following chapter.</p>
+<h2 id="loss-function">Loss Function</h2>
+<p><span class="math display">\[\mathcal{D}\left(p_{1}, z_{2}\right)=-\frac{p_{1}}{\left\|p_{1}\right\|_{2}} \cdot \frac{z_{2}}{\left\|z_{2}\right\|_{2}}\]</span></p>
+<p>Denote that the encoder is <span class="math inline">\(f\)</span>, prediction is <span class="math inline">\(h\)</span>, then we have <span class="math inline">\(p = h(f(x))\)</span>, <span class="math inline">\(z = f(x)\)</span></p>
+<p>So the equation is just the cosince similarity of the features between encoder and prediction.</p>
+<p><span class="math display">\[\mathcal{L}=\frac{1}{2} \mathcal{D}\left(p_{1}, z_{2}\right)+\frac{1}{2} \mathcal{D}\left(p_{2}, z_{1}\right)\]</span></p>
+<p>SimSiam define a summetrized loss like above, where <span class="math inline">\(1, 2\)</span> is the index of two augmentation images from the same image.</p>
+<h2 id="stop-gradient">Stop Gradient</h2>
+<p>Stop Gradient means that when the model start to do gradient decent, the branch with stop-gradient will be treated as a constant. Hence, the loss function also can be seen as: <span class="math display">\[\mathcal{L}=\frac{1}{2} \mathcal{D}\left(p_{1}, \text { stopgrad }\left(z_{2}\right)\right)+\frac{1}{2} \mathcal{D}\left(p_{2}, \text { stopgrad }\left(z_{1}\right)\right)\]</span></p>
+<p>SimSiam has proved that stop-gradient is the key which prevents model from collapsing solutions with every detailed experiments. You can read them in the paper about experiments and results.</p>
+<p>Authors’ hypothesis is that:</p>
+<blockquote>
+<p>SimSiam is an implementation of an Expectation-Maximization (EM) like algorithm.</p>
+</blockquote>
+<p>The loss function can be like:</p>
+<p><span class="math display">\[\mathcal{L}(\theta, \eta)=\mathbb{E}_{x, \mathcal{T}}\left[\left\|\mathcal{F}_{\theta}(\mathcal{T}(x))-\eta_{x}\right\|_{2}^{2}\right]\]</span></p>
+<p>I think that what paper writes is very clear and I could not simplify any more:</p>
+<blockquote>
+<p><img src="hypothesis.png" width="50%" height="50%"></p>
+</blockquote>
+<p>Than, we can use SGD to solve (7) and get new <span class="math inline">\(\eta_{x}\)</span> by the updated encoder <span class="math inline">\(\mathcal{F}\)</span>.</p>
+<p>For the prediction and the complete hypothesis, I highly recommend reading the original paper since I could not simplify them more.</p>
+<h2 id="comparision">Comparision</h2>
+<p><img src="evaluation.png"></p>
+<p>Table 4 is a global table where hasall networks we talked about in the previous chapters. And it clearly showes that SimSiam uses the simplest framework (no negative pair, no momentum encoder, very samll batch size) achieves a good result(68.1% acc) on ImageNet.</p>
+<p>Hence, although SimSiam does not have any new techniques, it probably shows the kernel of unsupervised learning in the image domain. Such beautiful subtraction operations and exhaustive experimental evidence earned this work the Best Paper Honorable Mentions of CVPR 2022.</p>
+]]></content>
+      <categories>
+        <category>Contrastive Learning</category>
+      </categories>
+      <tags>
+        <tag>self-supervised learning</tag>
+        <tag>computer vision</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Contrastive Learning Survey (7) — Contrastive Learning theory</title>
     <url>/2022/05/19/Contrastive-Learning-Survey-7-%E2%80%94-Contrastive-Learning-theory/</url>
     <content><![CDATA[<p>Why Contrastive Learning can work? It is also an interesting field and has many excellent papers.</p>
@@ -286,6 +286,150 @@
 <h2 id="what-makes-for-good-views-for-contrastive-learning">What Makes for Good Views for Contrastive Learning</h2>
 <h2 id="demystifying-self-supervised-learning-an-information-theoretical-framework">Demystifying Self-Supervised Learning: An Information-Theoretical Framework</h2>
 <h2 id="on-mutual-information-in-contrastive-learning-for-visual-representations">On Mutual Information in Contrastive Learning for Visual Representations</h2>
+]]></content>
+      <categories>
+        <category>Contrastive Learning</category>
+      </categories>
+      <tags>
+        <tag>self-supervised learning</tag>
+        <tag>computer vision</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Contrastive Learning Survey(6) — Contrastive Learning with positive/negative sampling</title>
+    <url>/2022/05/17/Contrastive-Learning-Survey-6-%E2%80%94-Contrastive-Learning-with-positive-negative-sampling/</url>
+    <content><![CDATA[<p>In addition to the lack of high-level semantic representations, the sampling of positive and negative samples for instance discrimination tasks also has obvious problems. Positive samples are all from its own data augmentation, while negative samples are directly sampled from a large memory (within the same batch, memory bank or a momentum encoder). The problem with this is that negative samples may have positive sample, which they are the same class, but are different instances. Another problem is that hard negative samples and easy negative samples have the same weights in InfoNCE loss , which make model too simple if it focus on too many easy negative samples. In this chapter, we will see many interesting works with different methods on solving sampling problem in CL.</p>
+<a id="more"></a>
+<h2 id="what-should-not-be-contrastive-in-contrastive-learning">What Should Not Be Contrastive In Contrastive Learning</h2>
+<p>Link: https://arxiv.org/abs/2008.05659</p>
+<p><strong>Motivation: </strong></p>
+<p><img src="LooC/motivation.png"></p>
+<p>This paper proposed that data augmentation may hurt image representations, especially when they are used on downstream tasks. For example, representation vectors by color augmentation are used on a bird identification task , or representation vectors by rotation augmentation are used on a animal identifacation task.</p>
+<p>Sounds reasonable, and it did!</p>
+<p><strong>Result:</strong></p>
+<p><img src="LooC/result.png" width="75%" height="75%"></p>
+<p>Table 1 shows that add rotation augmentation on MoCo will significantly reduces its accuracy on IN-100(ImageNet-100) this dataset. And their model LooC has a better result.</p>
+<p><strong>Method:</strong></p>
+<p><img src="LooC/method.png"></p>
+<p>And add all these <span class="math inline">\(Z\)</span> regions into loss function:</p>
+<p><span class="math display">\[\mathcal{L}_{q}=-\frac{1}{n+1}\left(\log \frac{E_{0,0}^{+}}{E_{0,0}^{+}+\sum_{k^{-}} E_{0,0}^{-}}+\sum_{i=1}^{n} \log \frac{E_{i, i}^{+}}{\sum_{j=0}^{n} E_{i, j}^{+}+\sum_{k^{-}} E_{i, i}^{-}}\right)\]</span></p>
+<p>where <span class="math inline">\(E_{i, j}^{\{+,-\}}=\exp \left(\boldsymbol{z}_{i}^{q} \cdot \boldsymbol{z}_{i}^{k_{j}^{\{+,-\}}} / \tau\right)\)</span></p>
+<p><strong>Insights:</strong></p>
+<p>I think the movitation is quite reasonable, but I cant agree with the solving method which aggregates all different augmentation infomations into the same loss function. It's more like an improvement in robustness, rather than aiming at adapting with specific downstream tasks.</p>
+<p>By the way, I dont like the section of method description. It is a very simple flow but uses so many mathematic symbols, while the most important part of training is simple and hard to understand. This paper also does not provide open source code for me to understanding.</p>
+<h2 id="boosting-contrastive-self-supervised-learning-with-false-negative-cancellation">Boosting Contrastive Self-Supervised Learning with False Negative Cancellation</h2>
+<p>Link: https://arxiv.org/abs/2010.02037</p>
+<p><strong>Motivation</strong>:</p>
+<p>Negative samples by instance discrimination will contain many potential positive samples(images in the same class). And these false negative samples will hurt CL in 2 ways: <strong>discarding semantic information</strong> and <strong>slow convergence</strong></p>
+<p><strong>Method</strong>:</p>
+<p><img src="FPC/method.png"></p>
+<p>There are 3 parts:</p>
+<ol type="1">
+<li>Traditional CL framework</li>
+<li>False Negative Identification</li>
+<li>False Negative Cancellation
+<ol type="1">
+<li>Elimination</li>
+<li>Attraction</li>
+</ol></li>
+</ol>
+<p>The first part is the model backbone. This paper use SimCLR and MoCo.</p>
+<p>The second part is the method how to find those false negatives without label information.</p>
+<p>The approach to identify false negatives based on the following observations:</p>
+<ol type="1">
+<li>False negatives are samples from different images with the same semantic content, therefore they should hold certain similarity (e.g., dog features).</li>
+<li>A false negative may not be as similar to the anchor as it is to other augmentations of the same image, as each augmentation only holds a specific view of the object</li>
+</ol>
+<p>Based on above observations, the strategy follows as:</p>
+<ol type="1">
+<li>Create a support set contains the image itself, its original augmentation(put into model), and extra augmentations (to hold the second observation).</li>
+<li>Each negative sample compute a similarity score set, e.g. a negative sample will have 8 similarity scores if the size of support set is 8. This paper use <strong>cosine similarity</strong>.</li>
+<li>Using an aggregation method for the similarity score set, <strong>Maximum</strong> or <strong>Mean</strong></li>
+<li>Selecting the most similar negative samples as false negative samples.
+<ol type="1">
+<li>Select <strong>top k</strong> high similarity samples</li>
+<li>Select the samples those similarity score <strong>is greater than a threshold</strong></li>
+</ol></li>
+</ol>
+<p>The third part is how to use these false negative samples. There are 2 approaches:</p>
+<p><strong>False Negative Elimination</strong>: These false negatives do not contrast against them, which means drop them from the loss function.</p>
+<p><strong>False Negative Attraction</strong>: These false negatives will be added into positive samples just like supervised contrastive learning’s loss function.</p>
+<p><strong>Insights</strong>:</p>
+<p>This paper gives many insights from their exhaustive experiments since it is from Google.</p>
+<p><img src="FPC/elimination.png" width="75%" height="75%"></p>
+<p>The Gap between FNE and baseline will be larger with the increasing random crop ratio. It is reasonable since larger crop ratio will lead to a higher ratio of false negatives.</p>
+<p><img src="FPC/attraction.png" width="75%" height="75%"></p>
+<p>The attraction strategy is much more sensitive to the quality of the found false negatives compared to the elimination strategy.</p>
+<p>The paper has many other interesting findins and really recommend you to read paper.</p>
+<h2 id="unsupervised-representation-learning-by-invariance-propagation">Unsupervised Representation Learning by Invariance Propagation</h2>
+<p>Link: https://arxiv.org/abs/2010.11694</p>
+<p><strong>Motivation:</strong></p>
+<p>This paper also aims to solve the positive/negative sampling problem.</p>
+<ol type="1">
+<li>negative samples by random may have positive samples.</li>
+<li>Positive samples also should have different levels. Easy positive samples and hard positive samples have the same impact on model now.</li>
+</ol>
+<p><strong>Method:</strong></p>
+<p>This paper has a assumption that:</p>
+<blockquote>
+<p>If two points v1 and v2 in a high-density region are close, then their semantic information should be similar.</p>
+</blockquote>
+<p>Hence, we can use metric method like KNN to calculate anchors’ positive samples step by step.</p>
+<p><img src="Invariance_Propagation/method.png"></p>
+<p><strong>Strategy of Positive samples of an anchor image</strong>:</p>
+<p>The process is illustrated in Fig 1. In each step, all k-nearest neighbors of the current discovered positive samples are added to the positive sample set. The process repeats l steps.</p>
+<p>The difference between tradition KNN and their approach can be shown in the last step of Figure 1. Samples in the dashed circle are positive samples discovered by KNN. By comparison, in their approach, point B is included in K-nearest neighbors of point A and point C is not included.</p>
+<p><strong>Hard Sampleing Strategy:</strong></p>
+<p>The core is that this paper think positive samples which are already close to the anchor and negative samples which are already far away from the anchor are easy samples. They do not need to be optimized more. However, those positive samples that are far away in the positive sample set(C in Fig 1 )and the negative samples that are relatively close(B in Fig 1) are difficult samples that are more helpful to the model.</p>
+<p>Strategy:</p>
+<ol type="1">
+<li><p>Select P samples with the lowest similarity to construct the hard positive sample set <span class="math inline">\(\mathcal{N}^{h}(i)\)</span>.</p>
+<p>These hard positive samples deviate far from the anchor sample such that they provide more intra-class variations, which is beneficial to learn more abstract invariance.</p></li>
+<li><p>Denote the M nearest neighbors of <span class="math inline">\(v_i\)</span> as <span class="math inline">\(\mathcal{N}_{M}(i)\)</span>, The <span class="math inline">\(M\)</span> is large enough such that <span class="math inline">\(\mathcal{N}(i) \subseteq \mathcal{N}_{M}(i)\)</span>. Then denote the hard negative sample set <span class="math inline">\(\mathcal{N}_{n e g}(i)=\mathcal{N}_{M}(i)-\mathcal{N}(i)\)</span>.</p></li>
+</ol>
+<p>Then the hard sample mining loss can be like:</p>
+<p><span class="math display">\[\begin{aligned} \mathcal{L}_{i n v}\left(x_{i}\right) &amp;=-\log P_{v_{i}}\left(\mathcal{N}^{h}(i) \mid B(i)\right) \\ &amp;=-\log \frac{\sum_{p \in \mathcal{N}^{h}(i)} \exp \left(\bar{v}_{p} \cdot v_{i} / \tau\right)}{\sum_{n \in B(i)} \exp \left(\bar{v}_{n} \cdot v_{i} / \tau\right)} \end{aligned}\]</span></p>
+<p>The overall loss function is just InfoNCE + hard sample mining loss, as follow:</p>
+<p><span class="math display">\[\mathcal{L}\left(x_{i}\right)=\mathcal{L}_{i n s}\left(x_{i}\right)+\lambda_{i n v} \cdot \omega(t) \cdot \mathcal{L}_{i n v}\left(x_{i}\right)\]</span></p>
+<p>where <span class="math inline">\(\omega(t)\)</span> as 0 is the first T epochs, because it is not reliable in frist <span class="math inline">\(t\)</span> epoches.</p>
+<h2 id="contrastive-learning-with-hard-negative-samples">Contrastive Learning With Hard Negative Samples</h2>
+<p>Link: https://arxiv.org/abs/2010.04592</p>
+<p><strong>Motivation:</strong></p>
+<p>This paper also focus on negative samples. In metric learning, some work proves that <strong>hard negative samples</strong> can help guide a learning method to correct its mistakes more quickly (Schroff et al., 2015; Song et al., 2016). Therefore, this paper also wants to use hard negative samples in contrastive learning. Compared with metric learning, contrasitive learning is a unsupervised task, so there are 2 challenges:</p>
+<ol type="1">
+<li>We do not have access to any true similarity of dissimilarity information.</li>
+<li>We need an efficient sampling strategy for this tunable distribution.</li>
+</ol>
+<p>This paper use Figure 1 to show the defination of Hard Negatives.</p>
+<p><img src="HNS/motivation.png"></p>
+<p><strong>Method:</strong></p>
+<blockquote>
+<p>We begin by asking <em>what makes a good negative sample?</em></p>
+<p>To answer this question we adopt the following two guiding principles:</p>
+<p>Principle 1. q <em>should only sample “true negatives”</em> <span class="math inline">\(x_i\)</span> <em>whose labels differ from that of the anchor</em> x<em>.</em></p>
+<p>Principle 2. <em>The most useful negative samples are ones that the embedding currently believes to be similar to the anchor.</em></p>
+</blockquote>
+<p>Because of no supervision, upholding Principle 1 is impossible to do exactly. This paper aims to upholds Principle 1 approximately, and simultaneously combines this idea with the key additional conceptual ingredient of “hardness” (encapsulated in Principle 2).</p>
+<p>The theory of this article is very solid with lots of mathmatical prooves, which I want to skip them and only give the final loss pesudo code.</p>
+<p><img src="HNS/loss.png"></p>
+<p><strong>Insights:</strong></p>
+<p>I think that the core of this paper is that they think negative samples those are not very close to and also are not too far from the anchor in the encoding space(called <strong>Hard negative samples</strong>) are useful for model to learn better representation.</p>
+<p>Hence, I think it is similar with the previous paper: find those ture negative samples without prior knowledge, where the difference is on different statistics methods.</p>
+<h2 id="hard-negative-mixing-for-contrastive-learning">Hard Negative Mixing for Contrastive Learning</h2>
+<p>Link: https://arxiv.org/abs/2010.01028</p>
+<h2 id="conditional-negative-sampling-for-contrastive-learning-of-visual-representations">Conditional Negative Sampling For Contrastive Learning of Visual Representations</h2>
+<p>Link: https://arxiv.org/abs/2010.02037</p>
+<h2 id="debiased-contrastive-learning">Debiased Contrastive Learning</h2>
+<p>Link: https://arxiv.org/abs/2007.00224</p>
+<h2 id="contrastive-crop">Contrastive Crop</h2>
+<p>Link: https://arxiv.org/abs/2202.03278</p>
+<p>Github: https://github.com/xyupeng/ContrastiveCrop</p>
+<p>Random crop will hurt image and decrease image semantic.你能jmmmm</p>
+<p>提出了一种技术，</p>
+<p>从图中可以发现，对比学习模型本身就可以捕捉物体大概的位置信息，从而来指导crops的选取。</p>
+<p>利用这种特征提取物体边框，避免错误正样本对</p>
+<p>中心抑制，上述方法由于其带来了更小的选取范围，生成具有较高相似度的样本对的可能性也提高了</p>
+<p>降低crops集中在图片中心的概率，从而增大采样的方差。</p>
 ]]></content>
       <categories>
         <category>Contrastive Learning</category>
@@ -516,150 +660,6 @@
         <tag>MLE</tag>
         <tag>stats</tag>
         <tag>biased estimate</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Contrastive Learning Survey(6) — Contrastive Learning with positive/negative sampling</title>
-    <url>/2022/05/17/Contrastive-Learning-Survey-6-%E2%80%94-Contrastive-Learning-with-positive-negative-sampling/</url>
-    <content><![CDATA[<p>In addition to the lack of high-level semantic representations, the sampling of positive and negative samples for instance discrimination tasks also has obvious problems. Positive samples are all from its own data augmentation, while negative samples are directly sampled from a large memory (within the same batch, memory bank or a momentum encoder). The problem with this is that negative samples may have positive sample, which they are the same class, but are different instances. Another problem is that hard negative samples and easy negative samples have the same weights in InfoNCE loss , which make model too simple if it focus on too many easy negative samples. In this chapter, we will see many interesting works with different methods on solving sampling problem in CL.</p>
-<a id="more"></a>
-<h2 id="what-should-not-be-contrastive-in-contrastive-learning">What Should Not Be Contrastive In Contrastive Learning</h2>
-<p>Link: https://arxiv.org/abs/2008.05659</p>
-<p><strong>Motivation: </strong></p>
-<p><img src="LooC/motivation.png"></p>
-<p>This paper proposed that data augmentation may hurt image representations, especially when they are used on downstream tasks. For example, representation vectors by color augmentation are used on a bird identification task , or representation vectors by rotation augmentation are used on a animal identifacation task.</p>
-<p>Sounds reasonable, and it did!</p>
-<p><strong>Result:</strong></p>
-<p><img src="LooC/result.png" width="75%" height="75%"></p>
-<p>Table 1 shows that add rotation augmentation on MoCo will significantly reduces its accuracy on IN-100(ImageNet-100) this dataset. And their model LooC has a better result.</p>
-<p><strong>Method:</strong></p>
-<p><img src="LooC/method.png"></p>
-<p>And add all these <span class="math inline">\(Z\)</span> regions into loss function:</p>
-<p><span class="math display">\[\mathcal{L}_{q}=-\frac{1}{n+1}\left(\log \frac{E_{0,0}^{+}}{E_{0,0}^{+}+\sum_{k^{-}} E_{0,0}^{-}}+\sum_{i=1}^{n} \log \frac{E_{i, i}^{+}}{\sum_{j=0}^{n} E_{i, j}^{+}+\sum_{k^{-}} E_{i, i}^{-}}\right)\]</span></p>
-<p>where <span class="math inline">\(E_{i, j}^{\{+,-\}}=\exp \left(\boldsymbol{z}_{i}^{q} \cdot \boldsymbol{z}_{i}^{k_{j}^{\{+,-\}}} / \tau\right)\)</span></p>
-<p><strong>Insights:</strong></p>
-<p>I think the movitation is quite reasonable, but I cant agree with the solving method which aggregates all different augmentation infomations into the same loss function. It's more like an improvement in robustness, rather than aiming at adapting with specific downstream tasks.</p>
-<p>By the way, I dont like the section of method description. It is a very simple flow but uses so many mathematic symbols, while the most important part of training is simple and hard to understand. This paper also does not provide open source code for me to understanding.</p>
-<h2 id="boosting-contrastive-self-supervised-learning-with-false-negative-cancellation">Boosting Contrastive Self-Supervised Learning with False Negative Cancellation</h2>
-<p>Link: https://arxiv.org/abs/2010.02037</p>
-<p><strong>Motivation</strong>:</p>
-<p>Negative samples by instance discrimination will contain many potential positive samples(images in the same class). And these false negative samples will hurt CL in 2 ways: <strong>discarding semantic information</strong> and <strong>slow convergence</strong></p>
-<p><strong>Method</strong>:</p>
-<p><img src="FPC/method.png"></p>
-<p>There are 3 parts:</p>
-<ol type="1">
-<li>Traditional CL framework</li>
-<li>False Negative Identification</li>
-<li>False Negative Cancellation
-<ol type="1">
-<li>Elimination</li>
-<li>Attraction</li>
-</ol></li>
-</ol>
-<p>The first part is the model backbone. This paper use SimCLR and MoCo.</p>
-<p>The second part is the method how to find those false negatives without label information.</p>
-<p>The approach to identify false negatives based on the following observations:</p>
-<ol type="1">
-<li>False negatives are samples from different images with the same semantic content, therefore they should hold certain similarity (e.g., dog features).</li>
-<li>A false negative may not be as similar to the anchor as it is to other augmentations of the same image, as each augmentation only holds a specific view of the object</li>
-</ol>
-<p>Based on above observations, the strategy follows as:</p>
-<ol type="1">
-<li>Create a support set contains the image itself, its original augmentation(put into model), and extra augmentations (to hold the second observation).</li>
-<li>Each negative sample compute a similarity score set, e.g. a negative sample will have 8 similarity scores if the size of support set is 8. This paper use <strong>cosine similarity</strong>.</li>
-<li>Using an aggregation method for the similarity score set, <strong>Maximum</strong> or <strong>Mean</strong></li>
-<li>Selecting the most similar negative samples as false negative samples.
-<ol type="1">
-<li>Select <strong>top k</strong> high similarity samples</li>
-<li>Select the samples those similarity score <strong>is greater than a threshold</strong></li>
-</ol></li>
-</ol>
-<p>The third part is how to use these false negative samples. There are 2 approaches:</p>
-<p><strong>False Negative Elimination</strong>: These false negatives do not contrast against them, which means drop them from the loss function.</p>
-<p><strong>False Negative Attraction</strong>: These false negatives will be added into positive samples just like supervised contrastive learning’s loss function.</p>
-<p><strong>Insights</strong>:</p>
-<p>This paper gives many insights from their exhaustive experiments since it is from Google.</p>
-<p><img src="FPC/elimination.png" width="75%" height="75%"></p>
-<p>The Gap between FNE and baseline will be larger with the increasing random crop ratio. It is reasonable since larger crop ratio will lead to a higher ratio of false negatives.</p>
-<p><img src="FPC/attraction.png" width="75%" height="75%"></p>
-<p>The attraction strategy is much more sensitive to the quality of the found false negatives compared to the elimination strategy.</p>
-<p>The paper has many other interesting findins and really recommend you to read paper.</p>
-<h2 id="unsupervised-representation-learning-by-invariance-propagation">Unsupervised Representation Learning by Invariance Propagation</h2>
-<p>Link: https://arxiv.org/abs/2010.11694</p>
-<p><strong>Motivation:</strong></p>
-<p>This paper also aims to solve the positive/negative sampling problem.</p>
-<ol type="1">
-<li>negative samples by random may have positive samples.</li>
-<li>Positive samples also should have different levels. Easy positive samples and hard positive samples have the same impact on model now.</li>
-</ol>
-<p><strong>Method:</strong></p>
-<p>This paper has a assumption that:</p>
-<blockquote>
-<p>If two points v1 and v2 in a high-density region are close, then their semantic information should be similar.</p>
-</blockquote>
-<p>Hence, we can use metric method like KNN to calculate anchors’ positive samples step by step.</p>
-<p><img src="Invariance_Propagation/method.png"></p>
-<p><strong>Strategy of Positive samples of an anchor image</strong>:</p>
-<p>The process is illustrated in Fig 1. In each step, all k-nearest neighbors of the current discovered positive samples are added to the positive sample set. The process repeats l steps.</p>
-<p>The difference between tradition KNN and their approach can be shown in the last step of Figure 1. Samples in the dashed circle are positive samples discovered by KNN. By comparison, in their approach, point B is included in K-nearest neighbors of point A and point C is not included.</p>
-<p><strong>Hard Sampleing Strategy:</strong></p>
-<p>The core is that this paper think positive samples which are already close to the anchor and negative samples which are already far away from the anchor are easy samples. They do not need to be optimized more. However, those positive samples that are far away in the positive sample set(C in Fig 1 )and the negative samples that are relatively close(B in Fig 1) are difficult samples that are more helpful to the model.</p>
-<p>Strategy:</p>
-<ol type="1">
-<li><p>Select P samples with the lowest similarity to construct the hard positive sample set <span class="math inline">\(\mathcal{N}^{h}(i)\)</span>.</p>
-<p>These hard positive samples deviate far from the anchor sample such that they provide more intra-class variations, which is beneficial to learn more abstract invariance.</p></li>
-<li><p>Denote the M nearest neighbors of <span class="math inline">\(v_i\)</span> as <span class="math inline">\(\mathcal{N}_{M}(i)\)</span>, The <span class="math inline">\(M\)</span> is large enough such that <span class="math inline">\(\mathcal{N}(i) \subseteq \mathcal{N}_{M}(i)\)</span>. Then denote the hard negative sample set <span class="math inline">\(\mathcal{N}_{n e g}(i)=\mathcal{N}_{M}(i)-\mathcal{N}(i)\)</span>.</p></li>
-</ol>
-<p>Then the hard sample mining loss can be like:</p>
-<p><span class="math display">\[\begin{aligned} \mathcal{L}_{i n v}\left(x_{i}\right) &amp;=-\log P_{v_{i}}\left(\mathcal{N}^{h}(i) \mid B(i)\right) \\ &amp;=-\log \frac{\sum_{p \in \mathcal{N}^{h}(i)} \exp \left(\bar{v}_{p} \cdot v_{i} / \tau\right)}{\sum_{n \in B(i)} \exp \left(\bar{v}_{n} \cdot v_{i} / \tau\right)} \end{aligned}\]</span></p>
-<p>The overall loss function is just InfoNCE + hard sample mining loss, as follow:</p>
-<p><span class="math display">\[\mathcal{L}\left(x_{i}\right)=\mathcal{L}_{i n s}\left(x_{i}\right)+\lambda_{i n v} \cdot \omega(t) \cdot \mathcal{L}_{i n v}\left(x_{i}\right)\]</span></p>
-<p>where <span class="math inline">\(\omega(t)\)</span> as 0 is the first T epochs, because it is not reliable in frist <span class="math inline">\(t\)</span> epoches.</p>
-<h2 id="contrastive-learning-with-hard-negative-samples">Contrastive Learning With Hard Negative Samples</h2>
-<p>Link: https://arxiv.org/abs/2010.04592</p>
-<p><strong>Motivation:</strong></p>
-<p>This paper also focus on negative samples. In metric learning, some work proves that <strong>hard negative samples</strong> can help guide a learning method to correct its mistakes more quickly (Schroff et al., 2015; Song et al., 2016). Therefore, this paper also wants to use hard negative samples in contrastive learning. Compared with metric learning, contrasitive learning is a unsupervised task, so there are 2 challenges:</p>
-<ol type="1">
-<li>We do not have access to any true similarity of dissimilarity information.</li>
-<li>We need an efficient sampling strategy for this tunable distribution.</li>
-</ol>
-<p>This paper use Figure 1 to show the defination of Hard Negatives.</p>
-<p><img src="HNS/motivation.png"></p>
-<p><strong>Method:</strong></p>
-<blockquote>
-<p>We begin by asking <em>what makes a good negative sample?</em></p>
-<p>To answer this question we adopt the following two guiding principles:</p>
-<p>Principle 1. q <em>should only sample “true negatives”</em> <span class="math inline">\(x_i\)</span> <em>whose labels differ from that of the anchor</em> x<em>.</em></p>
-<p>Principle 2. <em>The most useful negative samples are ones that the embedding currently believes to be similar to the anchor.</em></p>
-</blockquote>
-<p>Because of no supervision, upholding Principle 1 is impossible to do exactly. This paper aims to upholds Principle 1 approximately, and simultaneously combines this idea with the key additional conceptual ingredient of “hardness” (encapsulated in Principle 2).</p>
-<p>The theory of this article is very solid with lots of mathmatical prooves, which I want to skip them and only give the final loss pesudo code.</p>
-<p><img src="HNS/loss.png"></p>
-<p><strong>Insights:</strong></p>
-<p>I think that the core of this paper is that they think negative samples those are not very close to and also are not too far from the anchor in the encoding space(called <strong>Hard negative samples</strong>) are useful for model to learn better representation.</p>
-<p>Hence, I think it is similar with the previous paper: find those ture negative samples without prior knowledge, where the difference is on different statistics methods.</p>
-<h2 id="hard-negative-mixing-for-contrastive-learning">Hard Negative Mixing for Contrastive Learning</h2>
-<p>Link: https://arxiv.org/abs/2010.01028</p>
-<h2 id="conditional-negative-sampling-for-contrastive-learning-of-visual-representations">Conditional Negative Sampling For Contrastive Learning of Visual Representations</h2>
-<p>Link: https://arxiv.org/abs/2010.02037</p>
-<h2 id="debiased-contrastive-learning">Debiased Contrastive Learning</h2>
-<p>Link: https://arxiv.org/abs/2007.00224</p>
-<h2 id="contrastive-crop">Contrastive Crop</h2>
-<p>Link: https://arxiv.org/abs/2202.03278</p>
-<p>Github: https://github.com/xyupeng/ContrastiveCrop</p>
-<p>Random crop will hurt image and decrease image semantic.你能jmmmm</p>
-<p>提出了一种技术，</p>
-<p>从图中可以发现，对比学习模型本身就可以捕捉物体大概的位置信息，从而来指导crops的选取。</p>
-<p>利用这种特征提取物体边框，避免错误正样本对</p>
-<p>中心抑制，上述方法由于其带来了更小的选取范围，生成具有较高相似度的样本对的可能性也提高了</p>
-<p>降低crops集中在图片中心的概率，从而增大采样的方差。</p>
-]]></content>
-      <categories>
-        <category>Contrastive Learning</category>
-      </categories>
-      <tags>
-        <tag>self-supervised learning</tag>
-        <tag>computer vision</tag>
       </tags>
   </entry>
   <entry>
