@@ -96,7 +96,7 @@
 <meta property="og:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-Survey-6-—-Contrastive-Learning-with-positive-negative-sampling/Invariance_Propagation/method.png">
 <meta property="og:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-Survey-6-—-Contrastive-Learning-with-positive-negative-sampling/HNS/motivation.png">
 <meta property="og:image" content="http://yoursite.com/2022/05/17/Contrastive-Learning-Survey-6-—-Contrastive-Learning-with-positive-negative-sampling/HNS/loss.png">
-<meta property="og:updated_time" content="2022-05-19T14:57:24.500Z">
+<meta property="og:updated_time" content="2022-05-22T04:52:53.817Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Contrastive Learning Survey(6) — Contrastive Learning with positive&#x2F;negative sampling">
 <meta name="twitter:description" content="In addition to the lack of high-level semantic representations, the sampling of positive and negative samples for instance discrimination tasks also has obvious problems. Positive samples are all from">
@@ -411,8 +411,7 @@
 <p><span class="math display">\[\mathcal{L}_{q}=-\frac{1}{n+1}\left(\log \frac{E_{0,0}^{+}}{E_{0,0}^{+}+\sum_{k^{-}} E_{0,0}^{-}}+\sum_{i=1}^{n} \log \frac{E_{i, i}^{+}}{\sum_{j=0}^{n} E_{i, j}^{+}+\sum_{k^{-}} E_{i, i}^{-}}\right)\]</span></p>
 <p>where <span class="math inline">\(E_{i, j}^{\{+,-\}}=\exp \left(\boldsymbol{z}_{i}^{q} \cdot \boldsymbol{z}_{i}^{k_{j}^{\{+,-\}}} / \tau\right)\)</span></p>
 <p><strong>Insights:</strong></p>
-<p>I think the movitation is quite reasonable, but I cant agree with the solving method which aggregates all different augmentation infomations into the same loss function. It's more like an improvement in robustness, rather than aiming at adapting with specific downstream tasks.</p>
-<p>By the way, I dont like the section of method description. It is a very simple flow but uses so many mathematic symbols, while the most important part of training is simple and hard to understand. This paper also does not provide open source code for me to understanding.</p>
+<p>I think the movitation is quite reasonable. But actually, I am not clear about the method and this paper do not provide pesudo code or open source code. I am not sure that if aggregating all different augmentation infomations into the same loss function will solve the problem of different specific downstream tasks. It's more like an improvement in robustness, rather than aiming at adapting with specific downstream tasks.</p>
 <h2 id="boosting-contrastive-self-supervised-learning-with-false-negative-cancellation">Boosting Contrastive Self-Supervised Learning with False Negative Cancellation</h2>
 <p>Link: https://arxiv.org/abs/2010.02037</p>
 <p><strong>Motivation</strong>:</p>
@@ -520,12 +519,21 @@
 <h2 id="contrastive-crop">Contrastive Crop</h2>
 <p>Link: https://arxiv.org/abs/2202.03278</p>
 <p>Github: https://github.com/xyupeng/ContrastiveCrop</p>
-<p>Random crop will hurt image and decrease image semantic.你能jmmmm</p>
+<p><strong>Motivation:</strong></p>
+<p>Random crop will hurt image and decrease image semantic.</p>
+<p>A method for sampling true right positive samples.</p>
 <p>提出了一种技术，</p>
 <p>从图中可以发现，对比学习模型本身就可以捕捉物体大概的位置信息，从而来指导crops的选取。</p>
 <p>利用这种特征提取物体边框，避免错误正样本对</p>
 <p>中心抑制，上述方法由于其带来了更小的选取范围，生成具有较高相似度的样本对的可能性也提高了</p>
 <p>降低crops集中在图片中心的概率，从而增大采样的方差。</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>So far, we have seen a lot of works on how to sample more accurate and better quality positive/negative samples without labels.</p>
+<ol type="1">
+<li><p>Use similarity metrics by images’ embedding vectors to get more reliable samples based on the assumption that same class embedding will be close/similar in the hyperplane.</p></li>
+<li><p>Restrict data augmentations to achieve more reliable samples by Contrastive Crop or LooC.</p></li>
+</ol>
+<p>So can we combine these 2 ideas that using similarity metrics of the anchor and its augs to sort positive samples with data augmentations as true positive samples and low similarity augs as true negative samples even they are augmentations from the same image.</p>
 
       
     </div>
@@ -702,7 +710,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#what-should-not-be-contrastive-in-contrastive-learning"><span class="nav-number">1.</span> <span class="nav-text">What Should Not Be Contrastive In Contrastive Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#boosting-contrastive-self-supervised-learning-with-false-negative-cancellation"><span class="nav-number">2.</span> <span class="nav-text">Boosting Contrastive Self-Supervised Learning with False Negative Cancellation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unsupervised-representation-learning-by-invariance-propagation"><span class="nav-number">3.</span> <span class="nav-text">Unsupervised Representation Learning by Invariance Propagation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#contrastive-learning-with-hard-negative-samples"><span class="nav-number">4.</span> <span class="nav-text">Contrastive Learning With Hard Negative Samples</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hard-negative-mixing-for-contrastive-learning"><span class="nav-number">5.</span> <span class="nav-text">Hard Negative Mixing for Contrastive Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conditional-negative-sampling-for-contrastive-learning-of-visual-representations"><span class="nav-number">6.</span> <span class="nav-text">Conditional Negative Sampling For Contrastive Learning of Visual Representations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#debiased-contrastive-learning"><span class="nav-number">7.</span> <span class="nav-text">Debiased Contrastive Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#contrastive-crop"><span class="nav-number">8.</span> <span class="nav-text">Contrastive Crop</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#what-should-not-be-contrastive-in-contrastive-learning"><span class="nav-number">1.</span> <span class="nav-text">What Should Not Be Contrastive In Contrastive Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#boosting-contrastive-self-supervised-learning-with-false-negative-cancellation"><span class="nav-number">2.</span> <span class="nav-text">Boosting Contrastive Self-Supervised Learning with False Negative Cancellation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unsupervised-representation-learning-by-invariance-propagation"><span class="nav-number">3.</span> <span class="nav-text">Unsupervised Representation Learning by Invariance Propagation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#contrastive-learning-with-hard-negative-samples"><span class="nav-number">4.</span> <span class="nav-text">Contrastive Learning With Hard Negative Samples</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hard-negative-mixing-for-contrastive-learning"><span class="nav-number">5.</span> <span class="nav-text">Hard Negative Mixing for Contrastive Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conditional-negative-sampling-for-contrastive-learning-of-visual-representations"><span class="nav-number">6.</span> <span class="nav-text">Conditional Negative Sampling For Contrastive Learning of Visual Representations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#debiased-contrastive-learning"><span class="nav-number">7.</span> <span class="nav-text">Debiased Contrastive Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#contrastive-crop"><span class="nav-number">8.</span> <span class="nav-text">Contrastive Crop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#conclusion"><span class="nav-number">9.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
             
 
           </div>
