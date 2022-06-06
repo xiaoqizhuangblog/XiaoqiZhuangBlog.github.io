@@ -1,44 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Contrastive Learning Survey (3) — MoCo</title>
-    <url>/2022/03/05/Contrastive-Learning-Survey-3-%E2%80%94-MoCo/</url>
-    <content><![CDATA[<p>This article decribes a milestone in contrastive learning and the best paper <strong>Nominee</strong> in CVPR 2020.</p>
-<p>Paper: He, K., Fan, H., Wu, Y., Xie, S., and Girshick, R. Momentum contrast for unsupervised visual representation learning. <em>arXiv preprint arXiv:1911.05722</em>, 2019. Updated version accessed at: https://arxiv.org/abs/1911.05722.</p>
-<a id="more"></a>
-<h2 id="bottleneck-of-past-work">Bottleneck of past work</h2>
-<p>The requirement of huge batch size makes simCLR hard to land in real scenes. This paper proposes a framework called MoCo which can not only overcome feature consistency but also provide a large negative samples for training.</p>
-<h2 id="model-framework">Model Framework</h2>
-<p><img src="figure1.png" width="50%" height="50%"></p>
-<p>As usual, a CV paper can roughly understand what the paper wants to express through Figure 1.</p>
-<p>A quick review of simCLR:</p>
-<p><img src="simCLR_framework.jpg" width="50%" height="50%"></p>
-<p>The only difference is that MoCo uses a momentum encoder instead of two same encoders.</p>
-<p>Note: simCLR and MoCo are the same period work, and in MoCo V2, projector which is proposed by simCLR is used.</p>
-<h2 id="queue-to-save-negative-samples">Queue to save negative samples</h2>
-<p>We have talked about the cons of InstDisc: inconsistency of negative samples since fast updating encoders; SimCLR: very large batch size to keep negative samples have consistent distribution with positive samples.</p>
-<p>To overcome these bottlenecks, Moco wants to have a large dictionary to save negative samples, where these negative samples also are <strong>kept as consistent as possible despite its evolution</strong>. proposed to use a queue to save negative samples by using queue’s FIFO(first in first out) characteristic. Then, a queue with much larger size than batch size is used and you can use small batch size to train networks.</p>
-<p>The queue size is recommended as 65536. And after each batch, the earliest negative samples with batch size(n) in the queue will be deleted, and the latest n negative samples will be added to the queue to keep the queue updated.</p>
-<p>So far, this queue seems to be like memory bank in InstDisc. And how negative samples in this queue can have same consistency will be discussed in next chapter: a momentum encoder.</p>
-<h2 id="momentum-encoder">Momentum encoder</h2>
-<p>A momentum encoder is like:</p>
-<p><span class="math display">\[\theta_{\mathrm{k}} \leftarrow m \theta_{\mathrm{k}}+(1-m) \theta_{\mathrm{q}}\]</span></p>
-<p>where <span class="math inline">\(\theta_{\mathrm{k}}\)</span> is momentum encoder, <span class="math inline">\(\theta_{\mathrm{q}}\)</span> is the encoder updated by back-propagation. <span class="math inline">\(m\)</span> always equals 0.999. Hence, the momentum encoder is updated very slowly and ensure that the negative samples from <span class="math inline">\(\theta_{\mathrm{k}}\)</span> are kept consistency.</p>
-<h2 id="loss-function">Loss Function</h2>
-<p><span class="math display">\[\mathcal{L}_{q}=-\log \frac{\exp \left(q \cdot k_{+} / \tau\right)}{\sum_{i=0}^{K} \exp \left(q \cdot k_{i} / \tau\right)}\]</span></p>
-<p>Moco proposed infoNCE loss and soon become the mainstream loss in contrastive learning. The only difference between NCE loss and infoNCE loss is that infoNCE only uses K negative samples from instead of all negative samples.</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>Moco achieves 68.6% accuracy by linear classification protocol on ImageNet. Compared with 54% in InstDice, Moco can be regarded as a milestone work in contrastive learning.</p>
-]]></content>
-      <categories>
-        <category>Contrastive Learning</category>
-      </categories>
-      <tags>
-        <tag>self-supervised learning</tag>
-        <tag>computer vision</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Contrastive Learning Survey (1) — InstDisc</title>
     <url>/2022/02/24/Contrastive-Learning-Survey-1-%E2%80%94-InstDisc/</url>
     <content><![CDATA[<p>This article aims to introduce the pioneering work (InstDisc) that leads to contrastive learning.</p>
@@ -296,6 +258,82 @@
       </tags>
   </entry>
   <entry>
+    <title>Writing Task 1: Description</title>
+    <url>/2022/06/05/Writing-Task-1-Description/</url>
+    <content><![CDATA[<p>no conclusion, but summary (overview)</p>
+<p>a report, describing task</p>
+<a id="more"></a>
+<h2 id="summary">Summary</h2>
+<p><strong>Question types</strong></p>
+<ol type="1">
+<li>Line graph</li>
+<li>Bar chart</li>
+<li>Pie chart</li>
+<li>Table</li>
+<li>Diagram-comparing</li>
+<li>Diagram-process</li>
+</ol>
+<p>The first four types are most common, and they are almost the same: <strong>describe, compare, changes/trends</strong> numbers.</p>
+<p><strong>Eassy Structure</strong></p>
+<p>4 paragraphs</p>
+<ol type="1">
+<li><p><strong>Introduction</strong></p>
+<p>1 sentence: paraphrase the question</p>
+<p>just try to change key words, or order</p></li>
+<li><p><strong>Overview</strong> (or put it at the end)</p>
+<p>2 sentences: The main, general things</p></li>
+<li><p><strong>Details</strong></p></li>
+<li><p><strong>Details</strong></p>
+<p>2 paragraphs makes you organize or group the information better</p></li>
+</ol>
+<p><strong>No conclusion!</strong></p>
+]]></content>
+      <categories>
+        <category>IELTS</category>
+      </categories>
+      <tags>
+        <tag>Writing</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Contrastive Learning Survey (3) — MoCo</title>
+    <url>/2022/03/05/Contrastive-Learning-Survey-3-%E2%80%94-MoCo/</url>
+    <content><![CDATA[<p>This article decribes a milestone in contrastive learning and the best paper <strong>Nominee</strong> in CVPR 2020.</p>
+<p>Paper: He, K., Fan, H., Wu, Y., Xie, S., and Girshick, R. Momentum contrast for unsupervised visual representation learning. <em>arXiv preprint arXiv:1911.05722</em>, 2019. Updated version accessed at: https://arxiv.org/abs/1911.05722.</p>
+<a id="more"></a>
+<h2 id="bottleneck-of-past-work">Bottleneck of past work</h2>
+<p>The requirement of huge batch size makes simCLR hard to land in real scenes. This paper proposes a framework called MoCo which can not only overcome feature consistency but also provide a large negative samples for training.</p>
+<h2 id="model-framework">Model Framework</h2>
+<p><img src="figure1.png" width="50%" height="50%"></p>
+<p>As usual, a CV paper can roughly understand what the paper wants to express through Figure 1.</p>
+<p>A quick review of simCLR:</p>
+<p><img src="simCLR_framework.jpg" width="50%" height="50%"></p>
+<p>The only difference is that MoCo uses a momentum encoder instead of two same encoders.</p>
+<p>Note: simCLR and MoCo are the same period work, and in MoCo V2, projector which is proposed by simCLR is used.</p>
+<h2 id="queue-to-save-negative-samples">Queue to save negative samples</h2>
+<p>We have talked about the cons of InstDisc: inconsistency of negative samples since fast updating encoders; SimCLR: very large batch size to keep negative samples have consistent distribution with positive samples.</p>
+<p>To overcome these bottlenecks, Moco wants to have a large dictionary to save negative samples, where these negative samples also are <strong>kept as consistent as possible despite its evolution</strong>. proposed to use a queue to save negative samples by using queue’s FIFO(first in first out) characteristic. Then, a queue with much larger size than batch size is used and you can use small batch size to train networks.</p>
+<p>The queue size is recommended as 65536. And after each batch, the earliest negative samples with batch size(n) in the queue will be deleted, and the latest n negative samples will be added to the queue to keep the queue updated.</p>
+<p>So far, this queue seems to be like memory bank in InstDisc. And how negative samples in this queue can have same consistency will be discussed in next chapter: a momentum encoder.</p>
+<h2 id="momentum-encoder">Momentum encoder</h2>
+<p>A momentum encoder is like:</p>
+<p><span class="math display">\[\theta_{\mathrm{k}} \leftarrow m \theta_{\mathrm{k}}+(1-m) \theta_{\mathrm{q}}\]</span></p>
+<p>where <span class="math inline">\(\theta_{\mathrm{k}}\)</span> is momentum encoder, <span class="math inline">\(\theta_{\mathrm{q}}\)</span> is the encoder updated by back-propagation. <span class="math inline">\(m\)</span> always equals 0.999. Hence, the momentum encoder is updated very slowly and ensure that the negative samples from <span class="math inline">\(\theta_{\mathrm{k}}\)</span> are kept consistency.</p>
+<h2 id="loss-function">Loss Function</h2>
+<p><span class="math display">\[\mathcal{L}_{q}=-\log \frac{\exp \left(q \cdot k_{+} / \tau\right)}{\sum_{i=0}^{K} \exp \left(q \cdot k_{i} / \tau\right)}\]</span></p>
+<p>Moco proposed infoNCE loss and soon become the mainstream loss in contrastive learning. The only difference between NCE loss and infoNCE loss is that infoNCE only uses K negative samples from instead of all negative samples.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Moco achieves 68.6% accuracy by linear classification protocol on ImageNet. Compared with 54% in InstDice, Moco can be regarded as a milestone work in contrastive learning.</p>
+]]></content>
+      <categories>
+        <category>Contrastive Learning</category>
+      </categories>
+      <tags>
+        <tag>self-supervised learning</tag>
+        <tag>computer vision</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Writing Task 1: Bar Chart</title>
     <url>/2022/06/05/Writing-Task-1-Bar-Chart/</url>
     <content><![CDATA[<p>Bar chart writing skills</p>
@@ -421,44 +459,6 @@
 <li>spent half as much in relative terms (only percentage, so use relative)</li>
 <li>recreation, leisure</li>
 </ul>
-]]></content>
-      <categories>
-        <category>IELTS</category>
-      </categories>
-      <tags>
-        <tag>Writing</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Writing Task 1: Description</title>
-    <url>/2022/06/05/Writing-Task-1-Description/</url>
-    <content><![CDATA[<p>no conclusion, but summary (overview)</p>
-<p>a report, describing task</p>
-<a id="more"></a>
-<h2 id="summary">Summary</h2>
-<p><strong>Question types</strong></p>
-<ol type="1">
-<li>Line graph</li>
-<li>Bar chart</li>
-<li>Pie chart</li>
-<li>Table</li>
-<li>Diagram-comparing</li>
-<li>Diagram-process</li>
-</ol>
-<p>The first four types are most common, and they are almost the same: <strong>describe, compare, changes/trends</strong> numbers.</p>
-<p><strong>Eassy Structure</strong></p>
-<p>4 paragraphs</p>
-<ol type="1">
-<li><p><strong>Introduction</strong></p>
-<p>1 sentence: paraphrase the question</p>
-<p>just try to change key words, or order</p></li>
-<li><p><strong>Overview</strong> (or put it at the end)</p>
-<p>2 sentences: The main, general things</p></li>
-<li><p><strong>Details</strong></p></li>
-<li><p><strong>Details</strong></p>
-<p>2 paragraphs makes you organize or group the information better</p></li>
-</ol>
-<p><strong>No conclusion!</strong></p>
 ]]></content>
       <categories>
         <category>IELTS</category>
